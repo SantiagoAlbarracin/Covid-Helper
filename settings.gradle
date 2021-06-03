@@ -1,0 +1,2 @@
+rootProject.name = "TP2_GRUPO04"
+include ':app'
