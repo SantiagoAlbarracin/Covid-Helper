@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">TP2_GRUPO04</string>
+    <string name="edit_mail">Mail</string>
+    <string name="edit_password">Contraseña</string>
+    <string name="button_login">Iniciar Sesión</string>
+    <string name="button_register">Registrarse</string>
+    <string name="button_cancel">Cancelar</string>
+    <string name="edit_register_name">Nombre</string>
+    <string name="edit_register_lastname">Apellido</string>
+    <string name="edit_register_dni">DNI</string>
+    <string name="edit_register_commission">Comisión</string>
+    <string name="edit_register_group">Grupo</string>
 </resources>
