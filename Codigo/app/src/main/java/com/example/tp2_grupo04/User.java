@@ -1,6 +1,6 @@
 package com.example.tp2_grupo04;
 
-public class Usuario {
+public class User {
     private String name;
     private String lastname;
     private Integer dni;
@@ -11,7 +11,7 @@ public class Usuario {
     private String token;
     private String token_refresh;
 
-    public Usuario(String name, String lastname, Integer dni, String email, String password, Integer commission, Integer group, String token, String token_refresh) {
+    public User(String name, String lastname, Integer dni, String email, String password, Integer commission, Integer group, String token, String token_refresh) {
         this.name = name;
         this.lastname = lastname;
         this.dni = dni;
@@ -21,6 +21,18 @@ public class Usuario {
         this.group = group;
         this.token = token;
         this.token_refresh = token_refresh;
+    }
+
+    public User (){
+        this.name = "";
+        this.lastname = "";
+        this.dni = 0;
+        this.email = "";
+        this.password = "";
+        this.commission = 0;
+        this.group = 0;
+        this.token = "";
+        this.token_refresh = "";
     }
 
     public String getName() {
@@ -93,5 +105,20 @@ public class Usuario {
 
     public void setToken_refresh(String token_refresh) {
         this.token_refresh = token_refresh;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", dni=" + dni +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", commission=" + commission +
+                ", group=" + group +
+                ", token='" + token + '\'' +
+                ", token_refresh='" + token_refresh + '\'' +
+                '}';
     }
 }

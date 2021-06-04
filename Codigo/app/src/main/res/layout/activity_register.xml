@@ -7,7 +7,7 @@
     tools:context=".RegisterActivity">
 
   <EditText
-      android:id="@+id/editTextTextPersonName"
+      android:id="@+id/editTextName"
       android:layout_width="210dp"
       android:layout_height="45dp"
       android:layout_marginStart="162dp"
@@ -24,7 +24,7 @@
       app:layout_constraintTop_toTopOf="parent" />
 
   <EditText
-      android:id="@+id/editTextTextPersonName2"
+      android:id="@+id/editTextLastname"
       android:layout_width="210dp"
       android:layout_height="45dp"
       android:layout_marginStart="162dp"
@@ -41,7 +41,7 @@
       app:layout_constraintTop_toTopOf="parent" />
 
   <EditText
-      android:id="@+id/editTextNumber"
+      android:id="@+id/editTextDni"
       android:layout_width="210dp"
       android:layout_height="45dp"
       android:layout_marginStart="162dp"
@@ -62,8 +62,8 @@
       android:layout_width="75dp"
       android:layout_height="wrap_content"
       android:text="@string/edit_register_name"
-      app:layout_constraintBaseline_toBaselineOf="@+id/editTextTextPersonName"
-      app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName"
+      app:layout_constraintBaseline_toBaselineOf="@+id/editTextName"
+      app:layout_constraintEnd_toStartOf="@+id/editTextName"
       app:layout_constraintHorizontal_bias="0.5"
       app:layout_constraintStart_toStartOf="parent" />
 
@@ -72,8 +72,8 @@
       android:layout_width="75dp"
       android:layout_height="wrap_content"
       android:text="@string/edit_register_lastname"
-      app:layout_constraintBaseline_toBaselineOf="@+id/editTextTextPersonName2"
-      app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName2"
+      app:layout_constraintBaseline_toBaselineOf="@+id/editTextLastname"
+      app:layout_constraintEnd_toStartOf="@+id/editTextLastname"
       app:layout_constraintHorizontal_bias="0.5"
       app:layout_constraintStart_toStartOf="parent" />
 
@@ -82,13 +82,13 @@
       android:layout_width="75dp"
       android:layout_height="wrap_content"
       android:text="@string/edit_register_dni"
-      app:layout_constraintBaseline_toBaselineOf="@+id/editTextNumber"
-      app:layout_constraintEnd_toStartOf="@+id/editTextNumber"
+      app:layout_constraintBaseline_toBaselineOf="@+id/editTextDni"
+      app:layout_constraintEnd_toStartOf="@+id/editTextDni"
       app:layout_constraintHorizontal_bias="0.5"
       app:layout_constraintStart_toStartOf="parent" />
 
   <EditText
-      android:id="@+id/editTextTextEmailAddress"
+      android:id="@+id/editTextEmail"
       android:layout_width="210dp"
       android:layout_height="45dp"
       android:layout_marginStart="162dp"
@@ -109,13 +109,13 @@
       android:layout_width="75dp"
       android:layout_height="wrap_content"
       android:text="@string/edit_mail"
-      app:layout_constraintBaseline_toBaselineOf="@+id/editTextTextEmailAddress"
-      app:layout_constraintEnd_toStartOf="@+id/editTextTextEmailAddress"
+      app:layout_constraintBaseline_toBaselineOf="@+id/editTextEmail"
+      app:layout_constraintEnd_toStartOf="@+id/editTextEmail"
       app:layout_constraintHorizontal_bias="0.5"
       app:layout_constraintStart_toStartOf="parent" />
 
   <EditText
-      android:id="@+id/editTextTextPassword2"
+      android:id="@+id/editTextPassword"
       android:layout_width="210dp"
       android:layout_height="45dp"
       android:layout_marginStart="162dp"
@@ -136,12 +136,12 @@
       android:layout_width="75dp"
       android:layout_height="wrap_content"
       android:text="@string/edit_password"
-      app:layout_constraintBaseline_toBaselineOf="@+id/editTextTextPassword2"
-      app:layout_constraintEnd_toStartOf="@+id/editTextTextPassword2"
+      app:layout_constraintBaseline_toBaselineOf="@+id/editTextPassword"
+      app:layout_constraintEnd_toStartOf="@+id/editTextPassword"
       app:layout_constraintStart_toStartOf="parent" />
 
   <EditText
-      android:id="@+id/editTextNumber2"
+      android:id="@+id/editTextCommission"
       android:layout_width="210dp"
       android:layout_height="45dp"
       android:layout_marginStart="162dp"
@@ -162,13 +162,13 @@
       android:layout_width="75dp"
       android:layout_height="wrap_content"
       android:text="@string/edit_register_commission"
-      app:layout_constraintBaseline_toBaselineOf="@+id/editTextNumber2"
-      app:layout_constraintEnd_toStartOf="@+id/editTextNumber2"
+      app:layout_constraintBaseline_toBaselineOf="@+id/editTextCommission"
+      app:layout_constraintEnd_toStartOf="@+id/editTextCommission"
       app:layout_constraintHorizontal_bias="0.5"
       app:layout_constraintStart_toStartOf="parent" />
 
   <EditText
-      android:id="@+id/editTextNumber3"
+      android:id="@+id/editTextGroup"
       android:layout_width="210dp"
       android:layout_height="45dp"
       android:layout_marginStart="162dp"
@@ -189,8 +189,8 @@
       android:layout_width="75dp"
       android:layout_height="wrap_content"
       android:text="@string/edit_register_group"
-      app:layout_constraintBaseline_toBaselineOf="@+id/editTextNumber3"
-      app:layout_constraintEnd_toStartOf="@+id/editTextNumber3"
+      app:layout_constraintBaseline_toBaselineOf="@+id/editTextGroup"
+      app:layout_constraintEnd_toStartOf="@+id/editTextGroup"
       app:layout_constraintHorizontal_bias="0.5"
       app:layout_constraintStart_toStartOf="parent" />
 
@@ -219,7 +219,7 @@
       android:text="@string/button_register"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/editTextNumber3"
+      app:layout_constraintTop_toBottomOf="@+id/editTextGroup"
       app:layout_constraintVertical_bias="0.791" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

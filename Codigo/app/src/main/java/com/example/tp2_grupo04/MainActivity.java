@@ -22,6 +22,37 @@ public class MainActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(buttonsListeners);
     }
 
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+    }
+
+    @Override
+    protected void onRestart()
+    {
+        super.onRestart();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
     /** Called when the user taps the Send button */
     /*public void sendMessage(View view) {
         if()
@@ -37,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.btnRegister:
                     intent=new Intent(MainActivity.this,RegisterActivity.class);
                     startActivity(intent);
+                    finish();
                     break;
                 default:
                     Toast.makeText(getApplicationContext(),"Error en Listener de botones",Toast.LENGTH_SHORT);
