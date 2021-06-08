@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,13 +14,17 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btnRegister;
     private Button btnLogin;
+    private EditText loginEmail;
     //public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnRegister=(Button)findViewById(R.id.btnRegister);
+        btnLogin=(Button)findViewById(R.id.btnLogin);
+        loginEmail=(EditText)findViewById(R.id.editTextLoginEmail);
         btnRegister.setOnClickListener(buttonsListeners);
+        btnLogin.setOnClickListener(buttonsListeners);
     }
 
     @Override
@@ -67,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
             {
                 case R.id.btnRegister:
                     intent=new Intent(MainActivity.this,RegisterActivity.class);
+                    startActivity(intent);
+                    finish();
+                    break;
+                case R.id.btnLogin:
+                    intent=new Intent(MainActivity.this,AuthenticationActivity.class);
+                    intent.putExtra("loginEmail",loginEmail.getText().toString());
                     startActivity(intent);
                     finish();
                     break;

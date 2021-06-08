@@ -10,4 +10,8 @@
     <string name="edit_register_dni">DNI</string>
     <string name="edit_register_commission">Comisión</string>
     <string name="edit_register_group">Grupo</string>
+    <string name="edit_auth_code">Código</string>
+    <string name="button_auth_send_code">Volver a enviar</string>
+    <string name="button_auth_cancel">Cancelar</string>
+    <string name="button_auth_accept">Aceptar</string>
 </resources>
