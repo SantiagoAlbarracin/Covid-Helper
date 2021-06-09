@@ -53,7 +53,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         Bundle extras = intent2.getExtras();
         number = (String) extras.get("numeroTelefono");
 
-        // random = (int) (Math.random() * 1000);
+        random = (int) (Math.random() * 1000);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if(checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
                 sendSMS(number);
@@ -69,7 +69,7 @@ public class AuthenticationActivity extends AppCompatActivity {
     private void sendSMS(String number2){
         String number = number2;
         Log.i("debug70", number);
-        //random = (int) (Math.random() * 1000);
+        random = (int) (Math.random() * 1000);
         String message = "Su codigo de verificacion es:" + random.toString();
         try {
             SmsManager smsManager = SmsManager.getDefault();
