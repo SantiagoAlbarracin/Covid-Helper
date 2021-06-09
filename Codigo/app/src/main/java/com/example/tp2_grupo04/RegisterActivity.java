@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
 public class RegisterActivity extends AppCompatActivity {
 
     private Button btnAccept;
@@ -72,22 +73,28 @@ public class RegisterActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    private View.OnClickListener buttonsListeners = new View.OnClickListener()
-    {
-        public void onClick (View v){
+    private View.OnClickListener buttonsListeners = new View.OnClickListener() {
+        public void onClick(View v) {
             Intent intent;
-            switch (v.getId())
-            {
+            switch (v.getId()) {
                 case R.id.btnAccept:
-
-                    if(         nameOrigin.getText().toString().matches("")  ||  lastnameOrigin.getText().toString().matches("")
-                            ||  dniOrigin.getText().toString().matches("") ||  emailOrigin.getText().toString().matches("")
-                            ||  passwordOrigin.getText().toString().matches("") ||  commissionOrigin.getText().toString().matches("")
-                            ||  groupOrigin.getText().toString().matches("")
+                    if (nameOrigin.getText().toString().matches("") || lastnameOrigin.getText().toString().matches("")
+                            || dniOrigin.getText().toString().matches("") || emailOrigin.getText().toString().matches("")
+                            || passwordOrigin.getText().toString().matches("") || commissionOrigin.getText().toString().matches("")
+                            || groupOrigin.getText().toString().matches("")
                     ) {
                         Toast.makeText(RegisterActivity.this,
                                 "Debe completar todos los campos.", Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else if (!Utils.validate(emailOrigin.getText().toString())) {
+                        Toast.makeText(RegisterActivity.this,
+                                "Debe ingresar un mail valido.", Toast.LENGTH_SHORT).show();
+                    } else if (passwordOrigin.getText().toString().length() < 8){
+                        Toast.makeText(RegisterActivity.this,
+                                "Debe ingresar una contraseña de 8 caracteres o más.", Toast.LENGTH_SHORT).show();
+                    } else if(dniOrigin.getText().toString().length() < 8){
+                        Toast.makeText(RegisterActivity.this,
+                                "Debe ingresar un dni valido.", Toast.LENGTH_SHORT).show();
+                    } else{
                         User user = new User();
                         user.setName(nameOrigin.getText().toString());
                         user.setLastname(lastnameOrigin.getText().toString());
@@ -100,17 +107,20 @@ public class RegisterActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     }
-                    break;
 
-                case R.id.btnCancel:
-                    intent=new Intent(RegisterActivity.this,LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                    break;
+            break;
 
-                default:
-                    Toast.makeText(getApplicationContext(),"Error en Listener de botones",Toast.LENGTH_SHORT);
-            }
+            case R.id.btnCancel:
+            intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            break;
+
+            default:
+            Toast.makeText(getApplicationContext(), "Error en Listener de botones", Toast.LENGTH_SHORT);
         }
+    }
+
     };
+
 }

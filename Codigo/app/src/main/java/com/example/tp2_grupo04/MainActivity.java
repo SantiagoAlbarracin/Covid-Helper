@@ -61,14 +61,16 @@ public class MainActivity extends AppCompatActivity {
             switch (v.getId())
             {
                 case R.id.btnSendCode:
-                   if(!telephoneNumber.getText().toString().matches("")) {
+                   if(telephoneNumber.getText().toString().length() < 10){
+                       Toast.makeText(MainActivity.this,
+                               "Ingrese un número de telefono valido.", Toast.LENGTH_SHORT).show();
+                   } else if(telephoneNumber.getText().toString().matches("")) {
+                       Toast.makeText(MainActivity.this,
+                               "Ingrese un número de telefono.", Toast.LENGTH_SHORT).show();
+                   }else{
                        intent = new Intent(MainActivity.this, AuthenticationActivity.class);
                        startActivity(intent);
                        finish();
-                   }
-                   else{
-                       Toast.makeText(MainActivity.this,
-                               "Ingrese un número de telefono.", Toast.LENGTH_SHORT).show();
                    }
                     break;
 

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
 public class LoginActivity extends AppCompatActivity {
 
     private Button btnRegister;
@@ -83,7 +84,14 @@ public class LoginActivity extends AppCompatActivity {
                     || loginPassword.getText().toString().matches("") ) {
                         Toast.makeText(LoginActivity.this,
                                 "Debe ingresar mail y contraseña.", Toast.LENGTH_SHORT).show();
-                    }else {
+                    }else if (!Utils.validate(loginEmail.getText().toString())) {
+                        Toast.makeText(LoginActivity.this,
+                                "Debe ingresar un mail valido.", Toast.LENGTH_SHORT).show();
+                    } else if (loginPassword.getText().toString().length() < 8){
+                        Toast.makeText(LoginActivity.this,
+                                "Debe ingresar una contraseña de 8 caracteres o más.", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
                         intent = new Intent(LoginActivity.this, MainMenuActivity.class);
                         intent.putExtra("loginEmail", loginEmail.getText().toString());
                         startActivity(intent);
@@ -97,4 +105,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     };
+
 }
