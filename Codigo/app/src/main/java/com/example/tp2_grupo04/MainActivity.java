@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                                "Ingrese un número de telefono.", Toast.LENGTH_SHORT).show();
                    }else{
                        intent = new Intent(MainActivity.this, AuthenticationActivity.class);
+                       intent.putExtra("numeroTelefono", telephoneNumber.getText().toString());
                        startActivity(intent);
                        finish();
                    }
