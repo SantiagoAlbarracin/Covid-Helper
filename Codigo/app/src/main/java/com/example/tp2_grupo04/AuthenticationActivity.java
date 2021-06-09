@@ -7,10 +7,12 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,11 +53,33 @@ public class AuthenticationActivity extends AppCompatActivity {
         String enviarasunto = "Codigo de verificacion";
         String enviarmensaje = "Su codigo de verificacion es:"+random.toString();
 
-        JavaMailAPI javaMailApi = new JavaMailAPI(this,userMail,enviarasunto,enviarmensaje);
-        javaMailApi.execute();
+        /*JavaMailAPI javaMailApi = new JavaMailAPI(this,userMail,enviarasunto,enviarmensaje);
+        javaMailApi.execute();*/
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if(checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
+                sendSMS();
+            }else{
+                requestPermissions(new String[]{Manifest.permission.SEND_SMS},1);
+            }
+        }
+
+
 
     }
 
+    private void sendSMS(){
+        String number="1122406872";
+        String message="Hola";
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(number, null, message, null, null);
+            Toast.makeText(this, "El mensaje se envio papa", Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(this, "El mensaje no se pudo enviar", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     protected void onStop()
