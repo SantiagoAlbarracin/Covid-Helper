@@ -14,6 +14,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnRegister;
     private Button btnLogin;
     private EditText loginEmail;
+    private EditText loginPassword;
     //public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
         btnRegister=(Button)findViewById(R.id.btnRegister);
         btnLogin=(Button)findViewById(R.id.btnLogin);
         loginEmail=(EditText)findViewById(R.id.editTextLoginEmail);
+        loginPassword=(EditText)findViewById(R.id.editTextLoginPassword);
         btnRegister.setOnClickListener(buttonsListeners);
         btnLogin.setOnClickListener(buttonsListeners);
     }
@@ -77,10 +79,16 @@ public class LoginActivity extends AppCompatActivity {
 
                   //  EN EL INTENT EN VEZ DE IR A AUTHENTICATION HAY QUE IR AL MENU PRINCIPAL
                 case R.id.btnLogin:
-                    intent=new Intent(LoginActivity.this,MainMenuActivity.class);
-                    intent.putExtra("loginEmail",loginEmail.getText().toString());
-                    startActivity(intent);
-                    finish();
+                    if(loginEmail.getText().toString().matches("")
+                    || loginPassword.getText().toString().matches("") ) {
+                        Toast.makeText(LoginActivity.this,
+                                "Debe ingresar mail y contraseña.", Toast.LENGTH_SHORT).show();
+                    }else {
+                        intent = new Intent(LoginActivity.this, MainMenuActivity.class);
+                        intent.putExtra("loginEmail", loginEmail.getText().toString());
+                        startActivity(intent);
+                        finish();
+                    }
                     break;
 
 

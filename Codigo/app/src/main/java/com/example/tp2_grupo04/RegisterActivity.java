@@ -35,6 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
         emailOrigin=(EditText)findViewById(R.id.editTextEmail);
         passwordOrigin=(EditText)findViewById(R.id.editTextPassword);
         commissionOrigin=(EditText)findViewById(R.id.editTextCommission);
+        groupOrigin=(EditText)findViewById(R.id.editTextGroup);
 
 
         btnAccept.setOnClickListener(buttonsListeners);
@@ -78,26 +79,35 @@ public class RegisterActivity extends AppCompatActivity {
             switch (v.getId())
             {
                 case R.id.btnAccept:
-                    intent=new Intent(RegisterActivity.this,MainActivity.class);
-                    startActivity(intent);
-                    User user = new User ();
-                    user.setName(nameOrigin.getText().toString());
-                    user.setLastname(lastnameOrigin.getText().toString());
-                    user.setDni(Integer.valueOf(dniOrigin.getText().toString()));
-                    user.setEmail(emailOrigin.getText().toString());
-                    user.setPassword(passwordOrigin.getText().toString());
-                    user.setCommission(Integer.valueOf(commissionOrigin.getText().toString()));
-                    user.setGroup(Integer.valueOf(groupOrigin.getText().toString()));
-                    Log.i("debug 84",user.toString());
-                    System.out.println(user.toString());
-                    finish();
+
+                    if(         nameOrigin.getText().toString().matches("")  ||  lastnameOrigin.getText().toString().matches("")
+                            ||  dniOrigin.getText().toString().matches("") ||  emailOrigin.getText().toString().matches("")
+                            ||  passwordOrigin.getText().toString().matches("") ||  commissionOrigin.getText().toString().matches("")
+                            ||  groupOrigin.getText().toString().matches("")
+                    ) {
+                        Toast.makeText(RegisterActivity.this,
+                                "Debe completar todos los campos.", Toast.LENGTH_SHORT).show();
+                    }else {
+                        User user = new User();
+                        user.setName(nameOrigin.getText().toString());
+                        user.setLastname(lastnameOrigin.getText().toString());
+                        user.setDni(Integer.valueOf(dniOrigin.getText().toString()));
+                        user.setEmail(emailOrigin.getText().toString());
+                        user.setPassword(passwordOrigin.getText().toString());
+                        user.setCommission(Integer.valueOf(commissionOrigin.getText().toString()));
+                        user.setGroup(Integer.valueOf(groupOrigin.getText().toString()));
+                        intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                     break;
 
                 case R.id.btnCancel:
-                    intent=new Intent(RegisterActivity.this,MainActivity.class);
+                    intent=new Intent(RegisterActivity.this,LoginActivity.class);
                     startActivity(intent);
                     finish();
                     break;
+
                 default:
                     Toast.makeText(getApplicationContext(),"Error en Listener de botones",Toast.LENGTH_SHORT);
             }
