@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ public class AuthenticationActivity extends AppCompatActivity {
     private Button btnCancel;
     private Button btnSendCode;
     private EditText userCode;
+    private Integer random = 1;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -42,20 +44,11 @@ public class AuthenticationActivity extends AppCompatActivity {
         btnCancel = (Button) findViewById(R.id.btnCancelAuth);
         btnSendCode = (Button) findViewById(R.id.btnSendCodeAuth);
         userCode = (EditText) findViewById(R.id.editTextCode);
+        btnAccept.setOnClickListener(buttonsListeners);
+        btnCancel.setOnClickListener(buttonsListeners);
+        btnSendCode.setOnClickListener(buttonsListeners);
 
-
-        Integer random = (int) (Math.random() * 1000);
-
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        String userMail = extras.getString("loginEmail");
-
-        String enviarasunto = "Codigo de verificacion";
-        String enviarmensaje = "Su codigo de verificacion es:"+random.toString();
-
-        /*JavaMailAPI javaMailApi = new JavaMailAPI(this,userMail,enviarasunto,enviarmensaje);
-        javaMailApi.execute();*/
-
+        // random = (int) (Math.random() * 1000);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if(checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
                 sendSMS();
@@ -69,12 +62,13 @@ public class AuthenticationActivity extends AppCompatActivity {
     }
 
     private void sendSMS(){
-        String number="1122406872";
-        String message="Hola";
+        String number = "1169508946";
+        //random = (int) (Math.random() * 1000);
+        String message = "Su codigo de verificacion es:" + random.toString();
         try {
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(number, null, message, null, null);
-            Toast.makeText(this, "El mensaje se envio papa", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "El mensaje ha sido enviado", Toast.LENGTH_SHORT).show();
         }catch (Exception e){
             e.printStackTrace();
             Toast.makeText(this, "El mensaje no se pudo enviar", Toast.LENGTH_SHORT).show();
@@ -110,4 +104,38 @@ public class AuthenticationActivity extends AppCompatActivity {
     {
         super.onResume();
     }
+
+    private View.OnClickListener buttonsListeners = new View.OnClickListener()
+    {
+        public void onClick (View v){
+            Intent intent;
+            switch (v.getId())
+            {
+
+                case R.id.btnAcceptAuth:
+                    if(random.toString().equals(userCode.getText().toString())) {
+                        intent = new Intent(AuthenticationActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }else {
+                        Toast.makeText(AuthenticationActivity.this,
+                                "Codigo Incorrecto. Intente nuevamente.", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+
+                case R.id.btnCancelAuth:
+                    intent = new Intent(AuthenticationActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    break;
+
+                case R.id.btnSendCodeAuth:
+                    sendSMS();
+                    break;
+
+                default:
+                    Toast.makeText(getApplicationContext(),"Error en Listener de botones",Toast.LENGTH_SHORT);
+            }
+        }
+    };
 }

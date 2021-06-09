@@ -14,4 +14,8 @@
     <string name="button_auth_send_code">Volver a enviar</string>
     <string name="button_auth_cancel">Cancelar</string>
     <string name="button_auth_accept">Aceptar</string>
+    <string name="button_telephone_number_send">Enviar</string>
+    <string name="edit_telephone_number">Número de telefono</string>
+    <string name="etiq_telephone_number">Ingrese un número de telefono</string>
+    <string name="etiq_main_menu">Entraste al menú principal vieja :D</string>
 </resources>

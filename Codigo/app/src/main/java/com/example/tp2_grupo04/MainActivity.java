@@ -12,19 +12,16 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnRegister;
-    private Button btnLogin;
-    private EditText loginEmail;
-    //public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+    private Button btnSend;
+    private EditText telephoneNumber;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btnRegister=(Button)findViewById(R.id.btnRegister);
-        btnLogin=(Button)findViewById(R.id.btnLogin);
-        loginEmail=(EditText)findViewById(R.id.editTextLoginEmail);
-        btnRegister.setOnClickListener(buttonsListeners);
-        btnLogin.setOnClickListener(buttonsListeners);
+        btnSend=(Button)findViewById(R.id.btnSendCode);
+        telephoneNumber=(EditText)findViewById(R.id.editTextTelephoneNumber);
+        btnSend.setOnClickListener(buttonsListeners);
     }
 
     @Override
@@ -57,30 +54,18 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
     }
 
-
-    /** Called when the user taps the Send button */
-    /*public void sendMessage(View view) {
-        if()
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
-    }*/
     private View.OnClickListener buttonsListeners = new View.OnClickListener()
     {
         public void onClick (View v){
             Intent intent;
             switch (v.getId())
             {
-                case R.id.btnRegister:
-                    intent=new Intent(MainActivity.this,RegisterActivity.class);
-                    startActivity(intent);
-                    finish();
-                    break;
-                case R.id.btnLogin:
+                case R.id.btnSendCode:
                     intent=new Intent(MainActivity.this,AuthenticationActivity.class);
-                    intent.putExtra("loginEmail",loginEmail.getText().toString());
                     startActivity(intent);
                     finish();
                     break;
+
                 default:
                     Toast.makeText(getApplicationContext(),"Error en Listener de botones",Toast.LENGTH_SHORT);
             }
