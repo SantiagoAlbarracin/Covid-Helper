@@ -113,7 +113,7 @@ public class RegisterActivity extends AppCompatActivity {
     };
 
     private void configureBroadcastReceiver(){
-        filter = new IntentFilter();
+        filter = new IntentFilter("com.example.httoconnection_intentservice.intent.action.RESPUESTA_OPERACION");
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(receiver, filter);
     }
@@ -167,7 +167,8 @@ public class RegisterActivity extends AppCompatActivity {
                     Intent i = new Intent(RegisterActivity.this, ServiceHTTP_POST.class);
 
                     i.putExtra("uri", Utils.URI_REGISTER_USER);
-                    i.putExtra("datosJson", object.toString());
+                    i.putExtra("dataJSON", object.toString());
+
                     startService(i);
 
                     Thread.sleep(500);
