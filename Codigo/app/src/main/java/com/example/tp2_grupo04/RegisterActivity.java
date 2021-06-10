@@ -3,12 +3,18 @@ package com.example.tp2_grupo04;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -22,10 +28,15 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText passwordOrigin;
     private EditText commissionOrigin;
     private EditText groupOrigin;
+    private ProgressBar progressBar;
+
+    public IntentFilter filter;
+    private OperationReceptor receiver = new OperationReceptor();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         btnAccept=(Button)findViewById(R.id.btnAccept);
@@ -37,10 +48,13 @@ public class RegisterActivity extends AppCompatActivity {
         passwordOrigin=(EditText)findViewById(R.id.editTextPassword);
         commissionOrigin=(EditText)findViewById(R.id.editTextCommission);
         groupOrigin=(EditText)findViewById(R.id.editTextGroup);
+        progressBar = (ProgressBar) findViewById(R.id.progressBarReg);
 
 
         btnAccept.setOnClickListener(buttonsListeners);
         btnCancel.setOnClickListener(buttonsListeners);
+
+        configureBroadcastReceiver();
     }
 
     @Override
@@ -76,51 +90,123 @@ public class RegisterActivity extends AppCompatActivity {
     private View.OnClickListener buttonsListeners = new View.OnClickListener() {
         public void onClick(View v) {
             Intent intent;
+
             switch (v.getId()) {
                 case R.id.btnAccept:
-                    if (nameOrigin.getText().toString().matches("") || lastnameOrigin.getText().toString().matches("")
-                            || dniOrigin.getText().toString().matches("") || emailOrigin.getText().toString().matches("")
-                            || passwordOrigin.getText().toString().matches("") || commissionOrigin.getText().toString().matches("")
-                            || groupOrigin.getText().toString().matches("")
-                    ) {
-                        Toast.makeText(RegisterActivity.this,
-                                "Debe completar todos los campos.", Toast.LENGTH_SHORT).show();
-                    } else if (!Utils.validate(emailOrigin.getText().toString())) {
-                        Toast.makeText(RegisterActivity.this,
-                                "Debe ingresar un mail valido.", Toast.LENGTH_SHORT).show();
-                    } else if (passwordOrigin.getText().toString().length() < 8){
-                        Toast.makeText(RegisterActivity.this,
-                                "Debe ingresar una contraseña de 8 caracteres o más.", Toast.LENGTH_SHORT).show();
-                    } else if(dniOrigin.getText().toString().length() < 8){
-                        Toast.makeText(RegisterActivity.this,
-                                "Debe ingresar un dni valido.", Toast.LENGTH_SHORT).show();
-                    } else{
-                        User user = new User();
-                        user.setName(nameOrigin.getText().toString());
-                        user.setLastname(lastnameOrigin.getText().toString());
-                        user.setDni(Integer.valueOf(dniOrigin.getText().toString()));
-                        user.setEmail(emailOrigin.getText().toString());
-                        user.setPassword(passwordOrigin.getText().toString());
-                        user.setCommission(Integer.valueOf(commissionOrigin.getText().toString()));
-                        user.setGroup(Integer.valueOf(groupOrigin.getText().toString()));
-                        intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
+                    new RegisterTask().execute(nameOrigin.getText().toString(), lastnameOrigin.getText().toString(),
+                            dniOrigin.getText().toString(), emailOrigin.getText().toString(),
+                            passwordOrigin.getText().toString(), commissionOrigin.getText().toString(),
+                            groupOrigin.getText().toString());
+                break;
 
-            break;
+                case R.id.btnCancel:
+                    intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                break;
 
-            case R.id.btnCancel:
-            intent = new Intent(RegisterActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-            break;
-
-            default:
-            Toast.makeText(getApplicationContext(), "Error en Listener de botones", Toast.LENGTH_SHORT);
+                default:
+                    Toast.makeText(getApplicationContext(), "Error en Listener de botones", Toast.LENGTH_SHORT);
         }
     }
 
     };
+
+    private void configureBroadcastReceiver(){
+        filter = new IntentFilter();
+        filter.addCategory(Intent.CATEGORY_DEFAULT);
+        registerReceiver(receiver, filter);
+    }
+
+
+
+    class RegisterTask extends AsyncTask<String, Void, Boolean> {
+
+        private Intent intent;
+
+        @Override
+        protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
+            btnAccept.setEnabled(false);
+            btnCancel.setEnabled(false);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+
+            progressBar.setVisibility(View.INVISIBLE);
+            btnAccept.setEnabled(true);
+            btnCancel.setEnabled(true);
+
+            if (aBoolean) {
+                intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
+        }
+
+        @Override
+        protected Boolean doInBackground(String... objects) {
+            Log.i("debug102", " doInBackground");
+
+            if(VerifyRegisterFields()){
+                Log.i("debug102", " Entre doInBackground");
+
+                JSONObject object = new JSONObject();
+                try {
+                    object.put("env", "TEST");
+                    object.put("name", objects[0] );
+                    object.put("lastname", objects[1]);
+                    object.put("dni", Integer.valueOf(objects[2]));
+                    object.put("email", objects[3]);
+                    object.put("password", objects[4]);
+                    object.put("commission", Integer.valueOf(objects[5]));
+                    object.put("group", Integer.valueOf(objects[6]));
+
+                    Intent i = new Intent(RegisterActivity.this, ServiceHTTP_POST.class);
+
+                    i.putExtra("uri", Utils.URI_REGISTER_USER);
+                    i.putExtra("datosJson", object.toString());
+                    startService(i);
+
+                    Thread.sleep(500);
+                } catch (JSONException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
+
+                return true;
+            }
+            Log.i("debug102", " Retorno false");
+
+            return false;
+        }
+    }
+
+
+
+    private boolean VerifyRegisterFields(){
+        if (nameOrigin.getText().toString().matches("") || lastnameOrigin.getText().toString().matches("")
+                || dniOrigin.getText().toString().matches("") || emailOrigin.getText().toString().matches("")
+                || passwordOrigin.getText().toString().matches("") || commissionOrigin.getText().toString().matches("")
+                || groupOrigin.getText().toString().matches("")
+        ) {
+
+            return false;
+        } else if (!Utils.validate(emailOrigin.getText().toString())) {
+
+            return false;
+        } else if (passwordOrigin.getText().toString().length() < 8){
+
+            return false;
+        } else if(dniOrigin.getText().toString().length() < 8){
+
+            return false;
+        }
+        return true;
+    }
+
 
 }

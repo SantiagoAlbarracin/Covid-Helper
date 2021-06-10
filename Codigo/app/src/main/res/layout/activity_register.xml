@@ -213,13 +213,30 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="16dp"
-      android:layout_marginEnd="40dp"
-      android:layout_marginRight="40dp"
+      android:layout_marginEnd="44dp"
+      android:layout_marginRight="44dp"
       android:layout_marginBottom="16dp"
       android:text="@string/button_register"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/editTextGroup"
-      app:layout_constraintVertical_bias="0.791" />
+      app:layout_constraintVertical_bias="0.26" />
+
+  <ProgressBar
+      android:id="@+id/progressBarReg"
+      style="?android:attr/progressBarStyle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="181dp"
+      android:layout_marginLeft="181dp"
+      android:layout_marginTop="648dp"
+      android:layout_marginEnd="182dp"
+      android:layout_marginRight="182dp"
+      android:layout_marginBottom="35dp"
+      android:visibility="invisible"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
