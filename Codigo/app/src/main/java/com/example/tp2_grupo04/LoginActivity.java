@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,7 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -31,6 +33,11 @@ public class LoginActivity extends AppCompatActivity {
     private TextView etiqWrongPass;
     private TextView etiqWrongEmail;
     private TextView etiqEmpty;
+
+    public boolean loginResponse = false;
+
+    public IntentFilter filter;
+    private OperationReceptor receiver = new OperationReceptor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +60,9 @@ public class LoginActivity extends AppCompatActivity {
 
         btnRegister.setOnClickListener(buttonsListeners);
         btnLogin.setOnClickListener(buttonsListeners);
+
+        configureBroadcastReceiver();
+
     }
 
     @Override
@@ -100,7 +110,22 @@ public class LoginActivity extends AppCompatActivity {
 
                 case R.id.btnLogin:
 
-                    new LoginTask().execute(loginEmail.getText().toString(), loginPassword.getText().toString());
+                    try {
+                        new LoginTask().execute(loginEmail.getText().toString(), loginPassword.getText().toString()).get();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    if(loginResponse) {
+                        Log.i("debug102", " El sv Respondio OK Login");
+                        intent = new Intent(LoginActivity.this, MainMenuActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }else {
+                        Log.i("debug102", " Sv respondio FALSE");
+                    }
                     break;
 
                 default:
@@ -109,6 +134,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 
+    public void changeToMainActivity(Boolean response){
+
+    }
 
     class LoginTask extends AsyncTask<String, Void, Boolean>{
 
@@ -118,9 +146,7 @@ public class LoginActivity extends AppCompatActivity {
         protected Boolean doInBackground(String... strings) {
 
             if(loginEmail.getText().toString().matches("") || loginPassword.getText().toString().matches("") ) {
-
                 //etiqEmpty.setVisibility(View.VISIBLE);
-
             }else if (!Utils.validate(loginEmail.getText().toString())) {
                 //etiqWrongEmail.setVisibility(View.VISIBLE);
             } else if (loginPassword.getText().toString().length() < 8){
@@ -134,12 +160,11 @@ public class LoginActivity extends AppCompatActivity {
 
                     Intent i = new Intent(LoginActivity.this, ServiceHTTP_POST.class);
                     i.putExtra("uri", Utils.URI_LOGIN_USER);
-                    i.putExtra("datosJson", object.toString());
+                    i.putExtra("dataJSON", object.toString());
 
                     startService(i);
 
-                    Thread.sleep(500);
-                } catch (InterruptedException | JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
@@ -165,14 +190,18 @@ public class LoginActivity extends AppCompatActivity {
             btnLogin.setEnabled(true);
             btnRegister.setEnabled(true);
             if(o) {
-                intent = new Intent(LoginActivity.this, MainMenuActivity.class);
-                startActivity(intent);
-                finish();
-
+                loginResponse = true;
+            }else{
+                loginResponse = false;
             }
         }
 
     }
 
+    private void configureBroadcastReceiver(){
+        filter = new IntentFilter("com.example.httoconnection_intentservice.intent.action.RESPUESTA_OPERACION");
+        filter.addCategory(Intent.CATEGORY_DEFAULT);
+        registerReceiver(receiver, filter);
+    }
 
 }

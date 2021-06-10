@@ -139,19 +139,21 @@ public class RegisterActivity extends AppCompatActivity {
             btnCancel.setEnabled(true);
 
             if (aBoolean) {
+                Log.i("debug102", " El sv Respondio OK Register");
                 intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
+            }else {
+                Log.i("debug102", " Fallo conexion con sv Register");
+
             }
 
         }
 
         @Override
         protected Boolean doInBackground(String... objects) {
-            Log.i("debug102", " doInBackground");
 
             if(VerifyRegisterFields()){
-                Log.i("debug102", " Entre doInBackground");
 
                 JSONObject object = new JSONObject();
                 try {
@@ -169,10 +171,10 @@ public class RegisterActivity extends AppCompatActivity {
                     i.putExtra("uri", Utils.URI_REGISTER_USER);
                     i.putExtra("dataJSON", object.toString());
 
+
                     startService(i);
 
-                    Thread.sleep(500);
-                } catch (JSONException | InterruptedException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
@@ -180,7 +182,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                 return true;
             }
-            Log.i("debug102", " Retorno false");
 
             return false;
         }

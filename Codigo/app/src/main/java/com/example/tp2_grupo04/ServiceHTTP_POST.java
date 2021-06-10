@@ -1,5 +1,6 @@
 package com.example.tp2_grupo04;
 
+import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,51 +19,21 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class ServiceHTTP_POST extends AppCompatActivity {
+public class ServiceHTTP_POST extends IntentService {
 
     URL url;
     HttpURLConnection connection = null;
 
+    public ServiceHTTP_POST() {
+        super("ServiceHTTP_POST");
+    }
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.i("debug24","Se inicio el servicio");
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+        super.onCreate();
+        Log.i("debug24", "Se inicio el servicio");
     }
 
     protected void onHandleIntent(Intent intent){
-
         try {
             String uri = intent.getExtras().getString("uri");
             JSONObject jsonObject = new JSONObject(intent.getExtras().getString("dataJSON"));
@@ -87,9 +58,9 @@ public class ServiceHTTP_POST extends AppCompatActivity {
     }
 
     private String POST(String uri, JSONObject jsonObject){
-
         String result = "";
         try{
+
             url = new URL(uri);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
@@ -98,10 +69,11 @@ public class ServiceHTTP_POST extends AppCompatActivity {
             connection.setConnectTimeout(5000);
             connection.setRequestMethod("POST");
 
+
             DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
             dataOutputStream.write(jsonObject.toString().getBytes("UTF-8"));
 
-            Log.i("debug104", "Se envia al servidor " + dataOutputStream.toString());
+            Log.i("debug104", "Se envia al servidor " + jsonObject.toString());
 
             dataOutputStream.flush();
             connection.connect();
@@ -109,11 +81,15 @@ public class ServiceHTTP_POST extends AppCompatActivity {
             int responseCode = connection.getResponseCode();
 
             if( responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED ){
+
                 InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream());
                 result = convertInputStreamToString(inputStreamReader).toString();
+
             }else if( responseCode == HttpURLConnection.HTTP_BAD_REQUEST ){
+
                 InputStreamReader inputStreamReader = new InputStreamReader(connection.getErrorStream());
                 result = convertInputStreamToString(inputStreamReader).toString();
+
             }
             else{
                 result = "NOT_OK";
@@ -121,6 +97,7 @@ public class ServiceHTTP_POST extends AppCompatActivity {
 
             dataOutputStream.close();
             connection.disconnect();
+            Log.i("debug145", "Salgo de POST");
 
             return result;
 
@@ -134,10 +111,11 @@ public class ServiceHTTP_POST extends AppCompatActivity {
     }
 
     protected void executePost(String uri, JSONObject jsonObject){
+
         String result = POST(uri,jsonObject);
 
         if(result == null){
-            Log.i("debug140", "Error en el GET de POST");
+            Log.e("debug140", "Error en el GET de POST");
             return;
         }
 
@@ -146,9 +124,14 @@ public class ServiceHTTP_POST extends AppCompatActivity {
             return;
         }
 
+        Log.i("debug145", "ExecutePost");
+
         Intent intent = new Intent("com.example.httoconnection_intentservice.intent.action.RESPUESTA_OPERACION");
         intent.putExtra("dataJSON", result);
         sendBroadcast(intent);
+
+        Log.i("debug145", "Pase Sendbroadcast");
+
 
     }
 
