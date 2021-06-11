@@ -19,6 +19,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
@@ -36,8 +41,9 @@ public class LoginActivity extends AppCompatActivity {
 
     public boolean loginResponse = false;
 
-    public IntentFilter filter;
-    private OperationReceptor receiver = new OperationReceptor();
+    public URL url;
+    public HttpURLConnection connection = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(buttonsListeners);
         btnLogin.setOnClickListener(buttonsListeners);
 
-        configureBroadcastReceiver();
+
 
     }
 
@@ -119,12 +125,12 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     if(loginResponse) {
-                        Log.i("debug102", " El sv Respondio OK Login");
+                        Log.i("debug102", " El sv Respondio SUCCESS TRUE");
                         intent = new Intent(LoginActivity.this, MainMenuActivity.class);
                         startActivity(intent);
                         finish();
                     }else {
-                        Log.i("debug102", " Sv respondio FALSE");
+                        Log.i("debug102", " Sv respondio SUCCESS FALSE");
                     }
                     break;
 
@@ -134,13 +140,12 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 
-    public void changeToMainActivity(Boolean response){
 
-    }
 
     class LoginTask extends AsyncTask<String, Void, Boolean>{
 
         private Intent intent;
+        private String result;
 
         @Override
         protected Boolean doInBackground(String... strings) {
@@ -154,17 +159,50 @@ public class LoginActivity extends AppCompatActivity {
             }else {
                 JSONObject object = new JSONObject();
                 try {
-                    object.put("env", "TEST");
                     object.put("email", strings[0]);
                     object.put("password", strings[1]);
 
-                    Intent i = new Intent(LoginActivity.this, ServiceHTTP_POST.class);
-                    i.putExtra("uri", Utils.URI_LOGIN_USER);
-                    i.putExtra("dataJSON", object.toString());
 
-                    startService(i);
 
-                } catch (JSONException e) {
+                    url = new URL(Utils.URI_LOGIN_USER);
+
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                    connection.setDoOutput(true);
+                    connection.setDoInput(true);
+                    connection.setConnectTimeout(5000);
+                    connection.setRequestMethod("POST");
+
+                    DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
+                    dataOutputStream.write(object.toString().getBytes("UTF-8"));
+
+                    Log.i("debug104", "Se envia al servidor " + object.toString());
+
+                    dataOutputStream.flush();
+                    connection.connect();
+
+                    int responseCode = connection.getResponseCode();
+
+                    if( responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED ){
+
+                        InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream());
+                        result = Utils.convertInputStreamToString(inputStreamReader).toString();
+
+                    }else if( responseCode == HttpURLConnection.HTTP_BAD_REQUEST ){
+
+                        InputStreamReader inputStreamReader = new InputStreamReader(connection.getErrorStream());
+                        result = Utils.convertInputStreamToString(inputStreamReader).toString();
+
+                    }
+                    else{
+                        result = "NOT_OK";
+                    }
+
+                    dataOutputStream.close();
+                    connection.disconnect();
+
+                    Log.i("debug166", result);
+                } catch (JSONException | IOException e) {
                     e.printStackTrace();
                 }
 
@@ -179,8 +217,6 @@ public class LoginActivity extends AppCompatActivity {
             progressBar.setVisibility(View.VISIBLE);
             btnLogin.setEnabled(false);
             btnRegister.setEnabled(false);
-
-
         }
 
         @Override
@@ -189,19 +225,11 @@ public class LoginActivity extends AppCompatActivity {
             progressBar.setVisibility(View.INVISIBLE);
             btnLogin.setEnabled(true);
             btnRegister.setEnabled(true);
-            if(o) {
-                loginResponse = true;
-            }else{
-                loginResponse = false;
-            }
+            loginResponse = o;
+
+
         }
 
-    }
-
-    private void configureBroadcastReceiver(){
-        filter = new IntentFilter("com.example.httoconnection_intentservice.intent.action.RESPUESTA_OPERACION");
-        filter.addCategory(Intent.CATEGORY_DEFAULT);
-        registerReceiver(receiver, filter);
     }
 
 }

@@ -18,7 +18,7 @@ public class OperationReceptor extends BroadcastReceiver {
         try{
             String dataJsonString = intent.getStringExtra("dataJSON");
             JSONObject jsonObject = new JSONObject(dataJsonString);
-            Log.i("debug102", " Respondio el server");
+            Log.i("debug102", " Respondio el server " + dataJsonString);
             Toast.makeText(context.getApplicationContext(), "Respondió el server.", Toast.LENGTH_SHORT);
         } catch (JSONException e) {
             e.printStackTrace();

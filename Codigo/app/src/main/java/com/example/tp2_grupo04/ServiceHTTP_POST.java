@@ -46,16 +46,7 @@ public class ServiceHTTP_POST extends IntentService {
         }
     }
 
-    private StringBuilder convertInputStreamToString(InputStreamReader inputStreamReader) throws IOException {
-        BufferedReader br = new BufferedReader(inputStreamReader);
-        StringBuilder stringBuilder = new StringBuilder();
-        String line;
-        while ( (line = br.readLine()) != null ){
-            stringBuilder.append(line + "\n");
-        }
-        br.close();
-        return stringBuilder;
-    }
+
 
     private String POST(String uri, JSONObject jsonObject){
         String result = "";
@@ -83,12 +74,12 @@ public class ServiceHTTP_POST extends IntentService {
             if( responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED ){
 
                 InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream());
-                result = convertInputStreamToString(inputStreamReader).toString();
+                result = Utils.convertInputStreamToString(inputStreamReader).toString();
 
             }else if( responseCode == HttpURLConnection.HTTP_BAD_REQUEST ){
 
                 InputStreamReader inputStreamReader = new InputStreamReader(connection.getErrorStream());
-                result = convertInputStreamToString(inputStreamReader).toString();
+                result = Utils.convertInputStreamToString(inputStreamReader).toString();
 
             }
             else{

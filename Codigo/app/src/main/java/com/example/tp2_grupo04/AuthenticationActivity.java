@@ -56,7 +56,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         //random = (int) (Math.random() * 1000);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if(checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED){
-                sendSMS(number);
+             //   sendSMS(number);
             }else{
                 requestPermissions(new String[]{Manifest.permission.SEND_SMS},1);
             }

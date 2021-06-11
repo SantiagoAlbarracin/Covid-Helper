@@ -1,5 +1,8 @@
 package com.example.tp2_grupo04;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,5 +19,15 @@ public class Utils {
         return matcher.find();
     }
 
+    public static StringBuilder convertInputStreamToString(InputStreamReader inputStreamReader) throws IOException {
+        BufferedReader br = new BufferedReader(inputStreamReader);
+        StringBuilder stringBuilder = new StringBuilder();
+        String line;
+        while ( (line = br.readLine()) != null ){
+            stringBuilder.append(line + "\n");
+        }
+        br.close();
+        return stringBuilder;
+    }
 
 }

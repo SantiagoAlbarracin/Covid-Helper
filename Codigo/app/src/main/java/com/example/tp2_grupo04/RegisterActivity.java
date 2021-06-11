@@ -156,7 +156,9 @@ public class RegisterActivity extends AppCompatActivity {
             if(VerifyRegisterFields()){
 
                 JSONObject object = new JSONObject();
+
                 try {
+
                     object.put("env", "TEST");
                     object.put("name", objects[0] );
                     object.put("lastname", objects[1]);
@@ -171,18 +173,14 @@ public class RegisterActivity extends AppCompatActivity {
                     i.putExtra("uri", Utils.URI_REGISTER_USER);
                     i.putExtra("dataJSON", object.toString());
 
-
                     startService(i);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-
-
                 return true;
             }
-
             return false;
         }
     }
@@ -195,20 +193,15 @@ public class RegisterActivity extends AppCompatActivity {
                 || passwordOrigin.getText().toString().matches("") || commissionOrigin.getText().toString().matches("")
                 || groupOrigin.getText().toString().matches("")
         ) {
-
             return false;
         } else if (!Utils.validate(emailOrigin.getText().toString())) {
-
             return false;
         } else if (passwordOrigin.getText().toString().length() < 8){
-
             return false;
         } else if(dniOrigin.getText().toString().length() < 8){
-
             return false;
         }
         return true;
     }
-
 
 }
