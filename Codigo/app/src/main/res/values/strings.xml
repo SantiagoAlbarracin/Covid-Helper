@@ -21,4 +21,11 @@
     <string name="etiq_login_wrong_pass">Ingrese una contraseña de 8 caracteres o más</string>
     <string name="etiq_login_empty">Complete todos los campos</string>
     <string name="etiq_main_menu">Entraste al menú principal vieja :D</string>
+    <string name="etiq_steps">Cantidad de Pasos</string>
+    <string name="etiq_distance">Distancia</string>
+    <string name="etiq_speed">Velocidad</string>
+    <string name="etiq_advice">Consejos</string>
+    <string name="etiq_active_time">Tiempo Activo</string>
+    <string name="button_start_step_counter">Activar contador de pasos</string>
+
 </resources>
