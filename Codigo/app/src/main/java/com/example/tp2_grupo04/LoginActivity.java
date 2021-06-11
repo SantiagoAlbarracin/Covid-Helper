@@ -201,12 +201,22 @@ public class LoginActivity extends AppCompatActivity {
                     dataOutputStream.close();
                     connection.disconnect();
 
+                    JSONObject answer = new JSONObject(result);
+
+                    result = answer.get("success").toString();
+
                     Log.i("debug166", result);
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
+                    result = "false";
                 }
 
-                return true;
+                if(result.matches("true")){
+                    return true;
+                }
+                else{
+                    return false;
+                }
             }
 
             return false;
