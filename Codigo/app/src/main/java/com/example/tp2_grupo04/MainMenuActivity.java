@@ -8,6 +8,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,8 +32,12 @@ public class MainMenuActivity extends AppCompatActivity implements SensorEventLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        previousTime=java.lang.System.currentTimeMillis();
+
         tvSteps = (TextView) findViewById(R.id.textViewSteps2);
         tvSpeed = (TextView) findViewById(R.id.textViewSpeed2);
+
+        tvSpeed.setText("0");
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
     }
@@ -54,7 +59,7 @@ public class MainMenuActivity extends AppCompatActivity implements SensorEventLi
     protected void onPause()
     {
         super.onPause();
-        running = false;
+        //running = false;
         //Para que el hardware deje de detectar pasos
         //sensorManager.unregisterListener(this);
     }
@@ -68,8 +73,9 @@ public class MainMenuActivity extends AppCompatActivity implements SensorEventLi
     @Override
     protected void onResume()
     {
-        previousTime = java.lang.System.currentTimeMillis();
+
         super.onResume();
+        previousTime = java.lang.System.currentTimeMillis();
         running = true;
         Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         if(countSensor != null){
@@ -81,13 +87,29 @@ public class MainMenuActivity extends AppCompatActivity implements SensorEventLi
 
     @Override
     public void onSensorChanged(SensorEvent event){
-        if(running){
-            tvSteps.setText(String.valueOf(event.values[0]));
-            actualTime=java.lang.System.currentTimeMillis()-previousTime;
-            tvSpeed.setText(actualTime.toString());
-            previousTime=actualTime;
+        switch(event.sensor.getType()){
+            case Sensor.TYPE_STEP_COUNTER:
+                if(running){
+                    Long seconds;
+                    tvSteps.setText(String.valueOf(event.values[0]));
+                    actualTime=java.lang.System.currentTimeMillis();
+                    seconds=(actualTime-previousTime)/1000;
+                    if(seconds>=5){
+                        Log.i("previous Time",previousTime.toString());
+                        Log.i("actual Time",actualTime.toString());
+                        Log.i("seconds",seconds.toString());
+                        //Log.i("total Time",totalTime.toString());
+                        tvSpeed.setText(seconds.toString());
+                        previousTime=actualTime;
+                    }
+
+                }
+                break;
+            default:
+                break;
 
         }
+
     }
 
     @Override
