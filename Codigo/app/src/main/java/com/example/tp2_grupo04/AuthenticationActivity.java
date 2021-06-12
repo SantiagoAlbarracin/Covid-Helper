@@ -140,7 +140,8 @@ public class AuthenticationActivity extends AppCompatActivity {
                     break;
 
                 default:
-                    Toast.makeText(getApplicationContext(),"Error en Listener de botones",Toast.LENGTH_SHORT);
+                    Log.e("debug143","Error en Listener de botones");
+                    //Toast.makeText(getApplicationContext(),"Error en Listener de botones",Toast.LENGTH_SHORT);
             }
         }
     };

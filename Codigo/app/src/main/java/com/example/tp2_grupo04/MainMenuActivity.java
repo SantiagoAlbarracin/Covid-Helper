@@ -16,6 +16,13 @@ public class MainMenuActivity extends AppCompatActivity implements SensorEventLi
     SensorManager sensorManager;
 
     private TextView tvSteps;
+    private TextView tvSpeed;
+
+
+
+    private Long previousTime;
+
+    private Long actualTime;
 
     boolean running = false;
 
@@ -25,6 +32,7 @@ public class MainMenuActivity extends AppCompatActivity implements SensorEventLi
         setContentView(R.layout.activity_main_menu);
 
         tvSteps = (TextView) findViewById(R.id.textViewSteps2);
+        tvSpeed = (TextView) findViewById(R.id.textViewSpeed2);
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
     }
@@ -60,7 +68,7 @@ public class MainMenuActivity extends AppCompatActivity implements SensorEventLi
     @Override
     protected void onResume()
     {
-
+        previousTime = java.lang.System.currentTimeMillis();
         super.onResume();
         running = true;
         Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
@@ -75,6 +83,10 @@ public class MainMenuActivity extends AppCompatActivity implements SensorEventLi
     public void onSensorChanged(SensorEvent event){
         if(running){
             tvSteps.setText(String.valueOf(event.values[0]));
+            actualTime=java.lang.System.currentTimeMillis()-previousTime;
+            tvSpeed.setText(actualTime.toString());
+            previousTime=actualTime;
+
         }
     }
 

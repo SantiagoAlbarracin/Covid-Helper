@@ -37,13 +37,13 @@
         android:layout_height="114dp"
         android:text="TextView"
         android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView10"
+        app:layout_constraintBottom_toTopOf="@+id/textViewSpeed2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewSteps" />
 
     <TextView
-        android:id="@+id/textViewAdvices"
+        android:id="@+id/textViewSpeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
@@ -54,14 +54,14 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/textViewSpeed2"
         android:layout_width="95dp"
         android:layout_height="43dp"
         android:layout_marginEnd="72dp"
         android:layout_marginRight="72dp"
         android:text="TextView"
         android:textSize="24sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textViewAdvices"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewSpeed"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
@@ -94,7 +94,7 @@
         android:layout_marginLeft="72dp"
         android:layout_marginBottom="75dp"
         android:text="@string/etiq_distance"
-        app:layout_constraintBottom_toTopOf="@+id/textViewSpeed"
+        app:layout_constraintBottom_toTopOf="@+id/textViewAdvices"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -109,7 +109,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/textViewSpeed2"
+        android:id="@+id/textViewAdvices2"
         android:layout_width="229dp"
         android:layout_height="21dp"
         android:layout_marginEnd="40dp"
@@ -120,13 +120,13 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/textViewSpeed"
+        android:id="@+id/textViewAdvices"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
         android:text="@string/etiq_advice"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textViewSpeed2"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewAdvices2"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

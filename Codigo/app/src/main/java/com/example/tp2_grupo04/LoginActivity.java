@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView etiqWrongEmail;
     private TextView etiqEmpty;
 
-    public boolean loginResponse = false;
+    public Boolean loginResponse = false;
 
     public URL url;
     public HttpURLConnection connection = null;
@@ -135,7 +135,8 @@ public class LoginActivity extends AppCompatActivity {
                     break;
 
                 default:
-                    Toast.makeText(getApplicationContext(),"Error en Listener de botones",Toast.LENGTH_SHORT);
+                    Log.e("debug143","Error en Listener de botones");
+                    //Toast.makeText(getApplicationContext(),"Error en Listener de botones",Toast.LENGTH_SHORT);
             }
         }
     };
@@ -208,17 +209,21 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i("debug166", result);
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
-                    result = "false";
                 }
 
                 if(result.matches("true")){
+                    loginResponse = true;
+                    Log.i("debug238", "Login Response tiene " + loginResponse.toString());
                     return true;
                 }
                 else{
+                    loginResponse = false;
+                    Log.i("debug238", "Login Response tiene " + loginResponse.toString());
                     return false;
                 }
             }
-
+            loginResponse = false;
+            Log.i("debug238", "Login Response tiene " + loginResponse.toString());
             return false;
         }
 
@@ -231,13 +236,9 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Boolean o) {
-
             progressBar.setVisibility(View.INVISIBLE);
             btnLogin.setEnabled(true);
             btnRegister.setEnabled(true);
-            loginResponse = o;
-
-
         }
 
     }
