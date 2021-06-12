@@ -159,7 +159,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 try {
 
-                    object.put("env", "TEST");
+                    object.put("env", "PROD");
                     object.put("name", objects[0] );
                     object.put("lastname", objects[1]);
                     object.put("dni", Integer.valueOf(objects[2]));
