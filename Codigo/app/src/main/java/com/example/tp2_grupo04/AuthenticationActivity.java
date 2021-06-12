@@ -45,9 +45,6 @@ public class AuthenticationActivity extends AppCompatActivity {
         btnCancel = (Button) findViewById(R.id.btnCancelAuth);
         btnSendCode = (Button) findViewById(R.id.btnSendCodeAuth);
         userCode = (EditText) findViewById(R.id.editTextCode);
-        btnAccept.setOnClickListener(buttonsListeners);
-        btnCancel.setOnClickListener(buttonsListeners);
-        btnSendCode.setOnClickListener(buttonsListeners);
 
         Intent intent2 = getIntent();
         Bundle extras = intent2.getExtras();
@@ -111,38 +108,27 @@ public class AuthenticationActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    private View.OnClickListener buttonsListeners = new View.OnClickListener()
-    {
-        public void onClick (View v){
-            Intent intent;
-            switch (v.getId())
-            {
-
-                case R.id.btnAcceptAuth:
-                    if(random.toString().equals(userCode.getText().toString())) {
-                        intent = new Intent(AuthenticationActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }else {
-                        Toast.makeText(AuthenticationActivity.this,
-                                "Codigo Incorrecto. Intente nuevamente.", Toast.LENGTH_SHORT).show();
-                    }
-                    break;
-
-                case R.id.btnCancelAuth:
-                    intent = new Intent(AuthenticationActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                    break;
-
-                case R.id.btnSendCodeAuth:
-                    sendSMS(number);
-                    break;
-
-                default:
-                    Log.e("debug143","Error en Listener de botones");
-                    //Toast.makeText(getApplicationContext(),"Error en Listener de botones",Toast.LENGTH_SHORT);
-            }
+    public void onClickAccept(View view){
+        Intent intent;
+        if(random.toString().equals(userCode.getText().toString())) {
+            intent = new Intent(AuthenticationActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }else {
+            Toast.makeText(AuthenticationActivity.this,
+                    "Codigo Incorrecto. Intente nuevamente.", Toast.LENGTH_SHORT).show();
         }
-    };
+    }
+
+    public void onClickCancel(View view){
+        Intent intent;
+        intent = new Intent(AuthenticationActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void onClickSendCode(View view){
+        sendSMS(number);
+    }
+
 }

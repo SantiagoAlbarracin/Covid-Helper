@@ -50,10 +50,6 @@ public class RegisterActivity extends AppCompatActivity {
         groupOrigin=(EditText)findViewById(R.id.editTextGroup);
         progressBar = (ProgressBar) findViewById(R.id.progressBarReg);
 
-
-        btnAccept.setOnClickListener(buttonsListeners);
-        btnCancel.setOnClickListener(buttonsListeners);
-
         configureBroadcastReceiver();
     }
 
@@ -87,31 +83,20 @@ public class RegisterActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    private View.OnClickListener buttonsListeners = new View.OnClickListener() {
-        public void onClick(View v) {
-            Intent intent;
-
-            switch (v.getId()) {
-                case R.id.btnAccept:
-                    new RegisterTask().execute(nameOrigin.getText().toString(), lastnameOrigin.getText().toString(),
-                            dniOrigin.getText().toString(), emailOrigin.getText().toString(),
-                            passwordOrigin.getText().toString(), commissionOrigin.getText().toString(),
-                            groupOrigin.getText().toString());
-                break;
-
-                case R.id.btnCancel:
-                    intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                break;
-
-                default:
-                    Log.e("debug143","Error en Listener de botones");
-                    //Toast.makeText(getApplicationContext(), "Error en Listener de botones", Toast.LENGTH_SHORT);
-        }
+    public void onClickAccept(View view){
+        new RegisterTask().execute(nameOrigin.getText().toString(), lastnameOrigin.getText().toString(),
+                dniOrigin.getText().toString(), emailOrigin.getText().toString(),
+                passwordOrigin.getText().toString(), commissionOrigin.getText().toString(),
+                groupOrigin.getText().toString());
     }
 
-    };
+    public void onClickCancel(View view){
+        Intent intent;
+        intent = new Intent(RegisterActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 
     private void configureBroadcastReceiver(){
         filter = new IntentFilter("com.example.httoconnection_intentservice.intent.action.RESPUESTA_OPERACION");

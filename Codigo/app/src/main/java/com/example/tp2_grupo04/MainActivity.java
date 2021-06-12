@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         btnSend=(Button)findViewById(R.id.btnSendCode);
         telephoneNumber=(EditText)findViewById(R.id.editTextTelephoneNumber);
-        btnSend.setOnClickListener(buttonsListeners);
     }
 
     @Override
@@ -54,31 +53,23 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    private View.OnClickListener buttonsListeners = new View.OnClickListener()
-    {
-        public void onClick (View v){
-            Intent intent;
-            switch (v.getId())
-            {
-                case R.id.btnSendCode:
-                   if(telephoneNumber.getText().toString().length() < 10){
-                       Toast.makeText(MainActivity.this,
-                               "Ingrese un número de telefono valido.", Toast.LENGTH_SHORT).show();
-                   } else if(telephoneNumber.getText().toString().matches("")) {
-                       Toast.makeText(MainActivity.this,
-                               "Ingrese un número de telefono.", Toast.LENGTH_SHORT).show();
-                   }else{
-                       intent = new Intent(MainActivity.this, AuthenticationActivity.class);
-                       intent.putExtra("numeroTelefono", telephoneNumber.getText().toString());
-                       startActivity(intent);
-                       finish();
-                   }
-                    break;
 
-                default:
-                    Log.e("debug143","Error en Listener de botones");
-                    //Toast.makeText(getApplicationContext(),"Error en Listener de botones",Toast.LENGTH_SHORT);
-            }
+    public void onClickSendCode(View view){
+        Intent intent;
+        Log.i("debug59", "entre a onclicksendcode");
+        if(telephoneNumber.getText().toString().length() < 10){
+            Toast.makeText(MainActivity.this,
+                    "Ingrese un número de telefono valido.", Toast.LENGTH_SHORT).show();
+        } else if(telephoneNumber.getText().toString().matches("")) {
+            Toast.makeText(MainActivity.this,
+                    "Ingrese un número de telefono.", Toast.LENGTH_SHORT).show();
+        }else{
+            intent = new Intent(MainActivity.this, AuthenticationActivity.class);
+            intent.putExtra("numeroTelefono", telephoneNumber.getText().toString());
+            startActivity(intent);
+            finish();
         }
-    };
+    }
+
+
 }

@@ -71,7 +71,7 @@ public class ServiceHTTP_POST extends IntentService {
 
             int responseCode = connection.getResponseCode();
 
-            if( responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED ){
+            if( responseCode == HttpURLConnection.HTTP_OK  ){
 
                 InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream());
                 result = Utils.convertInputStreamToString(inputStreamReader).toString();

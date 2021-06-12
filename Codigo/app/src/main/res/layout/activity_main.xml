@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TelephoneNumberActivity">
+    tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/textView9"
@@ -35,6 +35,7 @@
         android:layout_marginBottom="225dp"
         android:hint="@string/button_register"
         android:text="@string/button_telephone_number_send"
+        android:onClick="onClickSendCode"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

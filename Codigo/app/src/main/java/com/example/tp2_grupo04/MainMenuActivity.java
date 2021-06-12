@@ -3,6 +3,7 @@ package com.example.tp2_grupo04;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -31,6 +32,13 @@ public class MainMenuActivity extends AppCompatActivity implements SensorEventLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        Intent intent2 = getIntent();
+        Bundle extras = intent2.getExtras();
+        ;
+
+        executeRefresh(extras.get("email").toString(), extras.get("password").toString(),
+                        extras.get("token").toString(), extras.get("token_refresh").toString());
 
         previousTime=java.lang.System.currentTimeMillis();
 
@@ -117,4 +125,9 @@ public class MainMenuActivity extends AppCompatActivity implements SensorEventLi
 
     }
 
+
+    private void executeRefresh(String ... strings){
+        User user = new User(strings[0], strings[1], strings[2], strings[3]);
+        user.refreshTokenTask();
+    }
 }

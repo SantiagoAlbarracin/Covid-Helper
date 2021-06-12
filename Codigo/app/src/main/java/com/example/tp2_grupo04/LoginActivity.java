@@ -44,6 +44,8 @@ public class LoginActivity extends AppCompatActivity {
     public URL url;
     public HttpURLConnection connection = null;
 
+    private User user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +64,6 @@ public class LoginActivity extends AppCompatActivity {
         etiqWrongPass.setVisibility(View.GONE);
         etiqWrongEmail.setVisibility(View.GONE);
         etiqEmpty.setVisibility(View.GONE);
-
-
-        btnRegister.setOnClickListener(buttonsListeners);
-        btnLogin.setOnClickListener(buttonsListeners);
-
-
-
     }
 
     @Override
@@ -101,45 +96,36 @@ public class LoginActivity extends AppCompatActivity {
         super.onResume();
     }
 
+    public void onClickRegister(View view){
+        Intent intent;
+        intent=new Intent(LoginActivity.this,RegisterActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
-    private View.OnClickListener buttonsListeners = new View.OnClickListener()
-    {
-        public void onClick (View v){
-            Intent intent;
-            switch (v.getId())
-            {
-                case R.id.btnRegister:
-                    intent=new Intent(LoginActivity.this,RegisterActivity.class);
-                    startActivity(intent);
-                    finish();
-                    break;
-
-                case R.id.btnLogin:
-
-                    try {
-                        new LoginTask().execute(loginEmail.getText().toString(), loginPassword.getText().toString()).get();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                    if(loginResponse) {
-                        Log.i("debug102", " El sv Respondio SUCCESS TRUE");
-                        intent = new Intent(LoginActivity.this, MainMenuActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }else {
-                        Log.i("debug102", " Sv respondio SUCCESS FALSE");
-                    }
-                    break;
-
-                default:
-                    Log.e("debug143","Error en Listener de botones");
-                    //Toast.makeText(getApplicationContext(),"Error en Listener de botones",Toast.LENGTH_SHORT);
-            }
+    public void onClickLogin(View view){
+        Intent intent;
+        try {
+            new LoginTask().execute(loginEmail.getText().toString(), loginPassword.getText().toString()).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-    };
+
+        if(loginResponse) {
+            Log.i("debug102", " El sv Respondio SUCCESS TRUE");
+            intent = new Intent(LoginActivity.this, MainMenuActivity.class);
+            intent.putExtra("email", user.getEmail().toString());
+            intent.putExtra("password", user.getPassword().toString());
+            intent.putExtra("token", user.getToken().toString());
+            intent.putExtra("token_refresh", user.getToken_refresh().toString());
+            startActivity(intent);
+            finish();
+        }else {
+            Log.i("debug102", " Sv respondio SUCCESS FALSE");
+        }
+    }
 
 
 
@@ -150,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... strings) {
-
+            JSONObject answer = null;
             if(loginEmail.getText().toString().matches("") || loginPassword.getText().toString().matches("") ) {
                 //etiqEmpty.setVisibility(View.VISIBLE);
             }else if (!Utils.validate(loginEmail.getText().toString())) {
@@ -162,8 +148,6 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     object.put("email", strings[0]);
                     object.put("password", strings[1]);
-
-
 
                     url = new URL(Utils.URI_LOGIN_USER);
 
@@ -184,12 +168,12 @@ public class LoginActivity extends AppCompatActivity {
 
                     int responseCode = connection.getResponseCode();
 
-                    if( responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_CREATED ){
-
+                    if( responseCode == HttpURLConnection.HTTP_OK ){
                         InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream());
                         result = Utils.convertInputStreamToString(inputStreamReader).toString();
 
-                    }else if( responseCode == HttpURLConnection.HTTP_BAD_REQUEST ){
+                    }
+                    else if( responseCode == HttpURLConnection.HTTP_BAD_REQUEST ){
 
                         InputStreamReader inputStreamReader = new InputStreamReader(connection.getErrorStream());
                         result = Utils.convertInputStreamToString(inputStreamReader).toString();
@@ -202,17 +186,23 @@ public class LoginActivity extends AppCompatActivity {
                     dataOutputStream.close();
                     connection.disconnect();
 
-                    JSONObject answer = new JSONObject(result);
+                    answer = new JSONObject(result);
 
                     result = answer.get("success").toString();
 
-                    Log.i("debug166", result);
+
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
                 }
 
                 if(result.matches("true")){
                     loginResponse = true;
+                    try {
+                        user = new User(strings[0], strings[1], answer.get("token").toString(), answer.get("token_refresh").toString());
+                        Log.i("debug166", user.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     Log.i("debug238", "Login Response tiene " + loginResponse.toString());
                     return true;
                 }
