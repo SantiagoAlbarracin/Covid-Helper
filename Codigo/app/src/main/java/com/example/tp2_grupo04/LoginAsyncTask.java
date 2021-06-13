@@ -100,8 +100,11 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean o) {
         if(o){
-            this.loginActivity.lanzarActivity(  StepCounterActivity.class, user.getEmail(), user.getPassword(),
+            this.loginActivity.lanzarActivity(  user.getEmail(), user.getPassword(),
                                                 user.getToken(), user.getToken_refresh() );
+
+            executeRefresh( user.getEmail(), user.getPassword(),
+                            user.getToken(), user.getToken_refresh() );
         }
         else{
             this.loginActivity.progressBar.setVisibility(View.INVISIBLE);
@@ -110,6 +113,9 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
         }
     }
 
-
+    private void executeRefresh(String ... strings){
+        User user = new User(strings[0], strings[1], strings[2], strings[3]);
+        user.refreshTokenTask();
+    }
 }
 

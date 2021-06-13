@@ -27,5 +27,11 @@
     <string name="etiq_advice">Consejos</string>
     <string name="etiq_active_time">Tiempo Activo</string>
     <string name="button_start_step_counter">Reiniciar</string>
+    <string name="button_back_step_counter">Volver</string>
+    <string name="button_menu_step_counter">Contador de Pasos</string>
+    <string name="button_menu_diagnosis">Diagnostico</string>
+    <string name="button_menu_logout">Cerrar Sesión</string>
+
+
 
 </resources>

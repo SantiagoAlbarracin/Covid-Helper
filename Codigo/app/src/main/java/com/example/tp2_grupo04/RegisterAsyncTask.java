@@ -113,7 +113,7 @@ public class RegisterAsyncTask extends AsyncTask<String, Void, Boolean> {
     protected void onPostExecute(Boolean o) {
 
         if(o){
-            this.registerActivity.lanzarActivity(LoginActivity.class);
+            this.registerActivity.lanzarActivity();
         }
         else{
             this.registerActivity.progressBar.setVisibility(View.INVISIBLE);

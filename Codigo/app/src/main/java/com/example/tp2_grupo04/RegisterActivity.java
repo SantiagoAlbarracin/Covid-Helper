@@ -105,7 +105,7 @@ public class RegisterActivity extends AppCompatActivity {
         registerReceiver(receiver, filter);
     }
 
-    public void lanzarActivity(Class<?> tipoActividad) {
+    public void lanzarActivity() {
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();

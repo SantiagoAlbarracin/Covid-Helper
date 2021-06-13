@@ -108,6 +108,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         super.onResume();
     }
 
+
     public void onClickAccept(View view){
         Intent intent;
         if(random.toString().equals(userCode.getText().toString())) {

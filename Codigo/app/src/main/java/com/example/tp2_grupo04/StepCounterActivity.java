@@ -1,15 +1,19 @@
 package com.example.tp2_grupo04;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +48,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
 
     boolean running = false;
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +56,6 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
 
         Intent intent2 = getIntent();
         Bundle extras = intent2.getExtras();
-
-        executeRefresh(extras.get("email").toString(), extras.get("password").toString(),
-                        extras.get("token").toString(), extras.get("token_refresh").toString());
 
         previousTime=java.lang.System.currentTimeMillis();
         initialTime=java.lang.System.currentTimeMillis();
@@ -87,8 +89,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
     }
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause(){
         super.onPause();
         //running = false;
         //Para que el hardware deje de detectar pasos
@@ -161,8 +162,28 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
 
     }
 
-    private void executeRefresh(String ... strings){
-        User user = new User(strings[0], strings[1], strings[2], strings[3]);
-        user.refreshTokenTask();
+    public void onClickRestart(View view) {
+        tvSteps.setText("0");
+        tvActiveTime.setText("0s");
+        tvSpeed.setText("0p/s");
+        tvDistance.setText("0m");
+        previousTime=java.lang.System.currentTimeMillis();
+        initialTime=java.lang.System.currentTimeMillis();
+        previousSteps=0;
+        actualSteps=0;
     }
+
+
+    //Falta que envie la info a Menu para que no se pierda ? Discutirlo
+    public void onClickBack(View view) {
+        Intent intent = new Intent(StepCounterActivity.this, MenuActivity.class);
+        intent.putExtra("previousSteps", String.valueOf(previousSteps));
+        intent.putExtra("previousSteps", String.valueOf(actualSteps));
+        intent.putExtra("previousSteps", String.valueOf(previousTime));
+        intent.putExtra("previousSteps", String.valueOf(initialTime));
+
+        startActivity(intent);
+        finish();
+    }
+
 }

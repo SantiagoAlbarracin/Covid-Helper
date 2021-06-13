@@ -100,8 +100,8 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void lanzarActivity(Class<?> tipoActividad, String... strings) {
-        Intent intent = new Intent(LoginActivity.this, StepCounterActivity.class);
+    public void lanzarActivity(String... strings) {
+        Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
         intent.putExtra("email", strings[0]);
         intent.putExtra("password", strings[1]);
         intent.putExtra("token", strings[2]);
