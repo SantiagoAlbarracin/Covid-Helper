@@ -143,7 +143,10 @@ public class User {
 
                 answer = new JSONObject(result);
                 result = answer.get("success").toString();
-                Log.i("debug666", "Se recibio " + result);
+                User.this.setToken(answer.get("token").toString());
+                User.this.setToken_refresh(answer.get("token_refresh").toString());
+
+                Log.i("debug666", "Se recibio " + answer.toString());
             } catch (JSONException | IOException e) {
                 e.printStackTrace();
             }
