@@ -106,7 +106,7 @@ public class User {
                 connection.setDoOutput(true);
                 connection.setDoInput(true);
                 connection.setConnectTimeout(5000);
-                connection.setRequestMethod("POST");
+                connection.setRequestMethod("PUT");
 
                 DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
                 dataOutputStream.write(strings[0].getBytes("UTF-8"));

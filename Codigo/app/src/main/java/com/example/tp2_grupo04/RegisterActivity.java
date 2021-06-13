@@ -140,11 +140,8 @@ public class RegisterActivity extends AppCompatActivity {
         protected Boolean doInBackground(String... objects) {
 
             if(VerifyRegisterFields()){
-
                 JSONObject object = new JSONObject();
-
                 try {
-
                     object.put("env", "PROD");
                     object.put("name", objects[0] );
                     object.put("lastname", objects[1]);
@@ -153,18 +150,13 @@ public class RegisterActivity extends AppCompatActivity {
                     object.put("password", objects[4]);
                     object.put("commission", Integer.valueOf(objects[5]));
                     object.put("group", Integer.valueOf(objects[6]));
-
                     Intent i = new Intent(RegisterActivity.this, ServiceHTTP_POST.class);
-
                     i.putExtra("uri", Utils.URI_REGISTER_USER);
                     i.putExtra("dataJSON", object.toString());
-
                     startService(i);
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 return true;
             }
             return false;

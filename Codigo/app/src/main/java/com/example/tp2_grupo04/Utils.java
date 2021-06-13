@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 public class Utils {
 
+
     public static final String URI_REGISTER_USER = "http://so-unlam.net.ar/api/api/register";
     public static final String URI_LOGIN_USER = "http://so-unlam.net.ar/api/api/login";
     public static final String URI_TOKEN_REFRESH = "http://so-unlam.net.ar/api/api/refresh";
