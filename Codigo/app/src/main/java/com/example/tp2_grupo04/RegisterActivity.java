@@ -19,8 +19,8 @@ import org.json.JSONObject;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private Button btnAccept;
-    private Button btnCancel;
+    public Button btnAccept;
+    public Button btnCancel;
     private EditText nameOrigin;
     private EditText lastnameOrigin;
     private EditText dniOrigin;
@@ -28,7 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText passwordOrigin;
     private EditText commissionOrigin;
     private EditText groupOrigin;
-    private ProgressBar progressBar;
+    public ProgressBar progressBar;
 
     public IntentFilter filter;
     private OperationReceptor receiver = new OperationReceptor();
@@ -84,10 +84,12 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void onClickAccept(View view){
-        new RegisterTask().execute(nameOrigin.getText().toString(), lastnameOrigin.getText().toString(),
-                dniOrigin.getText().toString(), emailOrigin.getText().toString(),
-                passwordOrigin.getText().toString(), commissionOrigin.getText().toString(),
-                groupOrigin.getText().toString());
+            if(verifyRegisterFields()){
+            new RegisterAsyncTask(RegisterActivity.this).execute(nameOrigin.getText().toString(), lastnameOrigin.getText().toString(),
+                    dniOrigin.getText().toString(), emailOrigin.getText().toString(),
+                    passwordOrigin.getText().toString(), commissionOrigin.getText().toString(),
+                    groupOrigin.getText().toString());
+        }
     }
 
     public void onClickCancel(View view){
@@ -97,75 +99,19 @@ public class RegisterActivity extends AppCompatActivity {
         finish();
     }
 
-
     private void configureBroadcastReceiver(){
         filter = new IntentFilter("com.example.httoconnection_intentservice.intent.action.RESPUESTA_OPERACION");
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(receiver, filter);
     }
 
-
-
-    class RegisterTask extends AsyncTask<String, Void, Boolean> {
-
-        private Intent intent;
-
-        @Override
-        protected void onPreExecute() {
-            progressBar.setVisibility(View.VISIBLE);
-            btnAccept.setEnabled(false);
-            btnCancel.setEnabled(false);
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-
-            progressBar.setVisibility(View.INVISIBLE);
-            btnAccept.setEnabled(true);
-            btnCancel.setEnabled(true);
-
-            if (aBoolean) {
-                Log.i("debug102", " El sv Respondio OK Register");
-                intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }else {
-                Log.i("debug102", " Fallo conexion con sv Register");
-
-            }
-
-        }
-
-        @Override
-        protected Boolean doInBackground(String... objects) {
-
-            if(VerifyRegisterFields()){
-                JSONObject object = new JSONObject();
-                try {
-                    object.put("env", "PROD");
-                    object.put("name", objects[0] );
-                    object.put("lastname", objects[1]);
-                    object.put("dni", Integer.valueOf(objects[2]));
-                    object.put("email", objects[3]);
-                    object.put("password", objects[4]);
-                    object.put("commission", Integer.valueOf(objects[5]));
-                    object.put("group", Integer.valueOf(objects[6]));
-                    Intent i = new Intent(RegisterActivity.this, ServiceHTTP_POST.class);
-                    i.putExtra("uri", Utils.URI_REGISTER_USER);
-                    i.putExtra("dataJSON", object.toString());
-                    startService(i);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                return true;
-            }
-            return false;
-        }
+    public void lanzarActivity(Class<?> tipoActividad) {
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
-
-
-    private boolean VerifyRegisterFields(){
+    private boolean verifyRegisterFields(){
         if (nameOrigin.getText().toString().matches("") || lastnameOrigin.getText().toString().matches("")
                 || dniOrigin.getText().toString().matches("") || emailOrigin.getText().toString().matches("")
                 || passwordOrigin.getText().toString().matches("") || commissionOrigin.getText().toString().matches("")
