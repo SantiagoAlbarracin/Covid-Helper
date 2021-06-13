@@ -15,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TP2_GRUPO04">
-        <activity android:name=".MainMenuActivity"></activity>
+        <activity android:name=".StepCounterActivity"></activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".AuthenticationActivity" />
         <activity android:name=".RegisterActivity" />

@@ -2,14 +2,12 @@ package com.example.tp2_grupo04;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -19,7 +17,7 @@ import java.text.DecimalFormat;
 
 import static java.lang.String.format;
 
-public class MainMenuActivity extends AppCompatActivity implements SensorEventListener {
+public class StepCounterActivity extends AppCompatActivity implements SensorEventListener {
 
     SensorManager sensorManager;
 
@@ -49,7 +47,7 @@ public class MainMenuActivity extends AppCompatActivity implements SensorEventLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_menu);
+        setContentView(R.layout.activity_step_counter);
 
         Intent intent2 = getIntent();
         Bundle extras = intent2.getExtras();
@@ -144,7 +142,7 @@ public class MainMenuActivity extends AppCompatActivity implements SensorEventLi
                         //Log.i("total Time",totalTime.toString());
                         tvSpeed.setText(String.valueOf(new DecimalFormat("#.##").format((double)(actualSteps-previousSteps)/seconds))+"p/s");
 
-                        Log.i("actual steps - previous steps", String.valueOf(actualSteps-previousSteps));
+                        Log.i("actual st - previous st", String.valueOf(actualSteps-previousSteps));
                         previousTime=actualTime;
                         previousSteps=actualSteps;
                     }
@@ -162,7 +160,6 @@ public class MainMenuActivity extends AppCompatActivity implements SensorEventLi
     public void onAccuracyChanged(Sensor sensor, int accuracy){
 
     }
-
 
     private void executeRefresh(String ... strings){
         User user = new User(strings[0], strings[1], strings[2], strings[3]);

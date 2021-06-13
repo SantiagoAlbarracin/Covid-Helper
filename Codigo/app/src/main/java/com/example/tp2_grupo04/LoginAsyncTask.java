@@ -100,7 +100,7 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean o) {
         if(o){
-            this.loginActivity.lanzarActivity(  MainMenuActivity.class, user.getEmail(), user.getPassword(),
+            this.loginActivity.lanzarActivity(  StepCounterActivity.class, user.getEmail(), user.getPassword(),
                                                 user.getToken(), user.getToken_refresh() );
         }
         else{

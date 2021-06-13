@@ -2,30 +2,17 @@ package com.example.tp2_grupo04;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -114,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void lanzarActivity(Class<?> tipoActividad, String... strings) {
-        Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
+        Intent intent = new Intent(LoginActivity.this, StepCounterActivity.class);
         intent.putExtra("email", strings[0]);
         intent.putExtra("password", strings[1]);
         intent.putExtra("token", strings[2]);
