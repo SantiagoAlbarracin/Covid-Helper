@@ -26,6 +26,6 @@
     <string name="etiq_speed">Velocidad</string>
     <string name="etiq_advice">Consejos</string>
     <string name="etiq_active_time">Tiempo Activo</string>
-    <string name="button_start_step_counter">Activar contador de pasos</string>
+    <string name="button_start_step_counter">Reiniciar</string>
 
 </resources>
