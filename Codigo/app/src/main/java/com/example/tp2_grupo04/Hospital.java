@@ -4,13 +4,19 @@ public class Hospital {
     private String name;
     private String address;
     private String telephone;
-    private String coordinates;
+    private Double latitude;
+    private Double longitude;
 
     public Hospital(String name, String address, String telephone, String coordinates) {
         this.name = name;
         this.address = address;
         this.telephone = telephone;
-        this.coordinates = coordinates;
+        coordinates = coordinates.replace("[","");
+        coordinates = coordinates.replace("]","");
+
+        String[] parts = coordinates.split(",");
+        this.latitude = Double.valueOf(parts[0]);
+        this.longitude = Double.valueOf(parts[1]);
     }
 
     public void setName(String name) {
@@ -25,8 +31,12 @@ public class Hospital {
         this.telephone = telephone;
     }
 
-    public void setGeolocation(String coordinates) {
-        this.coordinates = coordinates;
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     public String getName() {
@@ -41,8 +51,12 @@ public class Hospital {
         return telephone;
     }
 
-    public String getGeolocation() {
-        return coordinates;
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
     }
 
     @Override
@@ -51,7 +65,8 @@ public class Hospital {
                 "name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", telephone='" + telephone + '\'' +
-                ", geolocation='" + coordinates + '\'' +
+                ", latitude='" + latitude.toString() + '\'' +
+                ", longitude='" + longitude.toString() + '\'' +
                 '}';
     }
 }

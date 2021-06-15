@@ -21,18 +21,21 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 
 public class DiagnosisActivity extends AppCompatActivity {
 
     private JSONArray jsonArray;
     private HashMap<Integer, Hospital> hospitalsArray;
+    private TreeMap<Double, Hospital> distancesArray;
+
     private Button btnLocation;
 
     private FusedLocationProviderClient fusedLocationProviderClient;
 
-    private Double lat;
-    private Double lon;
+    public Double lat;
+    public Double lon;
 
 
     @Override
@@ -45,11 +48,27 @@ public class DiagnosisActivity extends AppCompatActivity {
 
 
         generateHospitals();
-        recorrerMap();
+
         getLocation();
 
     }
 
+    private void calculateDistances(Double lat, Double lon){
+
+        distancesArray = new TreeMap<Double, Hospital>();
+
+        for (HashMap.Entry<Integer, Hospital> entry : hospitalsArray.entrySet()) {
+            Integer key = entry.getKey();
+            Hospital value = entry.getValue();
+
+            Double distancia = (double) distance(value.getLatitude(),value.getLongitude(), lat, lon);
+
+            distancesArray.put(distancia, value);
+
+            //Log.i("debug38", "Distancia al " + value.getName() + " " + distancia.toString());
+        }
+
+    }
 
     private void getLocation(){
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ){
@@ -58,9 +77,11 @@ public class DiagnosisActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Location location) {
                             if(location != null){
-                                lat = location.getLatitude();
-                                lon = location.getLongitude();
-                                Log.i("debug999", "Lat: " + lat.toString() + " Lon: " + lon.toString());
+                                DiagnosisActivity.this.lat = location.getLatitude();
+                                DiagnosisActivity.this.lon = location.getLongitude();
+                                Log.i("debug999", "Lat: " + DiagnosisActivity.this.lat.toString() + " Lon: " + DiagnosisActivity.this.lon.toString());
+                                calculateDistances(DiagnosisActivity.this.lon, DiagnosisActivity.this.lat);
+                                recorrerMap();
                             }
                         }
                     });
@@ -70,12 +91,14 @@ public class DiagnosisActivity extends AppCompatActivity {
 
     //Esta se va. Es para probar
     public void recorrerMap() {
-        for (HashMap.Entry<Integer, Hospital> entry : hospitalsArray.entrySet()) {
-            Integer key = entry.getKey();
+        for (TreeMap.Entry<Double, Hospital> entry : distancesArray.entrySet()) {
+            Double key = entry.getKey();
             Hospital value = entry.getValue();
-            Log.i("debug38", "Posicion " + key.toString() + ": " + value.toString());
+           // Log.i("debug38", "Posicion " + key.toString() + ": " + value.toString());
         }
+        Log.i("debug38", "Hospital mas cercano: " + distancesArray.firstEntry().toString());
     }
+
 
 
     public void generateHospitals() {
@@ -122,7 +145,7 @@ public class DiagnosisActivity extends AppCompatActivity {
     }
 
 
-    public double calculateDistance(double lat1, double lng1, double lat2, double lng2) {
+    public double distance(double lat1, double lng1, double lat2, double lng2) {
 
         double earthRad = 6371;//en kilómetros
         double dLat = Math.toRadians(lat2 - lat1);
