@@ -95,16 +95,12 @@
 
   <TextView
       android:id="@+id/textView16"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_width="178dp"
+      android:layout_height="18dp"
       android:layout_marginStart="16dp"
       android:layout_marginLeft="16dp"
       android:layout_marginTop="20dp"
-      android:layout_marginEnd="16dp"
-      android:layout_marginRight="16dp"
       android:text="@string/etiq_diag_p6"
-      app:layout_constraintEnd_toStartOf="@+id/radioButton14"
-      app:layout_constraintHorizontal_bias="0.0"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
@@ -195,13 +191,17 @@
   <RadioButton
       android:id="@+id/radioButton14"
       style="@style/diag_radio_button2"
-      android:layout_width="62dp"
-      android:layout_height="40dp"
+      android:layout_width="61dp"
+      android:layout_height="37dp"
+      android:layout_marginStart="16dp"
+      android:layout_marginLeft="16dp"
       android:layout_marginTop="12dp"
-      android:layout_marginEnd="40dp"
-      android:layout_marginRight="40dp"
+      android:layout_marginEnd="16dp"
+      android:layout_marginRight="16dp"
       android:text="@string/etiq_diag_p6_r1"
       app:layout_constraintEnd_toStartOf="@+id/radioButton_15"
+      app:layout_constraintHorizontal_bias="0.272"
+      app:layout_constraintStart_toEndOf="@+id/textView16"
       app:layout_constraintTop_toBottomOf="@+id/radioButton12" />
 
   <RadioButton
@@ -292,11 +292,11 @@
   <RadioButton
       android:id="@+id/radioButton_15"
       style="@style/diag_radio_button2"
-      android:layout_width="47dp"
-      android:layout_height="41dp"
+      android:layout_width="51dp"
+      android:layout_height="37dp"
       android:layout_marginTop="16dp"
-      android:layout_marginEnd="44dp"
-      android:layout_marginRight="44dp"
+      android:layout_marginEnd="40dp"
+      android:layout_marginRight="40dp"
       android:text="@string/etiq_diag_p6_r2"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/radioButton13" />

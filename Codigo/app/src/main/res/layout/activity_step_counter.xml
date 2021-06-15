@@ -8,16 +8,12 @@
 
     <TextView
         android:id="@+id/textViewSteps"
-        android:layout_width="126dp"
-        android:layout_height="26dp"
-        android:layout_marginStart="142dp"
-        android:layout_marginLeft="142dp"
+        android:layout_width="267dp"
+        android:layout_height="25dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="142dp"
-        android:layout_marginRight="142dp"
-        android:layout_marginBottom="16dp"
+        android:gravity="center_horizontal|center_vertical"
         android:text="@string/etiq_steps"
-        app:layout_constraintBottom_toTopOf="@+id/textViewSteps2"
+        app:flow_horizontalAlign="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,23 +22,27 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="36dp"
         android:onClick="onClickRestart"
         android:text="@string/button_start_step_counter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnBack" />
 
     <TextView
         android:id="@+id/textViewSteps2"
         android:layout_width="127dp"
         android:layout_height="114dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_horizontal|center_vertical"
         android:text="TextView"
         android:textSize="34sp"
         app:flow_horizontalAlign="center"
         app:flow_verticalAlign="center"
-        app:layout_constraintBottom_toTopOf="@+id/textViewSpeed2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewSteps" />
 
@@ -50,105 +50,118 @@
         android:id="@+id/textViewSpeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
-        android:layout_marginLeft="72dp"
-        android:layout_marginBottom="65dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="84dp"
         android:text="@string/etiq_speed"
-        app:layout_constraintBottom_toTopOf="@+id/textViewActiveTime"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSteps2" />
 
     <TextView
         android:id="@+id/textViewSpeed2"
         android:layout_width="95dp"
         android:layout_height="43dp"
-        android:layout_marginEnd="72dp"
-        android:layout_marginRight="72dp"
-        android:text="TextView"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center_horizontal|center_vertical"
         android:textSize="24sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textViewSpeed"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toEndOf="@+id/textViewSpeed"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSteps2" />
 
     <TextView
         android:id="@+id/textViewActiveTime2"
         android:layout_width="95dp"
         android:layout_height="43dp"
-        android:layout_marginEnd="72dp"
-        android:layout_marginRight="72dp"
-        android:text="TextView"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center_horizontal|center_vertical"
         android:textSize="24sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textViewActiveTime"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.41"
+        app:layout_constraintStart_toEndOf="@+id/textViewActiveTime"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSpeed2" />
 
     <TextView
         android:id="@+id/textViewActiveTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
-        android:layout_marginLeft="72dp"
-        android:layout_marginBottom="62dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="60dp"
         android:text="@string/etiq_active_time"
-        app:layout_constraintBottom_toTopOf="@+id/textViewDistance"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSpeed" />
 
     <TextView
         android:id="@+id/textViewDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
-        android:layout_marginLeft="72dp"
-        android:layout_marginBottom="75dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="76dp"
         android:text="@string/etiq_distance"
-        app:layout_constraintBottom_toTopOf="@+id/textViewAdvices"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewActiveTime" />
 
     <TextView
         android:id="@+id/textViewDistance2"
         android:layout_width="95dp"
         android:layout_height="43dp"
-        android:layout_marginEnd="72dp"
-        android:layout_marginRight="72dp"
-        android:text="TextView"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center_horizontal|center_vertical"
         android:textSize="24sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textViewDistance"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textViewDistance"
+        app:layout_constraintTop_toBottomOf="@+id/textViewActiveTime2" />
 
     <TextView
         android:id="@+id/textViewAdvices2"
         android:layout_width="229dp"
         android:layout_height="21dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginBottom="127dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center_horizontal|center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.565"
+        app:layout_constraintStart_toEndOf="@+id/textViewAdvices"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDistance2" />
 
     <TextView
         android:id="@+id/textViewAdvices"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="64dp"
         android:text="@string/etiq_advice"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textViewAdvices2"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDistance" />
 
     <Button
         android:id="@+id/btnBack"
         android:layout_width="108dp"
         android:layout_height="49dp"
-        android:layout_marginStart="153dp"
-        android:layout_marginLeft="153dp"
-        android:layout_marginTop="598dp"
-        android:layout_marginEnd="150dp"
-        android:layout_marginRight="150dp"
-        android:layout_marginBottom="84dp"
+        android:layout_marginTop="36dp"
         android:hint="@string/button_back_step_counter"
         android:onClick="onClickBack"
         android:text="@string/button_back_step_counter"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewAdvices2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
