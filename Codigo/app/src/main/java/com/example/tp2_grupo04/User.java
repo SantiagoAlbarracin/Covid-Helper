@@ -1,5 +1,6 @@
 package com.example.tp2_grupo04;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
