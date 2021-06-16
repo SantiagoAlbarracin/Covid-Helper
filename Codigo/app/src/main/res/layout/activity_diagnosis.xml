@@ -397,18 +397,6 @@
                 android:layout_height="wrap_content">
 
                 <Button
-                    android:id="@+id/btnDiagSend"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginRight="40dp"
-                    android:text="@string/button_cancel"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <Button
                     android:id="@+id/btnDiagCancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -416,6 +404,20 @@
                     android:layout_marginLeft="40dp"
                     android:layout_marginEnd="40dp"
                     android:layout_marginRight="40dp"
+                    android:onClick="onClickCancel"
+                    android:text="@string/button_cancel"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <Button
+                    android:id="@+id/btnDiagSend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginRight="40dp"
+                    android:onClick="onClickSend"
                     android:text="@string/button_send"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />

@@ -1,11 +1,15 @@
 package com.example.tp2_grupo04;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 
@@ -45,9 +49,10 @@ public class DiagnosisActivity extends AppCompatActivity {
     private CheckBox cbLowDefence;
     private CheckBox cbHeartDisease;
     private CheckBox cbRespiratoryDisease;
+    private Button btnCancel;
+    private Button btnSend;
 
-
-
+    private AlertDialog alertDialog;
 
 
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -76,10 +81,12 @@ public class DiagnosisActivity extends AppCompatActivity {
         cbLowDefence = (CheckBox) findViewById(R.id.checkBox5);
         cbHeartDisease = (CheckBox) findViewById(R.id.checkBox2);
         cbRespiratoryDisease = (CheckBox) findViewById(R.id.checkBox);
+        btnCancel = (Button) findViewById(R.id.btnDiagCancel);
+        btnSend = (Button) findViewById(R.id.btnDiagSend);
 
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
-       fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
+        alertDialog = new AlertDialog.Builder(DiagnosisActivity.this).create();
 
         generateHospitals();
 
@@ -87,7 +94,42 @@ public class DiagnosisActivity extends AppCompatActivity {
 
     }
 
-    private void calculateDistances(Double lat, Double lon){
+    private boolean allRadiosChecked() {
+        if (!btnTempHigh.isChecked() && !btnTempLow.isChecked()) {
+            return false;
+        }
+        if (!btnYesHeadMuscleAche.isChecked() && !btnNoHeadMuscleAche.isChecked()) {
+            return false;
+        }
+        if (!btnYesCoughSoreThroat.isChecked() && !btnNoCoughSoreThroat.isChecked()) {
+            return false;
+        }
+        if (!btnYesRespiratoryDistress.isChecked() && !btnNoRespiratoryDistress.isChecked()) {
+            return false;
+        }
+        if (!btnYesSmellTaste.isChecked() && !btnNoSmellTaste.isChecked()) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean hasRiskFactor() {
+        if (cbDiabetes.isChecked() || cbLowDefence.isChecked() || cbHeartDisease.isChecked() ||
+                cbRespiratoryDisease.isChecked()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean hasCovid() {
+        if (btnTempHigh.isChecked() || btnYesHeadMuscleAche.isChecked() || btnYesCoughSoreThroat.isChecked() ||
+                btnYesRespiratoryDistress.isChecked() || btnYesSmellTaste.isChecked()) {
+            return true;
+        }
+        return false;
+    }
+
+    private void calculateDistances(Double lat, Double lon) {
 
         distancesArray = new TreeMap<Double, Hospital>();
 
@@ -95,7 +137,7 @@ public class DiagnosisActivity extends AppCompatActivity {
             Integer key = entry.getKey();
             Hospital value = entry.getValue();
 
-            Double distancia = (double) distance(value.getLatitude(),value.getLongitude(), lat, lon);
+            Double distancia = (double) distance(value.getLatitude(), value.getLongitude(), lat, lon);
 
             distancesArray.put(distancia, value);
 
@@ -104,25 +146,25 @@ public class DiagnosisActivity extends AppCompatActivity {
 
     }
 
-    private void getLocation(){
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ){
-                if(getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+    private void getLocation() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
 
-                    fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if(location != null){
-                                DiagnosisActivity.this.lat = location.getLatitude();
-                                DiagnosisActivity.this.lon = location.getLongitude();
-                                Log.i("debug999", "Lat: " + DiagnosisActivity.this.lat.toString() + " Lon: " + DiagnosisActivity.this.lon.toString());
-                                calculateDistances(DiagnosisActivity.this.lon, DiagnosisActivity.this.lat);
-                                recorrerMap();
-                            }
+                fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            DiagnosisActivity.this.lat = location.getLatitude();
+                            DiagnosisActivity.this.lon = location.getLongitude();
+                            Log.i("debug999", "Lat: " + DiagnosisActivity.this.lat.toString() + " Lon: " + DiagnosisActivity.this.lon.toString());
+                            calculateDistances(DiagnosisActivity.this.lon, DiagnosisActivity.this.lat);
+                            recorrerMap();
                         }
-                    });
-                }
+                    }
+                });
             }
+        }
     }
 
     //Esta se va. Es para probar
@@ -130,11 +172,10 @@ public class DiagnosisActivity extends AppCompatActivity {
         for (TreeMap.Entry<Double, Hospital> entry : distancesArray.entrySet()) {
             Double key = entry.getKey();
             Hospital value = entry.getValue();
-           // Log.i("debug38", "Posicion " + key.toString() + ": " + value.toString());
+            // Log.i("debug38", "Posicion " + key.toString() + ": " + value.toString());
         }
         Log.i("debug38", "Hospital mas cercano: " + distancesArray.firstEntry().toString());
     }
-
 
 
     public void generateHospitals() {
@@ -196,8 +237,33 @@ public class DiagnosisActivity extends AppCompatActivity {
         return distance;
     }
 
-    private void diagnosis(){
+    public void onClickCancel(View view) {
 
     }
 
+    public void onClickSend(View view) {
+        if (!allRadiosChecked()) {
+            setAlertText("Error!", "Por favor complete todos los campos");
+        }
+        if (hasCovid()) {
+            if (hasRiskFactor()) {
+                setAlertText("Alerta!", "Usted tiene Covid y es de riesgo");
+            } else {
+                setAlertText("Alerta!", "Usted tiene Covid");
+            }
+        }
+    }
+
+    public void setAlertText(String title, String message) {
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+
+    }
 }
