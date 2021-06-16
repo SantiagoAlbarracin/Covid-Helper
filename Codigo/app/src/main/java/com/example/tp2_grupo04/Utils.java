@@ -13,6 +13,7 @@ public class Utils {
     public static final String URI_REGISTER_USER = "http://so-unlam.net.ar/api/api/register";
     public static final String URI_LOGIN_USER = "http://so-unlam.net.ar/api/api/login";
     public static final String URI_TOKEN_REFRESH = "http://so-unlam.net.ar/api/api/refresh";
+    public static final String URI_REGISTER_EVENT = "http://so-unlam.net.ar/api/api/event";
 
     public Integer getBand(){
         return this.band;

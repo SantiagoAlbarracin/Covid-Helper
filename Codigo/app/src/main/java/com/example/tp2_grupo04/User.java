@@ -1,6 +1,5 @@
 package com.example.tp2_grupo04;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
@@ -12,11 +11,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
+
 
 public class User {
 
@@ -24,6 +22,7 @@ public class User {
     private String password;
     private String token;
     private String token_refresh;
+
 
     public User(String email, String password, String token, String token_refresh) {
         this.email = email;
@@ -96,7 +95,9 @@ public class User {
         protected Boolean doInBackground(String... strings) {
             JSONObject answer;
             String result;
-
+            if (!Utils.isInternetAvailable()) {
+                return false;
+            }
             try {
 
                 url = new URL(Utils.URI_TOKEN_REFRESH);
@@ -180,6 +181,6 @@ public class User {
 
         //timer.schedule(task, 0, 30*60*1000);
         timer.schedule(task, 0, 30*1000);
-
     }
+
 }
