@@ -1,11 +1,10 @@
 package com.example.tp2_grupo04;
 
-import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.os.Build;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,8 +15,6 @@ import android.widget.RadioButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,9 +28,7 @@ import java.util.TreeMap;
 
 public class DiagnosisActivity extends AppCompatActivity {
 
-    private JSONArray jsonArray;
-    private HashMap<Integer, Hospital> hospitalsArray;
-    private TreeMap<Double, Hospital> distancesArray;
+
 
     private RadioButton btnTempHigh;
     private RadioButton btnTempLow;
@@ -52,13 +47,16 @@ public class DiagnosisActivity extends AppCompatActivity {
     private Button btnCancel;
     private Button btnSend;
 
+
     private AlertDialog alertDialog;
 
-
+    private SharedPreferences sp;
+    private JSONArray jsonArray;
+    private HashMap<Integer, Hospital> hospitalsArray;
+    private TreeMap<Double, Hospital> distancesArray;
     private FusedLocationProviderClient fusedLocationProviderClient;
-
-    public Double lat = 1.0;
-    public Double lon = 1.0;
+    private Double lat = 1.0;
+    private Double lon = 1.0;
 
 
     @Override
@@ -84,13 +82,20 @@ public class DiagnosisActivity extends AppCompatActivity {
         btnCancel = (Button) findViewById(R.id.btnDiagCancel);
         btnSend = (Button) findViewById(R.id.btnDiagSend);
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
 
         alertDialog = new AlertDialog.Builder(DiagnosisActivity.this).create();
 
+        sp = this.getSharedPreferences("UserLocation", Context.MODE_PRIVATE);
+        String latitudeSP = sp.getString("Latitude", null);
+        String longitudeSP = sp.getString("Longitude", null);
+
         generateHospitals();
 
-        getLocation();
+        calculateDistances(Double.valueOf(longitudeSP), Double.valueOf(latitudeSP));
+        recorrerMap();
+
+        Log.i("debug999", "OAAA Lei de SP: " + latitudeSP + " " + longitudeSP);
 
     }
 
@@ -129,42 +134,37 @@ public class DiagnosisActivity extends AppCompatActivity {
         return false;
     }
 
-    private void calculateDistances(Double lat, Double lon) {
 
-        distancesArray = new TreeMap<Double, Hospital>();
-
-        for (HashMap.Entry<Integer, Hospital> entry : hospitalsArray.entrySet()) {
-            Integer key = entry.getKey();
-            Hospital value = entry.getValue();
-
-            Double distancia = (double) distance(value.getLatitude(), value.getLongitude(), lat, lon);
-
-            distancesArray.put(distancia, value);
-
-            //Log.i("debug38", "Distancia al " + value.getName() + " " + distancia.toString());
-        }
-
+    public void onClickCancel(View view) {
+        Intent intent = new Intent(DiagnosisActivity.this, MenuActivity.class);
+        startActivity(intent);
+        finish();
     }
 
-    private void getLocation() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-
-                fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            DiagnosisActivity.this.lat = location.getLatitude();
-                            DiagnosisActivity.this.lon = location.getLongitude();
-                            Log.i("debug999", "Lat: " + DiagnosisActivity.this.lat.toString() + " Lon: " + DiagnosisActivity.this.lon.toString());
-                            calculateDistances(DiagnosisActivity.this.lon, DiagnosisActivity.this.lat);
-                            recorrerMap();
-                        }
-                    }
-                });
+    public void onClickSend(View view) {
+        if (!allRadiosChecked()) {
+            setAlertText("Error!", "Por favor complete todos los campos");
+        }
+        if (hasCovid()) {
+            if (hasRiskFactor()) {
+                setAlertText("Alerta!", "Usted tiene Covid y es de riesgo");
+            } else {
+                setAlertText("Alerta!", "Usted tiene Covid");
             }
         }
+    }
+
+    public void setAlertText(String title, String message) {
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+
     }
 
     //Esta se va. Es para probar
@@ -175,6 +175,16 @@ public class DiagnosisActivity extends AppCompatActivity {
             // Log.i("debug38", "Posicion " + key.toString() + ": " + value.toString());
         }
         Log.i("debug38", "Hospital mas cercano: " + distancesArray.firstEntry().toString());
+    }
+
+    private void calculateDistances(Double lat, Double lon) {
+        distancesArray = new TreeMap<Double, Hospital>();
+        for (HashMap.Entry<Integer, Hospital> entry : hospitalsArray.entrySet()) {
+            Integer key = entry.getKey();
+            Hospital value = entry.getValue();
+            Double distancia = (double) distance(value.getLatitude(), value.getLongitude(), lat, lon);
+            distancesArray.put(distancia, value);
+        }
     }
 
 
@@ -235,35 +245,5 @@ public class DiagnosisActivity extends AppCompatActivity {
         double distance = earthRad * va2;
 
         return distance;
-    }
-
-    public void onClickCancel(View view) {
-
-    }
-
-    public void onClickSend(View view) {
-        if (!allRadiosChecked()) {
-            setAlertText("Error!", "Por favor complete todos los campos");
-        }
-        if (hasCovid()) {
-            if (hasRiskFactor()) {
-                setAlertText("Alerta!", "Usted tiene Covid y es de riesgo");
-            } else {
-                setAlertText("Alerta!", "Usted tiene Covid");
-            }
-        }
-    }
-
-    public void setAlertText(String title, String message) {
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
-
     }
 }
