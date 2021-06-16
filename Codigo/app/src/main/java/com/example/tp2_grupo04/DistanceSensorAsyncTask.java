@@ -3,9 +3,6 @@ package com.example.tp2_grupo04;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.tp2_grupo04.LoginActivity;
-import com.example.tp2_grupo04.MenuActivity;
-
 public class DistanceSensorAsyncTask extends AsyncTask<Void, Void, Boolean>  {
 
 

@@ -6,7 +6,8 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.RadioButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,7 +31,24 @@ public class DiagnosisActivity extends AppCompatActivity {
     private HashMap<Integer, Hospital> hospitalsArray;
     private TreeMap<Double, Hospital> distancesArray;
 
-    private Button btnLocation;
+    private RadioButton btnTempHigh;
+    private RadioButton btnTempLow;
+    private RadioButton btnYesHeadMuscleAche;
+    private RadioButton btnNoHeadMuscleAche;
+    private RadioButton btnYesCoughSoreThroat;
+    private RadioButton btnNoCoughSoreThroat;
+    private RadioButton btnYesRespiratoryDistress;
+    private RadioButton btnNoRespiratoryDistress;
+    private RadioButton btnYesSmellTaste;
+    private RadioButton btnNoSmellTaste;
+    private CheckBox cbDiabetes;
+    private CheckBox cbLowDefence;
+    private CheckBox cbHeartDisease;
+    private CheckBox cbRespiratoryDisease;
+
+
+
+
 
     private FusedLocationProviderClient fusedLocationProviderClient;
 
@@ -42,7 +60,23 @@ public class DiagnosisActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diagnosis);
-        btnLocation = (Button) findViewById(R.id.btnLocation);
+
+
+        btnTempHigh = (RadioButton) findViewById(R.id.radioButton4);
+        btnTempLow = (RadioButton) findViewById(R.id.radioButton2);
+        btnYesHeadMuscleAche = (RadioButton) findViewById(R.id.radioButton11);
+        btnNoHeadMuscleAche = (RadioButton) findViewById(R.id.radioButton_p2_r1);
+        btnYesCoughSoreThroat = (RadioButton) findViewById(R.id.radioButton13);
+        btnNoCoughSoreThroat = (RadioButton) findViewById(R.id.radioButton10);
+        btnYesRespiratoryDistress = (RadioButton) findViewById(R.id.radioButton9);
+        btnNoRespiratoryDistress = (RadioButton) findViewById(R.id.radioButton12);
+        btnYesSmellTaste = (RadioButton) findViewById(R.id.radioButton_15);
+        btnNoSmellTaste = (RadioButton) findViewById(R.id.radioButton8);
+        cbDiabetes = (CheckBox) findViewById(R.id.checkBox3);
+        cbLowDefence = (CheckBox) findViewById(R.id.checkBox5);
+        cbHeartDisease = (CheckBox) findViewById(R.id.checkBox2);
+        cbRespiratoryDisease = (CheckBox) findViewById(R.id.checkBox);
+
 
        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -162,5 +196,8 @@ public class DiagnosisActivity extends AppCompatActivity {
         return distance;
     }
 
+    private void diagnosis(){
+
+    }
 
 }
