@@ -1,7 +1,5 @@
 package com.example.tp2_grupo04;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -35,17 +33,7 @@ public class RegisterAsyncTask extends AsyncTask<String, Void, Boolean> {
         String result;
         if (!Utils.isInternetAvailable()) {
             internetConnection = false;
-            AlertDialog alertDialog = new AlertDialog.Builder(this.registerActivity).create();
-            alertDialog.setTitle("Error de conexion");
-            alertDialog.setMessage("Debe conectarse a internet e intentar nuevamente");
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
-
+            this.registerActivity.setAlertText("Error de conexion!", "Debe conectarse a internet e intentar nuevamente");
             return false;
         }
         internetConnection = true;

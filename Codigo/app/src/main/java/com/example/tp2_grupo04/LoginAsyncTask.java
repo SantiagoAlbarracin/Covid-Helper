@@ -1,7 +1,5 @@
 package com.example.tp2_grupo04;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -32,16 +30,7 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
         JSONObject object = new JSONObject();
         String result = null;
         if (!Utils.isInternetAvailable()) {
-            AlertDialog alertDialog = new AlertDialog.Builder(this.loginActivity).create();
-            alertDialog.setTitle("Error de conexion");
-            alertDialog.setMessage("Debe conectarse a internet e intentar nuevamente");
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
+            this.loginActivity.setAlertText("Error de conexion!", "Debe conectarse a internet e intentar nuevamente");
             internetConnection = false;
             return false;
         }
