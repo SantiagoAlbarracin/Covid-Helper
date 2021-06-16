@@ -20,8 +20,8 @@ public class RegisterAsyncTask extends AsyncTask<String, Void, Boolean> {
 
     private RegisterActivity registerActivity;
     private User user;
-    private Boolean registerSucces;
-    private Boolean internetConnection;
+    private Boolean registerSucces=false;
+    private Boolean internetConnection=false;
 
     public RegisterAsyncTask(RegisterActivity registerActivity) {
         this.registerActivity = registerActivity;
@@ -33,7 +33,7 @@ public class RegisterAsyncTask extends AsyncTask<String, Void, Boolean> {
         String result;
         if (!Utils.isInternetAvailable()) {
             internetConnection = false;
-            this.registerActivity.setAlertText("Error de conexion!", "Debe conectarse a internet e intentar nuevamente");
+
             return false;
         }
         internetConnection = true;
@@ -130,6 +130,9 @@ public class RegisterAsyncTask extends AsyncTask<String, Void, Boolean> {
         } else {
             if (!registerSucces && internetConnection) {
                 this.registerActivity.setAlertText("Error de Registro!", "Error al registrar, intente nuevamente.");
+            }
+            if(!internetConnection){
+                this.registerActivity.setAlertText("Error de conexion!", "Debe conectarse a internet e intentar nuevamente");
             }
             this.registerActivity.progressBar.setVisibility(View.INVISIBLE);
             this.registerActivity.btnAccept.setEnabled(true);

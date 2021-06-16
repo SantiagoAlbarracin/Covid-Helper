@@ -17,8 +17,8 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
 
     private LoginActivity loginActivity;
     private User user;
-    private Boolean loginSucces;
-    private Boolean internetConnection;
+    private Boolean loginSucces=false;
+    private Boolean internetConnection=false;
 
     public LoginAsyncTask(LoginActivity loginActivity) {
         this.loginActivity = loginActivity;
@@ -30,7 +30,6 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
         JSONObject object = new JSONObject();
         String result = null;
         if (!Utils.isInternetAvailable()) {
-            this.loginActivity.setAlertText("Error de conexion!", "Debe conectarse a internet e intentar nuevamente");
             internetConnection = false;
             return false;
         }
@@ -120,6 +119,9 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
         } else {
             if (!loginSucces && internetConnection) {
                 this.loginActivity.setAlertText("Error de Logueo!", "Mail y Contraseña no validos.");
+            }
+            if (!internetConnection){
+                this.loginActivity.setAlertText("Error de conexion!", "Debe conectarse a internet e intentar nuevamente");
             }
             this.loginActivity.progressBar.setVisibility(View.INVISIBLE);
             this.loginActivity.btnLogin.setEnabled(true);
