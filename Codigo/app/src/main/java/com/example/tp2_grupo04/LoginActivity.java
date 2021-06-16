@@ -1,7 +1,7 @@
 package com.example.tp2_grupo04;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
@@ -28,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private String result;
 
+    private AlertDialog alertDialog;
 
     public Boolean loginResponse = false;
 
@@ -55,6 +58,9 @@ public class LoginActivity extends AppCompatActivity {
         etiqWrongPass.setVisibility(View.GONE);
         etiqWrongEmail.setVisibility(View.GONE);
         etiqEmpty.setVisibility(View.GONE);
+
+        alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
+
     }
 
     @Override
@@ -112,18 +118,31 @@ public class LoginActivity extends AppCompatActivity {
 
     public boolean checkFields(){
         if(loginEmail.getText().toString().matches("") || loginPassword.getText().toString().matches("") ) {
-            //etiqEmpty.setVisibility(View.VISIBLE);
+            setAlertText("Error de Logueo!", "Debe completar todos los campos.");
             return false;
         }else if (!Utils.validate(loginEmail.getText().toString())) {
-            //etiqWrongEmail.setVisibility(View.VISIBLE);
+            setAlertText("Error de Logueo!", "Debe ingresar un mail valido.");
             return false;
 
         } else if (loginPassword.getText().toString().length() < 8){
-            //etiqWrongPass.setVisibility(View.VISIBLE);
+            setAlertText("Error de Logueo!", "Debe ingresar una contraseña valida.");
             return false;
         }
         return true;
 
+    }
+
+
+    public void setAlertText(String title, String message){
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 
 }

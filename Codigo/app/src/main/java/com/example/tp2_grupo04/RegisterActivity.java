@@ -1,20 +1,16 @@
 package com.example.tp2_grupo04;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import androidx.appcompat.app.AppCompatActivity;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -29,6 +25,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText commissionOrigin;
     private EditText groupOrigin;
     public ProgressBar progressBar;
+
+    private AlertDialog alertDialog;
 
     public IntentFilter filter;
     private OperationReceptor receiver = new OperationReceptor();
@@ -49,6 +47,8 @@ public class RegisterActivity extends AppCompatActivity {
         commissionOrigin=(EditText)findViewById(R.id.editTextCommission);
         groupOrigin=(EditText)findViewById(R.id.editTextGroup);
         progressBar = (ProgressBar) findViewById(R.id.progressBarReg);
+
+        alertDialog = new AlertDialog.Builder(RegisterActivity.this).create();
 
         configureBroadcastReceiver();
     }
@@ -117,15 +117,31 @@ public class RegisterActivity extends AppCompatActivity {
                 || passwordOrigin.getText().toString().matches("") || commissionOrigin.getText().toString().matches("")
                 || groupOrigin.getText().toString().matches("")
         ) {
+            setAlertText("Error de Registro!", "Debe completar todos los campos.");
             return false;
         } else if (!Utils.validate(emailOrigin.getText().toString())) {
+            setAlertText("Error de Registro!", "Debe ingresar un mail valido.");
             return false;
         } else if (passwordOrigin.getText().toString().length() < 8){
+            setAlertText("Error de Registro!", "Debe ingresar una contraseña de 8 caracteres o más.");
             return false;
-        } else if(dniOrigin.getText().toString().length() < 8){
+        } else if(dniOrigin.getText().toString().length() < 7){
+            setAlertText("Error de Registro!", "Debe ingresar un DNI valido.");
             return false;
         }
         return true;
     }
 
+
+    public void setAlertText(String title, String message){
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
 }

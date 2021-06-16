@@ -1,5 +1,7 @@
 package com.example.tp2_grupo04;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +19,8 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
 
     private LoginActivity loginActivity;
     private User user;
+    private Boolean loginSucces;
+    private Boolean internetConnection;
 
     public LoginAsyncTask(LoginActivity loginActivity) {
         this.loginActivity = loginActivity;
@@ -27,8 +31,22 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
         JSONObject answer = null;
         JSONObject object = new JSONObject();
         String result = null;
-
+        if (!Utils.isInternetAvailable()) {
+            AlertDialog alertDialog = new AlertDialog.Builder(this.loginActivity).create();
+            alertDialog.setTitle("Error de conexion");
+            alertDialog.setMessage("Debe conectarse a internet e intentar nuevamente");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+            internetConnection = false;
+            return false;
+        }
         try {
+            internetConnection = true;
             object.put("email", strings[0]);
             object.put("password", strings[1]);
 
@@ -55,15 +73,20 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream());
                 result = Utils.convertInputStreamToString(inputStreamReader).toString();
+                loginSucces = true;
 
             } else if (responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
 
                 InputStreamReader inputStreamReader = new InputStreamReader(connection.getErrorStream());
                 result = Utils.convertInputStreamToString(inputStreamReader).toString();
+                loginSucces = false;
 
             } else {
                 result = "NOT_OK";
+                loginSucces = false;
+
             }
+            Log.i("debug83", "Me contestó " + result);
 
             dataOutputStream.close();
             connection.disconnect();
@@ -99,21 +122,23 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
 
     @Override
     protected void onPostExecute(Boolean o) {
-        if(o){
-            this.loginActivity.lanzarActivity(  user.getEmail(), user.getPassword(),
-                                                user.getToken(), user.getToken_refresh() );
+        if (o) {
+            this.loginActivity.lanzarActivity(user.getEmail(), user.getPassword(),
+                    user.getToken(), user.getToken_refresh());
 
-            executeRefresh( user.getEmail(), user.getPassword(),
-                            user.getToken(), user.getToken_refresh() );
-        }
-        else{
+            executeRefresh(user.getEmail(), user.getPassword(),
+                    user.getToken(), user.getToken_refresh());
+        } else {
+            if (!loginSucces && internetConnection) {
+                this.loginActivity.setAlertText("Error de Logueo!", "Mail y Contraseña no validos.");
+            }
             this.loginActivity.progressBar.setVisibility(View.INVISIBLE);
             this.loginActivity.btnLogin.setEnabled(true);
             this.loginActivity.btnRegister.setEnabled(true);
         }
     }
 
-    private void executeRefresh(String ... strings){
+    private void executeRefresh(String... strings) {
         User user = new User(strings[0], strings[1], strings[2], strings[3]);
         user.refreshTokenTask();
     }
