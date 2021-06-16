@@ -56,5 +56,7 @@
     <string name="etiq_diag_p7_c3">Tengo diabetes</string>
     <string name="etiq_diag_p7_c4">Tengo/tuve cáncer</string>
     <string name="etiq_diag_p7_c5">Tengo alguna condición que baja las defensas</string>
+    <string name="button_send">Enviar</string>
+
 
 </resources>
