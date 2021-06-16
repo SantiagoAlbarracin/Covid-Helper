@@ -168,8 +168,6 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
     private void getLocation() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-
                 fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
@@ -184,6 +182,11 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
                         }
                     }
                 });
+            }else
+            {
+                Log.i("debug189","No tengo permiso de GPS");
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+                getLocation();
             }
         }
     }
