@@ -34,8 +34,8 @@ public class DiagnosisActivity extends AppCompatActivity {
 
     private FusedLocationProviderClient fusedLocationProviderClient;
 
-    public Double lat;
-    public Double lon;
+    public Double lat = 1.0;
+    public Double lon = 1.0;
 
 
     @Override
@@ -73,6 +73,8 @@ public class DiagnosisActivity extends AppCompatActivity {
     private void getLocation(){
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ){
                 if(getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+
+
                     fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
