@@ -4,19 +4,18 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.DecimalFormat;
@@ -29,47 +28,51 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
     private TextView tvSpeed;
     private TextView tvActiveTime;
     private TextView tvDistance;
-
-
-
-
-    private Long initialTime;
-
-    private Long previousTime;
-
-    private Long actualTime;
-
-    private int previousSteps;
-
-    private int actualSteps;
-
-    private double speed;
-
-
-
-
-    boolean running = false;
-
     private AlertDialog alertDialog;
 
-    @RequiresApi(api = Build.VERSION_CODES.Q)
+    private SharedPreferences sp;
+    public static final String ACTUAL_STEPS = "ActualSteps";
+    public static final String INITIAL_TIME = "InitialTime";
+    public static final String SP_NAME = "UserSteps";
+
+    private Long initialTime;
+    private Long previousTime;
+    private Long actualTime;
+    private Integer previousSteps;
+    private Integer actualSteps;
+    private Double speed;
+    private String iSteps;
+    private String iTime;
+    boolean running = false;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_counter);
 
-        Intent intent2 = getIntent();
-        Bundle extras = intent2.getExtras();
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        iSteps = extras.getString(StepCounterActivity.ACTUAL_STEPS);
+        iTime = extras.getString(StepCounterActivity.INITIAL_TIME);
+
+
+        if((!iSteps.matches("") || iSteps != null) && (!iTime.matches("") || iTime != null)){
+            initialTime = Long.valueOf(iTime);
+            actualSteps = Integer.valueOf(iSteps);
+        }
+        else{
+            initialTime=java.lang.System.currentTimeMillis();
+            actualSteps=0;
+        }
 
         previousTime=java.lang.System.currentTimeMillis();
-        initialTime=java.lang.System.currentTimeMillis();
         previousSteps=0;
-        actualSteps=0;
+
         tvSteps = (TextView) findViewById(R.id.textViewSteps2);
         tvSpeed = (TextView) findViewById(R.id.textViewSpeed2);
         tvActiveTime = (TextView) findViewById(R.id.textViewActiveTime2);
         tvDistance = (TextView) findViewById(R.id.textViewDistance2);
-
 
         tvSteps.setText("0");
         tvActiveTime.setText("0s");
@@ -189,11 +192,8 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
     //Falta que envie la info a Menu para que no se pierda ? Discutirlo
     public void onClickBack(View view) {
         Intent intent = new Intent(StepCounterActivity.this, MenuActivity.class);
-        intent.putExtra("previousSteps", String.valueOf(previousSteps));
-        intent.putExtra("previousSteps", String.valueOf(actualSteps));
-        intent.putExtra("previousSteps", String.valueOf(previousTime));
-        intent.putExtra("previousSteps", String.valueOf(initialTime));
-
+        intent.putExtra(this.ACTUAL_STEPS, actualSteps.toString());
+        intent.putExtra(this.INITIAL_TIME, initialTime.toString());
         startActivity(intent);
         finish();
     }

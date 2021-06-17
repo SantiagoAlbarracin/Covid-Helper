@@ -8,13 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.DataOutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -24,21 +22,11 @@ public class LoginActivity extends AppCompatActivity {
     public EditText loginEmail;
     public EditText loginPassword;
     public ProgressBar progressBar;
-    public TextView etiqWrongPass;
-    public TextView etiqWrongEmail;
-    public TextView etiqEmpty;
 
-    private String result;
+    private String userEmail;
+    private String userToken;
 
     private AlertDialog alertDialog;
-
-    public Boolean loginResponse = false;
-
-    public URL url;
-    public HttpURLConnection connection = null;
-    public DataOutputStream dataOutputStream;
-
-    private User user;
 
 
     @Override
@@ -50,15 +38,6 @@ public class LoginActivity extends AppCompatActivity {
         loginEmail=(EditText)findViewById(R.id.editTextLoginEmail);
         loginPassword=(EditText)findViewById(R.id.editTextLoginPassword);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
-        etiqWrongPass = (TextView) findViewById(R.id.etiqWrongPassword);
-        etiqWrongEmail = (TextView) findViewById(R.id.etiqWrongEmail);
-        etiqEmpty = (TextView) findViewById(R.id.etiqEmpty);
-
-        etiqWrongPass.setVisibility(View.GONE);
-        etiqWrongEmail.setVisibility(View.GONE);
-        etiqEmpty.setVisibility(View.GONE);
-
         alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
 
     }
@@ -108,10 +87,12 @@ public class LoginActivity extends AppCompatActivity {
 
     public void lanzarActivity(String... strings) {
         Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-        intent.putExtra(MenuActivity.USER_EMAIL, strings[0]);
-        intent.putExtra(MenuActivity.USER_PASSWORD, strings[1]);
-        intent.putExtra(MenuActivity.USER_TOKEN, strings[2]);
-        intent.putExtra(MenuActivity.USER_TOKEN_REFRESH, strings[3]);
+        userEmail = strings[0];
+        userToken = strings[2];
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        Date date = new Date();
+        String eventDescription = "User Login " + userEmail + " at " + formatter.format(date).toString();
+        new EventAsyncTask(LoginActivity.this).execute(Utils.TYPE_EVENT, eventDescription, userToken);
         startActivity(intent);
         finish();
     }

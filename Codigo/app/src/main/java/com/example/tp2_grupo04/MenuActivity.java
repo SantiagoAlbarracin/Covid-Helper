@@ -14,47 +14,28 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class MenuActivity extends AppCompatActivity implements SensorEventListener {
 
     SensorManager sensorManager;
-    private Long initialTime;
-    private Long previousTime;
-    private Long actualTime;
-    private int previousSteps;
-    private int actualSteps;
+
     private TextView etiqLocation;
     private AlertDialog alertDialog;
 
-    public static final String USER_EMAIL = "login_email";
-    public static final String USER_PASSWORD = "login_password";
-    public static final String USER_TOKEN = "login_token";
-    public static final String USER_TOKEN_REFRESH = "login_token_refresh";
-
-    private String userEmail;
-    private String userPassword;
-    private String userToken;
-    private String userTokenRefresh;
-
-
     private FusedLocationProviderClient fusedLocationProviderClient;
     private SharedPreferences sp;
+
     public Double lat = 1.0;
     public Double lon = 1.0;
-
+    private String iSteps;
+    private String iTime;
 
     public boolean isCloseDistance() {
         return closeDistance;
@@ -71,7 +52,10 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
 
         alertDialog = new AlertDialog.Builder(MenuActivity.this).create();
 
-        sendEvent();
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        iSteps = extras.getString(StepCounterActivity.ACTUAL_STEPS);
+        iTime = extras.getString(StepCounterActivity.INITIAL_TIME);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         sp = this.getSharedPreferences("UserLocation", Context.MODE_PRIVATE);
@@ -115,8 +99,7 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         Sensor proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         if(proximitySensor != null){
@@ -127,28 +110,14 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
     }
 
 
-
-
-    public void sendEvent(){
-        Intent intentEvent = getIntent();
-        Bundle extras = intentEvent.getExtras();
-
-        userEmail = extras.getString(USER_EMAIL);
-        userPassword = extras.getString(USER_PASSWORD);
-        userToken = extras.getString(USER_TOKEN);
-        userTokenRefresh = extras.getString(USER_TOKEN_REFRESH);
-
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        Date date = new Date();
-
-        String eventDescription = "User Login " + userEmail + " at " + formatter.format(date).toString();
-
-        new EventAsyncTask(MenuActivity.this).execute(Utils.TYPE_EVENT, eventDescription, userToken);
-    }
-
     public void onClickStepCounter(View view) {
         Intent intent = new Intent(MenuActivity.this, StepCounterActivity.class);
-
+        if(!iSteps.matches("") || iSteps != null){
+            intent.putExtra(StepCounterActivity.ACTUAL_STEPS, iSteps);
+        }
+        if(!iTime.matches("") || iTime != null){
+            intent.putExtra(StepCounterActivity.INITIAL_TIME, iTime);
+        }
         startActivity(intent);
         finish();
     }
@@ -171,11 +140,9 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
             case Sensor.TYPE_PROXIMITY:
                 if(event.values[0]<event.sensor.getMaximumRange()){
                     this.closeDistance = true;
-                    Log.i("debug104","EL sensor detecta algo");
                     new DistanceSensorAsyncTask(MenuActivity.this).execute();
                 }else{
                     this.closeDistance = false;
-                    Log.i("debug108","EL sensor no detecta nada");
                 }
                 break;
             default:
@@ -211,13 +178,12 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
                             editor.putString("Latitude", MenuActivity.this.lat.toString());
                             editor.putString("Longitude", MenuActivity.this.lon.toString());
                             editor.commit();
-                            Log.i("debug999", "Lat: " + MenuActivity.this.lat.toString() + " Lon: " + MenuActivity.this.lon.toString());
+                           //Log.i("debug999", "Lat: " + MenuActivity.this.lat.toString() + " Lon: " + MenuActivity.this.lon.toString());
                         }
                     }
                 });
             }else
             {
-                Log.i("debug189","No tengo permiso de GPS");
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
                 getLocation();
             }

@@ -15,13 +15,13 @@ import java.net.URL;
 public class EventAsyncTask extends AsyncTask<String, Void, Boolean> {
 
 
-    private MenuActivity menuActivity;
+    private LoginActivity loginActivity;
     private User user;
     private Boolean sendEvent=false;
     private Boolean internetConnection=false;
 
-    public EventAsyncTask(MenuActivity menuActivity) {
-        this.menuActivity = menuActivity;
+    public EventAsyncTask(LoginActivity loginActivity) {
+        this.loginActivity = loginActivity;
     }
 
     @Override
@@ -115,10 +115,10 @@ public class EventAsyncTask extends AsyncTask<String, Void, Boolean> {
             Log.i("debug555", "se envio piolita");
         } else {
             if (!sendEvent && internetConnection) {
-                this.menuActivity.setAlertText("Error al Enviar!", "Intente nuevamente.");
+                this.loginActivity.setAlertText("Error al Enviar!", "Intente nuevamente.");
             }
             if (!internetConnection){
-                this.menuActivity.setAlertText("Error de conexion!", "Debe conectarse a internet e intentar nuevamente");
+                this.loginActivity.setAlertText("Error de conexion!", "Debe conectarse a internet e intentar nuevamente");
             }
         }
     }
