@@ -1,10 +1,6 @@
 package com.example.tp2_grupo04;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,9 +16,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DecimalFormat;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
-import static java.lang.String.format;
+import java.text.DecimalFormat;
 
 public class StepCounterActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -213,6 +210,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         alertDialog.show();
         final MediaPlayer alertSound = MediaPlayer.create(StepCounterActivity.this, R.raw.alertsound);
         alertSound.start();
+        
 
     }
 
