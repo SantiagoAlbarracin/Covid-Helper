@@ -3,13 +3,16 @@ package com.example.tp2_grupo04;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,10 +46,14 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
 
     private int actualSteps;
 
+    private double speed;
+
 
 
 
     boolean running = false;
+
+    private AlertDialog alertDialog;
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
@@ -73,6 +80,8 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         tvDistance.setText("0m");
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+        alertDialog = new AlertDialog.Builder(StepCounterActivity.this).create();
     }
 
 
@@ -105,7 +114,6 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
     @Override
     protected void onResume()
     {
-
         super.onResume();
         previousTime = java.lang.System.currentTimeMillis();
         running = true;
@@ -119,16 +127,16 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
 
     @Override
     public void onSensorChanged(SensorEvent event){
-        Log.i("debugeoSensorGetType", String.valueOf(event.sensor.getType()));
-        Log.i("debugeoTypeStepDetector", String.valueOf(Sensor.TYPE_STEP_DETECTOR));
+        //Log.i("debugeoSensorGetType", String.valueOf(event.sensor.getType()));
+        //Log.i("debugeoTypeStepDetector", String.valueOf(Sensor.TYPE_STEP_DETECTOR));
         switch(event.sensor.getType()){
 
             case Sensor.TYPE_STEP_DETECTOR:
                 if(running){
                     Long seconds;
                     actualSteps++;
-                    Log.i("actual steps", String.valueOf(actualSteps));
-                    Log.i("previous steps", String.valueOf(previousSteps));
+                    //Log.i("actual steps", String.valueOf(actualSteps));
+                    //Log.i("previous steps", String.valueOf(previousSteps));
                     tvSteps.setText(String.valueOf(actualSteps));
 
                     tvDistance.setText(String.valueOf(new DecimalFormat("#.##").format(actualSteps*0.9))+"m");
@@ -137,15 +145,22 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
                     tvActiveTime.setText(String.valueOf((actualTime-initialTime)/1000)+"s");
 
                     if(seconds>=5){
-                        Log.i("previous Time",previousTime.toString());
-                        Log.i("actual Time",actualTime.toString());
-                        Log.i("seconds",seconds.toString());
+                        //Log.i("previous Time",previousTime.toString());
+                        //Log.i("actual Time",actualTime.toString());
+                        //Log.i("seconds",seconds.toString());
                         //Log.i("total Time",totalTime.toString());
-                        tvSpeed.setText(String.valueOf(new DecimalFormat("#.##").format((double)(actualSteps-previousSteps)/seconds))+"p/s");
+                        speed=(double)(actualSteps-previousSteps)/seconds;
+                        Log.i("debug147 speed", String.valueOf(speed));
+                        tvSpeed.setText(String.valueOf(new DecimalFormat("#.##").format(speed)+"p/s"));
 
-                        Log.i("actual st - previous st", String.valueOf(actualSteps-previousSteps));
+                        //Log.i("actual st - previous st", String.valueOf(actualSteps-previousSteps));
                         previousTime=actualTime;
                         previousSteps=actualSteps;
+
+                        if (speed>=2) {
+                            setAlertText("Atención!", "Debe hacer reposo, no corra!");
+                        }
+
                     }
 
                 }
@@ -184,6 +199,21 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
 
         startActivity(intent);
         finish();
+    }
+
+    public void setAlertText(String title, String message) {
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+        final MediaPlayer alertSound = MediaPlayer.create(StepCounterActivity.this, R.raw.alertsound);
+        alertSound.start();
+
     }
 
 }
