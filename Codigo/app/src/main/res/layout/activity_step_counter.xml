@@ -22,14 +22,27 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:onClick="onClickRestart"
         android:text="@string/button_start_step_counter"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnBack" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewDistance2" />
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="49dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:hint="@string/button_back_step_counter"
+        android:onClick="onClickBack"
+        android:text="@string/button_back_step_counter"
+        app:layout_constraintBaseline_toBaselineOf="@+id/button2"
+        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintHorizontal_bias="0.04"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textViewSteps2"
@@ -37,7 +50,7 @@
         android:layout_height="114dp"
         android:layout_marginTop="16dp"
         android:gravity="center_horizontal|center_vertical"
-        android:textSize="34sp"
+        android:textSize="48sp"
         app:flow_horizontalAlign="center"
         app:flow_verticalAlign="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,47 +59,33 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewSteps" />
 
     <TextView
-        android:id="@+id/textViewSpeed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="84dp"
-        android:text="@string/etiq_speed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSteps2" />
-
-    <TextView
         android:id="@+id/textViewSpeed2"
         android:layout_width="95dp"
         android:layout_height="43dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:gravity="center_horizontal|center_vertical"
         android:textSize="24sp"
+        app:flow_horizontalAlign="center"
+        app:flow_verticalAlign="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toEndOf="@+id/textViewSpeed"
         app:layout_constraintTop_toBottomOf="@+id/textViewSteps2" />
 
     <TextView
-        android:id="@+id/textViewActiveTime2"
-        android:layout_width="95dp"
-        android:layout_height="43dp"
+        android:id="@+id/textViewSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.41"
-        app:layout_constraintStart_toEndOf="@+id/textViewActiveTime"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSpeed2" />
+        android:layout_marginTop="52dp"
+        android:text="@string/etiq_speed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSteps2" />
 
     <TextView
         android:id="@+id/textViewActiveTime"
@@ -94,21 +93,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="52dp"
         android:text="@string/etiq_active_time"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewSpeed" />
-
-    <TextView
-        android:id="@+id/textViewDistance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="76dp"
-        android:text="@string/etiq_distance"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewActiveTime" />
 
     <TextView
         android:id="@+id/textViewDistance2"
@@ -116,51 +104,44 @@
         android:layout_height="43dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:gravity="center_horizontal|center_vertical"
         android:textSize="24sp"
+        app:flow_horizontalAlign="center"
+        app:flow_verticalAlign="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textViewDistance"
         app:layout_constraintTop_toBottomOf="@+id/textViewActiveTime2" />
 
     <TextView
-        android:id="@+id/textViewAdvices2"
-        android:layout_width="229dp"
-        android:layout_height="21dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:gravity="center_horizontal|center_vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.565"
-        app:layout_constraintStart_toEndOf="@+id/textViewAdvices"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDistance2" />
-
-    <TextView
-        android:id="@+id/textViewAdvices"
+        android:id="@+id/textViewDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="64dp"
-        android:text="@string/etiq_advice"
+        android:layout_marginTop="60dp"
+        android:text="@string/etiq_distance"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDistance" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewActiveTime" />
 
-    <Button
-        android:id="@+id/btnBack"
-        android:layout_width="108dp"
-        android:layout_height="49dp"
-        android:layout_marginTop="36dp"
-        android:hint="@string/button_back_step_counter"
-        android:onClick="onClickBack"
-        android:text="@string/button_back_step_counter"
+    <TextView
+        android:id="@+id/textViewActiveTime2"
+        android:layout_width="95dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:textSize="24sp"
+        app:flow_horizontalAlign="center"
+        app:flow_verticalAlign="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAdvices2" />
+        app:layout_constraintHorizontal_bias="0.41"
+        app:layout_constraintStart_toEndOf="@+id/textViewActiveTime"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSpeed2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

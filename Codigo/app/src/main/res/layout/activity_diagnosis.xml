@@ -45,13 +45,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="45dp"
+                    android:layout_marginTop="16dp"
 
                     android:text="@string/etiq_diag_p1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                <RadioGroup
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -59,11 +59,12 @@
                     <RadioButton
 
                         android:id="@+id/radioButton2"
-                        android:layout_width="93dp"
-                        android:layout_height="46dp"
+                        android:layout_width="80dp"
+                        android:layout_height="50dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginLeft="16dp"
-                        android:layout_marginTop="45dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
 
                         android:text="@string/etiq_diag_p1_r1"
                         app:layout_constraintStart_toEndOf="@+id/textView11"
@@ -72,11 +73,11 @@
                     <RadioButton
 
                         android:id="@+id/radioButton4"
-                        android:layout_width="81dp"
-                        android:layout_height="46dp"
+                        android:layout_width="80dp"
+                        android:layout_height="50dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginLeft="16dp"
-                        android:layout_marginTop="45dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginRight="16dp"
 
@@ -94,7 +95,7 @@
 
                 <TextView
                     android:id="@+id/textView15"
-                    android:layout_width="136dp"
+                    android:layout_width="133dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
@@ -103,7 +104,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
-                <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                <RadioGroup
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -111,11 +112,12 @@
                     <RadioButton
                         android:id="@+id/radioButton_p2_r1"
                         style="@style/diag_radio_button2"
-                        android:layout_width="93dp"
-                        android:layout_height="56dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginLeft="20dp"
+                        android:layout_width="80dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginLeft="16dp"
                         android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
                         android:text="@string/etiq_diag_p2_r1"
                         app:layout_constraintStart_toEndOf="@+id/textView12"
                         app:layout_constraintTop_toBottomOf="@+id/radioButton2" />
@@ -123,8 +125,8 @@
                     <RadioButton
                         android:id="@+id/radioButton11"
                         style="@style/diag_radio_button2"
-                        android:layout_width="86dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="80dp"
+                        android:layout_height="50dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginTop="16dp"
@@ -144,7 +146,7 @@
 
                 <TextView
                     android:id="@+id/textView13"
-                    android:layout_width="138dp"
+                    android:layout_width="133dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
@@ -153,7 +155,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
-                <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                <RadioGroup
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -161,11 +163,11 @@
                     <RadioButton
                         android:id="@+id/radioButton14"
                         style="@style/diag_radio_button2"
-                        android:layout_width="91dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="80dp"
+                        android:layout_height="50dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginLeft="16dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginRight="16dp"
                         android:text="@string/etiq_diag_p6_r1"
@@ -177,8 +179,8 @@
                     <RadioButton
                         android:id="@+id/radioButton5"
                         style="@style/diag_radio_button2"
-                        android:layout_width="55dp"
-                        android:layout_height="57dp"
+                        android:layout_width="80dp"
+                        android:layout_height="50dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginTop="16dp"
@@ -198,16 +200,16 @@
 
                 <TextView
                     android:id="@+id/textView16"
-                    android:layout_width="138dp"
+                    android:layout_width="133dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="16dp"
                     android:text="@string/etiq_diag_p6"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
-                <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                <RadioGroup
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -215,11 +217,13 @@
                     <RadioButton
                         android:id="@+id/radioButton10"
                         style="@style/diag_radio_button2"
-                        android:layout_width="88dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginLeft="20dp"
+
+                        android:layout_width="80dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginLeft="16dp"
                         android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
                         android:text="@string/etiq_diag_p4_r1"
                         app:layout_constraintStart_toEndOf="@+id/textView14"
                         app:layout_constraintTop_toBottomOf="@+id/radioButton8" />
@@ -227,11 +231,12 @@
                     <RadioButton
                         android:id="@+id/radioButton13"
                         style="@style/diag_radio_button2"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginEnd="40dp"
-                        android:layout_marginRight="40dp"
+                        android:layout_width="80dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
                         android:text="@string/etiq_diag_p5_r2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/radioButton11" />
@@ -244,7 +249,7 @@
 
                 <TextView
                     android:id="@+id/textView14"
-                    android:layout_width="140dp"
+                    android:layout_width="133dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
@@ -253,7 +258,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
-                <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                <RadioGroup
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -261,11 +266,11 @@
                     <RadioButton
                         android:id="@+id/radioButton12"
                         style="@style/diag_radio_button2"
-                        android:layout_width="90dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="80dp"
+                        android:layout_height="50dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginLeft="16dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginRight="16dp"
                         android:text="@string/etiq_diag_p5_r1"
@@ -277,11 +282,11 @@
                     <RadioButton
                         android:id="@+id/radioButton9"
                         style="@style/diag_radio_button2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="80dp"
+                        android:layout_height="50dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginLeft="16dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginRight="16dp"
                         android:text="@string/etiq_diag_p3_r2"
@@ -297,7 +302,7 @@
 
                 <TextView
                     android:id="@+id/textView12"
-                    android:layout_width="145dp"
+                    android:layout_width="133dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
@@ -306,7 +311,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
-                <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                <RadioGroup
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -314,11 +319,12 @@
                     <RadioButton
                         android:id="@+id/radioButton8"
                         style="@style/diag_radio_button2"
-                        android:layout_width="82dp"
-                        android:layout_height="48dp"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginLeft="24dp"
+                        android:layout_width="80dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginLeft="16dp"
                         android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
                         android:text="@string/etiq_diag_p3_r1"
                         app:layout_constraintStart_toEndOf="@+id/textView13"
                         app:layout_constraintTop_toBottomOf="@+id/radioButton_p2_r1" />
@@ -326,11 +332,12 @@
                     <RadioButton
                         android:id="@+id/radioButton_15"
                         style="@style/diag_radio_button2"
-                        android:layout_width="53dp"
-                        android:layout_height="37dp"
+                        android:layout_width="80dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginLeft="16dp"
                         android:layout_marginTop="16dp"
-                        android:layout_marginEnd="40dp"
-                        android:layout_marginRight="40dp"
+                        android:layout_marginEnd="16dp"
                         android:text="@string/etiq_diag_p6_r2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/radioButton13" />
@@ -354,7 +361,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/etiq_diag_p7_c3"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/checkBox2" />
@@ -394,29 +401,33 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
 
                 <Button
                     android:id="@+id/btnDiagCancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginRight="40dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginRight="30dp"
                     android:onClick="onClickCancel"
                     android:text="@string/button_cancel"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_gravity="center"/>
 
                 <Button
                     android:id="@+id/btnDiagSend"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="40dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginRight="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginRight="30dp"
                     android:onClick="onClickSend"
                     android:text="@string/button_send"
                     app:layout_constraintEnd_toEndOf="parent"
