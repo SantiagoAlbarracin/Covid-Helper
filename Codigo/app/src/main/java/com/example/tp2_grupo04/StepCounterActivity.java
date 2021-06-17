@@ -210,7 +210,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         alertDialog.show();
         final MediaPlayer alertSound = MediaPlayer.create(StepCounterActivity.this, R.raw.alertsound);
         alertSound.start();
-        
+
 
     }
 

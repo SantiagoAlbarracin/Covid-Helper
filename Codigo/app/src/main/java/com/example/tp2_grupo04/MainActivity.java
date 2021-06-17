@@ -1,14 +1,9 @@
 package com.example.tp2_grupo04;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,7 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvBatteryLevel;
     private EditText telephoneNumber;
     private ImageView imageViewBattery;
+    private AlertDialog alertDialog;
     private float batteryPct;
     private boolean isCharging;
 
@@ -38,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         btnSend=(Button)findViewById(R.id.btnSendCode);
         telephoneNumber=(EditText)findViewById(R.id.editTextTelephoneNumber);
+        alertDialog = new AlertDialog.Builder(MainActivity.this).create();
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = MainActivity.this.registerReceiver(null, ifilter);
         //status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
@@ -92,18 +91,29 @@ public class MainActivity extends AppCompatActivity {
     public void onClickSendCode(View view){
         Intent intent;
         Log.i("debug59", "entre a onclicksendcode");
-        if(telephoneNumber.getText().toString().length() < 10){
-            Toast.makeText(MainActivity.this,
-                    "Ingrese un número de telefono valido.", Toast.LENGTH_SHORT).show();
+        if(telephoneNumber.getText().toString().length() != 10){
+            setAlertText("Error!", "Ingrese un número de telefono con el formato 11xxxxxxxx.");
         } else if(telephoneNumber.getText().toString().matches("")) {
-            Toast.makeText(MainActivity.this,
-                    "Ingrese un número de telefono.", Toast.LENGTH_SHORT).show();
+            setAlertText("Error!", "Debe ingresar un número de telefono.");
         }else{
             intent = new Intent(MainActivity.this, AuthenticationActivity.class);
             intent.putExtra("numeroTelefono", telephoneNumber.getText().toString());
             startActivity(intent);
             finish();
         }
+    }
+
+
+    public void setAlertText(String title, String message) {
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 
 }
