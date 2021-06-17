@@ -108,10 +108,10 @@ public class LoginActivity extends AppCompatActivity {
 
     public void lanzarActivity(String... strings) {
         Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-        intent.putExtra("email", strings[0]);
-        intent.putExtra("password", strings[1]);
-        intent.putExtra("token", strings[2]);
-        intent.putExtra("token_refresh", strings[3]);
+        intent.putExtra(MenuActivity.USER_EMAIL, strings[0]);
+        intent.putExtra(MenuActivity.USER_PASSWORD, strings[1]);
+        intent.putExtra(MenuActivity.USER_TOKEN, strings[2]);
+        intent.putExtra(MenuActivity.USER_TOKEN_REFRESH, strings[3]);
         startActivity(intent);
         finish();
     }

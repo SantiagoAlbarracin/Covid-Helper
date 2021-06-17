@@ -82,8 +82,6 @@ public class DiagnosisActivity extends AppCompatActivity {
         btnCancel = (Button) findViewById(R.id.btnDiagCancel);
         btnSend = (Button) findViewById(R.id.btnDiagSend);
 
-
-
         alertDialog = new AlertDialog.Builder(DiagnosisActivity.this).create();
 
         sp = this.getSharedPreferences("UserLocation", Context.MODE_PRIVATE);
@@ -140,6 +138,8 @@ public class DiagnosisActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    //Aca informamos hospital mas cercano si tiene covid
 
     public void onClickSend(View view) {
         if (!allRadiosChecked()) {

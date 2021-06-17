@@ -15,13 +15,13 @@ import java.net.URL;
 public class EventAsyncTask extends AsyncTask<String, Void, Boolean> {
 
 
-    private DiagnosisActivity diagnosisActivity;
+    private MenuActivity menuActivity;
     private User user;
     private Boolean sendEvent=false;
     private Boolean internetConnection=false;
 
-    public EventAsyncTask(DiagnosisActivity diagnosisActivity) {
-        this.diagnosisActivity = diagnosisActivity;
+    public EventAsyncTask(MenuActivity menuActivity) {
+        this.menuActivity = menuActivity;
     }
 
     @Override
@@ -38,13 +38,13 @@ public class EventAsyncTask extends AsyncTask<String, Void, Boolean> {
             object.put("env", "TEST");
             object.put("type_events", strings[0]);
             object.put("description", strings[1]);
-            String token_refresh = strings[2];
+            String token = strings[2];
 
             URL url = new URL(Utils.URI_REGISTER_EVENT);
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            connection.setRequestProperty("Authorization", "Bearer " + token_refresh);
+            connection.setRequestProperty("Authorization", "Bearer " + token);
             connection.setDoOutput(true);
             connection.setDoInput(true);
             connection.setConnectTimeout(5000);
@@ -53,7 +53,9 @@ public class EventAsyncTask extends AsyncTask<String, Void, Boolean> {
             DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
             dataOutputStream.write(object.toString().getBytes("UTF-8"));
 
-            Log.i("debug104", "Se envia al servidor " + object.toString());
+            Log.i("debug555", "Se envia al servidor " + object.toString());
+            Log.i("debug555", "Se envia token " + token);
+
 
             dataOutputStream.flush();
 
@@ -77,7 +79,7 @@ public class EventAsyncTask extends AsyncTask<String, Void, Boolean> {
                 sendEvent = false;
 
             }
-            Log.i("debug83", "Me contestó " + result);
+            Log.i("debug555", "Me contestó " + result);
 
             dataOutputStream.close();
             connection.disconnect();
@@ -91,8 +93,10 @@ public class EventAsyncTask extends AsyncTask<String, Void, Boolean> {
             e.printStackTrace();
         }
 
+        Log.i("debug555", "Llegó: " + answer.toString());
+
+
         if (result.matches("true")) {
-            Log.i("debug166", "Llegó: " + answer.toString());
             return true;
         }
 
@@ -101,34 +105,23 @@ public class EventAsyncTask extends AsyncTask<String, Void, Boolean> {
 
     @Override
     protected void onPreExecute() {
-        /*
-        this.diagnosisActivity.progressBar.setVisibility(View.VISIBLE);
-        this.diagnosisActivity.btnLogin.setEnabled(false);
-        this.diagnosisActivity.btnRegister.setEnabled(false);
-        */
+
     }
 
 
     @Override
     protected void onPostExecute(Boolean o) {
-        /*if (o) {
-            this.loginActivity.lanzarActivity(user.getEmail(), user.getPassword(),
-                    user.getToken(), user.getToken_refresh());
+        if (o) {
+            Log.i("debug555", "se envio piolita");
         } else {
-            if (!loginSucces && internetConnection) {
-                this.diagnosisActivity.setAlertText("Error al Enviar!", "Intente nuevamente.");
+            if (!sendEvent && internetConnection) {
+                this.menuActivity.setAlertText("Error al Enviar!", "Intente nuevamente.");
             }
             if (!internetConnection){
-                this.diagnosisActivity.setAlertText("Error de conexion!", "Debe conectarse a internet e intentar nuevamente");
+                this.menuActivity.setAlertText("Error de conexion!", "Debe conectarse a internet e intentar nuevamente");
             }
-            this.diagnosisActivity.progressBar.setVisibility(View.INVISIBLE);
-            this.diagnosisActivity.btnLogin.setEnabled(true);
-            this.diagnosisActivity.btnRegister.setEnabled(true);
         }
-
-         */
     }
-
 
 
 }

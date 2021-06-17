@@ -1,7 +1,9 @@
 package com.example.tp2_grupo04;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -23,16 +25,29 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MenuActivity extends AppCompatActivity implements SensorEventListener {
 
     SensorManager sensorManager;
-
     private Long initialTime;
     private Long previousTime;
     private Long actualTime;
     private int previousSteps;
     private int actualSteps;
     private TextView etiqLocation;
+    private AlertDialog alertDialog;
+
+    public static final String USER_EMAIL = "login_email";
+    public static final String USER_PASSWORD = "login_password";
+    public static final String USER_TOKEN = "login_token";
+    public static final String USER_TOKEN_REFRESH = "login_token_refresh";
+
+    private String userEmail;
+    private String userPassword;
+    private String userToken;
+    private String userTokenRefresh;
 
 
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -54,6 +69,10 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         etiqLocation = (TextView) findViewById(R.id.etiqLocationMenu);
 
+        alertDialog = new AlertDialog.Builder(MenuActivity.this).create();
+
+        sendEvent();
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         sp = this.getSharedPreferences("UserLocation", Context.MODE_PRIVATE);
 
@@ -68,8 +87,6 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
             etiqLocation.setVisibility(View.GONE);
         }
         getLocation();
-
-
 
     }
 
@@ -112,6 +129,23 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
 
 
 
+    public void sendEvent(){
+        Intent intentEvent = getIntent();
+        Bundle extras = intentEvent.getExtras();
+
+        userEmail = extras.getString(USER_EMAIL);
+        userPassword = extras.getString(USER_PASSWORD);
+        userToken = extras.getString(USER_TOKEN);
+        userTokenRefresh = extras.getString(USER_TOKEN_REFRESH);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        Date date = new Date();
+
+        String eventDescription = "User Login " + userEmail + " at " + formatter.format(date).toString();
+
+        new EventAsyncTask(MenuActivity.this).execute(Utils.TYPE_EVENT, eventDescription, userToken);
+    }
+
     public void onClickStepCounter(View view) {
         Intent intent = new Intent(MenuActivity.this, StepCounterActivity.class);
 
@@ -130,7 +164,6 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
         startActivity(intent);
         finish();
     }
-
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -191,5 +224,16 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
+    public void setAlertText(String title, String message){
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
 
 }
