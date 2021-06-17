@@ -108,8 +108,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             } else {
-                Toast.makeText(AuthenticationActivity.this,
-                        "Codigo Incorrecto. Intente nuevamente.", Toast.LENGTH_SHORT).show();
+                setAlertText("Error!", "Codigo Incorrecto. Intente nuevamente.");
             }
         }
     }
