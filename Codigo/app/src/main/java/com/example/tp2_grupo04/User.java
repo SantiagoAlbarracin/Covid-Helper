@@ -185,7 +185,7 @@ public class User {
 
         //timerTaskClass.getInstance().getTimer().schedule(task, 0, 30*60*1000);
         ttc.initTimer();
-        ttc.getInstance().getTimer().schedule(task, 0, 10*1000);
+        ttc.getInstance().getTimer().schedule(task, 0, 100*1000);
     }
 
 }

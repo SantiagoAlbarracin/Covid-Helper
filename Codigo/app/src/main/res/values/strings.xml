@@ -14,7 +14,7 @@
     <string name="edit_auth_code">Código</string>
     <string name="button_auth_send_code">Volver a enviar</string>
     <string name="button_auth_cancel">Cancelar</string>
-    <string name="button_auth_accept">Aceptar</string>
+    <string name="button_accept">Aceptar</string>
     <string name="button_telephone_number_send">Enviar</string>
     <string name="edit_telephone_number">Número de telefono</string>
     <string name="etiq_telephone_number">Ingrese un número de telefono</string>
@@ -28,7 +28,7 @@
     <string name="etiq_advice">Consejos</string>
     <string name="etiq_active_time">Tiempo Activo</string>
     <string name="button_start_step_counter">Reiniciar</string>
-    <string name="button_back_step_counter">Volver</string>
+    <string name="button_back">Volver</string>
     <string name="button_menu_step_counter">Contador de Pasos</string>
     <string name="button_menu_diagnosis">Diagnostico</string>
     <string name="button_menu_logout">Cerrar Sesión</string>

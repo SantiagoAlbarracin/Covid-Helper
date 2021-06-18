@@ -3,7 +3,9 @@ package com.example.tp2_grupo04;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -50,12 +52,22 @@ public class HospitalActivity extends AppCompatActivity {
         distance=Float.parseFloat(HospitalDistance);
         tvHospDistance.setText(String.valueOf(new DecimalFormat("#.##").format(distance))+"km");
 
+        String covidString = "Es probable que usted tenga COVID, evite el contacto estrecho con otras personas y use tapabocas.";
+
         if(riskFactor){
-            tvHospCovid.setText("Es probable que usted tenga COVID, evite el contacto estrecho con otras personas y use tapabocas. Debe tener especial cuidado ya que presenta factores de riesgo");
+            covidString = covidString +" Debe tener especial cuidado ya que presenta factores de riesgo";
         }else{
             tvHospCovid.setText("Es probable que usted tenga COVID, evite el contacto estrecho con otras personas y use tapabocas.");
         }
 
+        tvHospCovid.setText(covidString);
 
+
+    }
+
+    public void onClickBack(View view) {
+        Intent intent = new Intent(HospitalActivity.this, MenuActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

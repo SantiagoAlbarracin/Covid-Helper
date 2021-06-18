@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:onClick="onClickAccept"
-        android:text="@string/button_auth_accept"
+        android:text="@string/button_accept"
         app:layout_constraintBottom_toTopOf="@+id/btnCancelAuth"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

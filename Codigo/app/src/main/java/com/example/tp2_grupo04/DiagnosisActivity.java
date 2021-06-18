@@ -143,6 +143,8 @@ public class DiagnosisActivity extends AppCompatActivity {
             setAlertText("¡Error!", "Por favor complete todos los campos");
         } else if (hasCovid()) {
             lanzarActivity();
+        } else {
+            setAlertTextMenuButton("Notificacion", "Usted no presenta sintomas de Covid 19");
         }
     }
 
@@ -170,6 +172,20 @@ public class DiagnosisActivity extends AppCompatActivity {
                 });
         alertDialog.show();
 
+    }
+    public void setAlertTextMenuButton(String title, String message){
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Intent intent = new Intent(DiagnosisActivity.this, MenuActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+        alertDialog.show();
     }
 
     //Esta se va. Es para probar
