@@ -22,6 +22,7 @@ public class User {
     private String password;
     private String token;
     private String token_refresh;
+    public static TimerTaskClass timerTaskClass;
 
 
     public User(String email, String password, String token, String token_refresh) {
@@ -158,10 +159,13 @@ public class User {
     };
 
 
+
     private void setRepeatingAsyncTask() {
 
         final Handler handler = new Handler();
+
         Timer timer = new Timer();
+        TimerTaskClass ttc = new TimerTaskClass();
 
         TimerTask task = new TimerTask() {
             @Override
@@ -170,7 +174,7 @@ public class User {
                     public void run() {
                         try {
                             TokenTask tokenTask = new TokenTask();
-                            tokenTask.execute(getToken_refresh().toString());
+                            tokenTask.execute(getToken_refresh());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -179,8 +183,9 @@ public class User {
             }
         };
 
-        //timer.schedule(task, 0, 30*60*1000);
-        timer.schedule(task, 0, 30*1000);
+        //timerTaskClass.getInstance().getTimer().schedule(task, 0, 30*60*1000);
+        ttc.initTimer();
+        ttc.getInstance().getTimer().schedule(task, 0, 10*1000);
     }
 
 }

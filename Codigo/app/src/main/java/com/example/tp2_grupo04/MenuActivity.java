@@ -14,6 +14,7 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -119,6 +120,9 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
 
     public void onClickLogOut(View view) {
         Intent intent = new Intent(MenuActivity.this, LoginActivity.class);
+        TimerTaskClass ttc = new TimerTaskClass();
+        ttc.getInstance().stopTimer();
+        Log.i("debug777", "Hizo Logout");
         startActivity(intent);
         finish();
     }
