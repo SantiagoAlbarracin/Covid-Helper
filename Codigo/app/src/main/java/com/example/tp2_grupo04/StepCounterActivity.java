@@ -51,13 +51,12 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_counter);
 
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        iSteps = extras.getString(StepCounterActivity.ACTUAL_STEPS);
-        iTime = extras.getString(StepCounterActivity.INITIAL_TIME);
+        sp = this.getSharedPreferences(Utils.SP_STEP_TIME, Context.MODE_PRIVATE);
+        iSteps = sp.getString(StepCounterActivity.ACTUAL_STEPS, "-1");
+        iTime = sp.getString(StepCounterActivity.INITIAL_TIME, "-1");
 
-
-        if((!iSteps.matches("") || iSteps != null) && (!iTime.matches("") || iTime != null)){
+        if((!iSteps.matches("-1") && iSteps != null && !iSteps.matches("") )
+                && (!iTime.matches("-1") && iTime != null  && !iTime.matches("") )){
             initialTime = Long.valueOf(iTime);
             actualSteps = Integer.valueOf(iSteps);
         }
@@ -65,6 +64,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
             initialTime=java.lang.System.currentTimeMillis();
             actualSteps=0;
         }
+
 
         previousTime=java.lang.System.currentTimeMillis();
         previousSteps=0;
@@ -186,14 +186,20 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         initialTime=java.lang.System.currentTimeMillis();
         previousSteps=0;
         actualSteps=0;
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(StepCounterActivity.ACTUAL_STEPS, actualSteps.toString());
+        editor.putString(StepCounterActivity.INITIAL_TIME, initialTime.toString());
+        editor.commit();
     }
 
 
     //Falta que envie la info a Menu para que no se pierda ? Discutirlo
     public void onClickBack(View view) {
         Intent intent = new Intent(StepCounterActivity.this, MenuActivity.class);
-        intent.putExtra(this.ACTUAL_STEPS, actualSteps.toString());
-        intent.putExtra(this.INITIAL_TIME, initialTime.toString());
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(StepCounterActivity.ACTUAL_STEPS, actualSteps.toString());
+        editor.putString(StepCounterActivity.INITIAL_TIME, initialTime.toString());
+        editor.commit();
         startActivity(intent);
         finish();
     }

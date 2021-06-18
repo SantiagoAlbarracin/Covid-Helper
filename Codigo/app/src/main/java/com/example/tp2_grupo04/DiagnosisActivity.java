@@ -14,8 +14,6 @@ import android.widget.RadioButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,14 +45,11 @@ public class DiagnosisActivity extends AppCompatActivity {
     private Button btnCancel;
     private Button btnSend;
 
-
     private AlertDialog alertDialog;
 
     private SharedPreferences sp;
-    private JSONArray jsonArray;
     private HashMap<Integer, Hospital> hospitalsArray;
     private TreeMap<Double, Hospital> distancesArray;
-    private FusedLocationProviderClient fusedLocationProviderClient;
     private Double lat = 1.0;
     private Double lon = 1.0;
 
@@ -83,6 +78,7 @@ public class DiagnosisActivity extends AppCompatActivity {
         btnSend = (Button) findViewById(R.id.btnDiagSend);
 
         alertDialog = new AlertDialog.Builder(DiagnosisActivity.this).create();
+
 
         sp = this.getSharedPreferences("UserLocation", Context.MODE_PRIVATE);
         String latitudeSP = sp.getString("Latitude", null);

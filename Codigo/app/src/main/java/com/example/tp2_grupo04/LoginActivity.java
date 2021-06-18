@@ -1,8 +1,10 @@
 package com.example.tp2_grupo04;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     public EditText loginEmail;
     public EditText loginPassword;
     public ProgressBar progressBar;
+    private SharedPreferences sp;
 
     private String userEmail;
     private String userToken;
@@ -39,6 +42,8 @@ public class LoginActivity extends AppCompatActivity {
         loginPassword=(EditText)findViewById(R.id.editTextLoginPassword);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
+        sp = this.getSharedPreferences(Utils.SP_STEP_TIME, Context.MODE_PRIVATE);
+
 
     }
 
@@ -93,6 +98,11 @@ public class LoginActivity extends AppCompatActivity {
         Date date = new Date();
         String eventDescription = "User Login " + userEmail + " at " + formatter.format(date).toString();
         new EventAsyncTask(LoginActivity.this).execute(Utils.TYPE_EVENT, eventDescription, userToken);
+
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(StepCounterActivity.ACTUAL_STEPS, "");
+        editor.putString(StepCounterActivity.INITIAL_TIME, "");
+        editor.commit();
         startActivity(intent);
         finish();
     }

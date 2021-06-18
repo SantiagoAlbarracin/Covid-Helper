@@ -52,11 +52,6 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
 
         alertDialog = new AlertDialog.Builder(MenuActivity.this).create();
 
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        iSteps = extras.getString(StepCounterActivity.ACTUAL_STEPS);
-        iTime = extras.getString(StepCounterActivity.INITIAL_TIME);
-
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         sp = this.getSharedPreferences("UserLocation", Context.MODE_PRIVATE);
 
@@ -112,12 +107,6 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
 
     public void onClickStepCounter(View view) {
         Intent intent = new Intent(MenuActivity.this, StepCounterActivity.class);
-        if(!iSteps.matches("") || iSteps != null){
-            intent.putExtra(StepCounterActivity.ACTUAL_STEPS, iSteps);
-        }
-        if(!iTime.matches("") || iTime != null){
-            intent.putExtra(StepCounterActivity.INITIAL_TIME, iTime);
-        }
         startActivity(intent);
         finish();
     }
