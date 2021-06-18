@@ -3,6 +3,7 @@
     <string name="edit_mail">Mail</string>
     <string name="edit_password">Contraseña</string>
     <string name="button_login">Iniciar Sesión</string>
+    <string name="button_send">Enviar</string>
     <string name="button_register">Registrarse</string>
     <string name="button_cancel">Cancelar</string>
     <string name="edit_register_name">Nombre</string>
@@ -56,8 +57,10 @@
     <string name="etiq_diag_p7_c3">Tengo diabetes</string>
     <string name="etiq_diag_p7_c4">Tengo/tuve cáncer</string>
     <string name="etiq_diag_p7_c5">Tengo alguna condición que baja las defensas</string>
-    <string name="button_send">Enviar</string>
-
+    <string name="etiq_hosp_nom">Nombre</string>
+    <string name="etiq_hosp_add">Direccion</string>
+    <string name="etiq_hosp_tel">Telefono</string>
+    <string name="etiq_hosp_cor">Distancia</string>
 
 
 </resources>
