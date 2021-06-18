@@ -102,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(StepCounterActivity.ACTUAL_STEPS, "");
         editor.putString(StepCounterActivity.INITIAL_TIME, "");
+        editor.putString(StepCounterActivity.ACTIVE_TIME, "");
         editor.commit();
         startActivity(intent);
         finish();
