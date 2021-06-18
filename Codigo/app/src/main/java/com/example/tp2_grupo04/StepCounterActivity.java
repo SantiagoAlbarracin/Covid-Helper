@@ -39,6 +39,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
     private Long previousTime;
     private Long actualTime;
     private Long activeTime;
+    private Long auxTime;
     private Integer previousSteps;
     private Integer actualSteps;
     private Double speed;
@@ -58,9 +59,6 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         iTime = sp.getString(StepCounterActivity.INITIAL_TIME, "-1");
         iActive = sp.getString(StepCounterActivity.ACTIVE_TIME, "-1");
 
-
-
-
         previousTime=java.lang.System.currentTimeMillis();
         previousSteps=0;
 
@@ -69,24 +67,25 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         tvActiveTime = (TextView) findViewById(R.id.textViewActiveTime2);
         tvDistance = (TextView) findViewById(R.id.textViewDistance2);
 
+        initialTime=java.lang.System.currentTimeMillis();
+
         if((!iSteps.matches("-1") && iSteps != null && !iSteps.matches("") )
                 && (!iTime.matches("-1") && iTime != null  && !iTime.matches("") )
                 && (!iActive.matches("-1") && iActive != null  && !iActive.matches("") )){
             initialTime = Long.valueOf(iTime);
             actualSteps = Integer.valueOf(iSteps);
+            activeTime = initialTime + Long.valueOf(iActive);
             tvSteps.setText(String.valueOf(actualSteps));
             tvDistance.setText(String.valueOf(new DecimalFormat("#.##").format(actualSteps*0.9))+"m");
-            tvActiveTime.setText(String.valueOf(iActive)+"s");
-
+            tvActiveTime.setText(activeTime.toString() +"s");
         }
         else{
-            initialTime=java.lang.System.currentTimeMillis();
             actualSteps=0;
+            activeTime = 0L;
             tvSteps.setText("0");
             tvDistance.setText("0m");
-
+            tvActiveTime.setText("0s");
         }
-        tvActiveTime.setText("0s");
         tvSpeed.setText("0p/s");
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -148,13 +147,11 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
                     //Log.i("actual steps", String.valueOf(actualSteps));
                     //Log.i("previous steps", String.valueOf(previousSteps));
                     tvSteps.setText(String.valueOf(actualSteps));
-
                     tvDistance.setText(String.valueOf(new DecimalFormat("#.##").format(actualSteps*0.9))+"m");
                     actualTime=java.lang.System.currentTimeMillis();
                     seconds=(actualTime-previousTime)/1000;
                     activeTime = (actualTime-initialTime)/1000;
                     tvActiveTime.setText(String.valueOf(activeTime)+"s");
-
                     if(seconds>=5){
                         //Log.i("previous Time",previousTime.toString());
                         //Log.i("actual Time",actualTime.toString());
@@ -163,17 +160,13 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
                         speed=(double)(actualSteps-previousSteps)/seconds;
                         Log.i("debug147 speed", String.valueOf(speed));
                         tvSpeed.setText(String.valueOf(new DecimalFormat("#.##").format(speed)+"p/s"));
-
                         //Log.i("actual st - previous st", String.valueOf(actualSteps-previousSteps));
                         previousTime=actualTime;
                         previousSteps=actualSteps;
-
                         if (speed>=2) {
                             setAlertText("Atención!", "Debe hacer reposo, no corra!");
                         }
-
                     }
-
                 }
                 break;
             default:
@@ -197,6 +190,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         initialTime=java.lang.System.currentTimeMillis();
         previousSteps=0;
         actualSteps=0;
+        activeTime = 0L;
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(StepCounterActivity.ACTUAL_STEPS, actualSteps.toString());
         editor.putString(StepCounterActivity.INITIAL_TIME, initialTime.toString());
