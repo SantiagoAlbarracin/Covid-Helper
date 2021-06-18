@@ -7,93 +7,110 @@
     tools:context=".HospitalActivity">
 
     <TextView
-        android:id="@+id/textView17"
-        android:layout_width="295dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="28dp"
+        android:id="@+id/textVieHospTitle"
+        android:layout_width="264dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
         android:text="@string/etiq_hosp_data"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.137"
+        app:layout_constraintHorizontal_bias="0.108"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHospCovid" />
+
+    <TextView
+        android:id="@+id/textViewHospName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="80dp"
+        android:text="@string/etiq_hosp_nom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textVieHospTitle" />
+
+    <TextView
+        android:id="@+id/textViewHospName2"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewHospName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.611"
+        app:layout_constraintStart_toEndOf="@+id/textViewHospName" />
+
+    <TextView
+        android:id="@+id/textViewHospAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="88dp"
+        android:text="@string/etiq_hosp_add"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHospName" />
+
+    <TextView
+        android:id="@+id/textViewHospDistance2"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewHospDistance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toEndOf="@+id/textViewHospDistance" />
+
+    <TextView
+        android:id="@+id/textViewHospTel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="80dp"
+        android:text="@string/etiq_hosp_tel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHospAddress" />
+
+    <TextView
+        android:id="@+id/textViewHospDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/etiq_hosp_cor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHospTel"
+        app:layout_constraintVertical_bias="0.242" />
+
+    <TextView
+        android:id="@+id/textViewHospAddress2"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewHospAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.58"
+        app:layout_constraintStart_toEndOf="@+id/textViewHospAddress" />
+
+    <TextView
+        android:id="@+id/textViewHospTel2"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewHospTel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintStart_toEndOf="@+id/textViewHospTel" />
+
+    <TextView
+        android:id="@+id/textViewHospCovid"
+        android:layout_width="306dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:text="@string/etiq_hosp_nom"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="84dp" />
-
-    <TextView
-        android:id="@+id/textView19"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:text="@string/etiq_hosp_add"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="130dp" />
-
-    <TextView
-        android:id="@+id/textView21"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:text="@string/etiq_hosp_tel"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="178dp" />
-
-    <TextView
-        android:id="@+id/textView22"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:text="@string/etiq_hosp_cor"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="227dp" />
-
-    <TextView
-        android:id="@+id/textView23"
-        android:layout_width="220dp"
-        android:layout_height="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.606"
-        app:layout_constraintStart_toEndOf="@+id/textView18"
-        tools:layout_editor_absoluteY="87dp" />
-
-    <TextView
-        android:id="@+id/textView24"
-        android:layout_width="220dp"
-        android:layout_height="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.58"
-        app:layout_constraintStart_toEndOf="@+id/textView19"
-        tools:layout_editor_absoluteY="133dp" />
-
-    <TextView
-        android:id="@+id/textView25"
-        android:layout_width="220dp"
-        android:layout_height="21dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
-        app:layout_constraintStart_toEndOf="@+id/textView21"
-        tools:layout_editor_absoluteY="176dp" />
-
-    <TextView
-        android:id="@+id/textView26"
-        android:layout_width="220dp"
-        android:layout_height="21dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.512"
-        app:layout_constraintStart_toEndOf="@+id/textView22"
-        tools:layout_editor_absoluteY="225dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

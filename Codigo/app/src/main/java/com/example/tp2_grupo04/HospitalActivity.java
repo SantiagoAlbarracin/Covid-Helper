@@ -4,6 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.text.DecimalFormat;
 
 import javax.net.ssl.HostnameVerifier;
 
@@ -12,6 +17,14 @@ public class HospitalActivity extends AppCompatActivity {
     private String HospitalAddress;
     private String HospitalTelephone;
     private String HospitalDistance;
+    private Boolean riskFactor;
+    private TextView tvHospName;
+    private TextView tvHospAddress;
+    private TextView tvHospTel;
+    private TextView tvHospDistance;
+    private TextView tvHospCovid;
+    private Float distance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,8 +35,27 @@ public class HospitalActivity extends AppCompatActivity {
         HospitalAddress= extras.getString(Hospital.TAG_ADDRESS_HOSPITAL);
         HospitalTelephone= extras.getString(Hospital.TAG_TELEPHONE_HOSPITAL);
         HospitalDistance= extras.getString(Hospital.TAG_DISTANCE_HOSPITAL);
+        riskFactor= extras.getBoolean("RiskFactor");
 
-        
+
+        tvHospName=(TextView)findViewById(R.id.textViewHospName2);
+        tvHospAddress=(TextView)findViewById(R.id.textViewHospAddress2);
+        tvHospTel=(TextView)findViewById(R.id.textViewHospTel2);
+        tvHospDistance=(TextView)findViewById(R.id.textViewHospDistance2);
+        tvHospCovid=(TextView)findViewById(R.id.textViewHospCovid);
+
+        tvHospName.setText(HospitalName);
+        tvHospAddress.setText(HospitalAddress);
+        tvHospTel.setText(HospitalTelephone);
+        distance=Float.parseFloat(HospitalDistance);
+        tvHospDistance.setText(String.valueOf(new DecimalFormat("#.##").format(distance))+"km");
+
+        if(riskFactor){
+            tvHospCovid.setText("Es probable que usted tenga COVID, evite el contacto estrecho con otras personas y use tapabocas. Debe tener especial cuidado ya que presenta factores de riesgo");
+        }else{
+            tvHospCovid.setText("Es probable que usted tenga COVID, evite el contacto estrecho con otras personas y use tapabocas.");
+        }
+
 
     }
 }

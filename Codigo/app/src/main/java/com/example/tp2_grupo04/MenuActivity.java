@@ -100,6 +100,7 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
         Sensor proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         if(proximitySensor != null){
             sensorManager.registerListener(this,proximitySensor,SensorManager.SENSOR_DELAY_UI);
+
         }else{
             Toast.makeText(this, "Sensor no encontrado!", Toast.LENGTH_SHORT).show();
         }
@@ -151,6 +152,7 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
 
     public void lanzarActivityDiagnosis(String... strings) {
         Intent intent = new Intent(MenuActivity.this, DiagnosisActivity.class);
+        sensorManager.unregisterListener(MenuActivity.this);
         startActivity(intent);
         finish();
     }

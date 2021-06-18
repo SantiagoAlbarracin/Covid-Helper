@@ -43,6 +43,7 @@ public class DistanceSensorAsyncTask extends AsyncTask<Void, Void, Boolean>  {
     protected void onPostExecute(Boolean aBoolean) {
         if(aBoolean){
             this.menuActivity.lanzarActivityDiagnosis();
+            //this.menuActivity.sensorManager.unregisterListener(MenuActivity.this);
         }
     }
 
