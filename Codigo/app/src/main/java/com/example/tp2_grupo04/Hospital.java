@@ -6,6 +6,10 @@ public class Hospital {
     private String telephone;
     private Double latitude;
     private Double longitude;
+    public static final String TAG_NAME_HOSPITAL = "HospitalName";
+    public static final String TAG_ADDRESS_HOSPITAL = "HospitalAddress";
+    public static final String TAG_TELEPHONE_HOSPITAL = "HospitalTelephone";
+    public static final String TAG_DISTANCE_HOSPITAL = "HospitalDistance";
 
     public Hospital(String name, String address, String telephone, String coordinates) {
         this.name = name;
@@ -17,6 +21,9 @@ public class Hospital {
         String[] parts = coordinates.split(",");
         this.latitude = Double.valueOf(parts[0]);
         this.longitude = Double.valueOf(parts[1]);
+    }
+
+    public Hospital() {
     }
 
     public void setName(String name) {

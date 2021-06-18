@@ -61,6 +61,7 @@
     <string name="etiq_hosp_add">Direccion</string>
     <string name="etiq_hosp_tel">Telefono</string>
     <string name="etiq_hosp_cor">Distancia</string>
+    <string name="etiq_hosp_data">Estos son los datos del hospital más cecano</string>
 
 
 </resources>

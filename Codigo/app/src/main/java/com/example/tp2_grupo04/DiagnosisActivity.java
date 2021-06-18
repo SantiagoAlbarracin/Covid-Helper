@@ -20,6 +20,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.TreeMap;
 
@@ -144,10 +146,24 @@ public class DiagnosisActivity extends AppCompatActivity {
         if (hasCovid()) {
             if (hasRiskFactor()) {
                 setAlertText("Alerta!", "Usted tiene Covid y es de riesgo");
+
             } else {
                 setAlertText("Alerta!", "Usted tiene Covid");
+
             }
+            lanzarActivity();
         }
+    }
+
+    public void lanzarActivity(String... strings) {
+        Intent intent = new Intent(DiagnosisActivity.this, HospitalActivity.class);
+        Hospital hospital =  distancesArray.firstEntry().getValue();
+        intent.putExtra(Hospital.TAG_NAME_HOSPITAL,hospital.getName());
+        intent.putExtra(Hospital.TAG_DISTANCE_HOSPITAL,distancesArray.firstEntry().getKey().toString());
+        intent.putExtra(Hospital.TAG_TELEPHONE_HOSPITAL,hospital.getTelephone().toString());
+        intent.putExtra(Hospital.TAG_ADDRESS_HOSPITAL,hospital.getAddress());
+        startActivity(intent);
+        finish();
     }
 
     public void setAlertText(String title, String message) {
@@ -171,6 +187,7 @@ public class DiagnosisActivity extends AppCompatActivity {
             // Log.i("debug38", "Posicion " + key.toString() + ": " + value.toString());
         }
         Log.i("debug38", "Hospital mas cercano: " + distancesArray.firstEntry().toString());
+
     }
 
     private void calculateDistances(Double lat, Double lon) {
