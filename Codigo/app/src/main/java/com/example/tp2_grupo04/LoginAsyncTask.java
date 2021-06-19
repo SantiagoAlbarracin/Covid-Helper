@@ -17,8 +17,9 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
 
     private LoginActivity loginActivity;
     private User user;
-    private Boolean loginSucces=false;
-    private Boolean internetConnection=false;
+    private Boolean loginSucces = false;
+    private Boolean internetConnection = false;
+    private String serverResponse;
 
     public LoginAsyncTask(LoginActivity loginActivity) {
         this.loginActivity = loginActivity;
@@ -37,67 +38,49 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
             internetConnection = true;
             object.put("email", strings[0]);
             object.put("password", strings[1]);
-
             URL url = new URL(Utils.URI_LOGIN_USER);
-
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             connection.setDoOutput(true);
             connection.setDoInput(true);
             connection.setConnectTimeout(5000);
             connection.setRequestMethod("POST");
-
             DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
             dataOutputStream.write(object.toString().getBytes("UTF-8"));
-
             Log.i("debug104", "Se envia al servidor " + object.toString());
-
             dataOutputStream.flush();
-
             connection.connect();
-
             int responseCode = connection.getResponseCode();
-
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream());
                 result = Utils.convertInputStreamToString(inputStreamReader).toString();
                 loginSucces = true;
-
             } else if (responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
 
                 InputStreamReader inputStreamReader = new InputStreamReader(connection.getErrorStream());
                 result = Utils.convertInputStreamToString(inputStreamReader).toString();
                 loginSucces = false;
-
             } else {
                 result = "NOT_OK";
                 loginSucces = false;
-
             }
-            Log.i("debug83", "Me contestó " + result);
-
             dataOutputStream.close();
             connection.disconnect();
-
             answer = new JSONObject(result);
-
             result = answer.get("success").toString();
-
-
+            serverResponse = answer.getString("msg");
+            Log.i("debug166", answer.toString());
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
-
         if (result.matches("true")) {
             try {
                 user = new User(strings[0], strings[1], answer.get("token").toString(), answer.get("token_refresh").toString());
-                Log.i("debug166", user.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             return true;
         }
-
         return false;
     }
 
@@ -113,14 +96,13 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
         if (o) {
             this.loginActivity.lanzarActivity(user.getEmail(), user.getPassword(),
                     user.getToken(), user.getToken_refresh());
-
             executeRefresh(user.getEmail(), user.getPassword(),
                     user.getToken(), user.getToken_refresh());
         } else {
             if (!loginSucces && internetConnection) {
-                this.loginActivity.setAlertText("Error de Logueo!", "Mail y Contraseña no validos.");
+                this.loginActivity.setAlertText("Error de Logueo!", serverResponse);
             }
-            if (!internetConnection){
+            if (!internetConnection) {
                 this.loginActivity.setAlertText("Error de conexion!", "Debe conectarse a internet e intentar nuevamente");
             }
             this.loginActivity.progressBar.setVisibility(View.INVISIBLE);
