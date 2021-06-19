@@ -14,6 +14,7 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +46,7 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("AppInfo", "<<<<ON_CREATE MENU_ACTIVITY>>>>");
         setContentView(R.layout.activity_menu);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         etiqLocation = (TextView) findViewById(R.id.etiqLocationMenu);
@@ -65,22 +67,26 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onStop() {
         super.onStop();
+        Log.i("AppInfo", "<<<<ON_STOP MENU_ACTIVITY>>>>");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.i("AppInfo", "<<<<ON_DESTROY MENU_ACTIVITY>>>>");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        Log.i("AppInfo", "<<<<ON_PAUSE MENU_ACTIVITY>>>>");
         sensorManager.unregisterListener(MenuActivity.this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        Log.i("AppInfo", "<<<<ON_RESUME MENU_ACTIVITY>>>>");
         Sensor proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         if (proximitySensor != null) {
             sensorManager.registerListener(this, proximitySensor, SensorManager.SENSOR_DELAY_UI);
@@ -92,6 +98,7 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onStart(){
         super.onStart();
+        Log.i("AppInfo", "<<<<ON_START MENU_ACTIVITY>>>>");
     }
 
     public void onClickStepCounter(View view) {

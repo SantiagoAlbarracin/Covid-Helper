@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -51,6 +52,7 @@ public class DiagnosisActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("AppInfo", "<<<<ON_CREATE DIAGNOSIS_ACTIVITY>>>>");
         setContentView(R.layout.activity_diagnosis);
         btnTempHigh = (RadioButton) findViewById(R.id.radioButton4);
         btnTempLow = (RadioButton) findViewById(R.id.radioButton2);
@@ -237,11 +239,13 @@ public class DiagnosisActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        Log.i("AppInfo", "<<<<ON_STOP DIAGNOSIS_ACTIVITY>>>>");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.i("AppInfo", "<<<<ON_DESTROY DIAGNOSIS_ACTIVITY>>>>");
     }
 
     @Override
@@ -252,11 +256,13 @@ public class DiagnosisActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.i("AppInfo", "<<<<ON_RESUME DIAGNOSIS_ACTIVITY>>>>");
     }
 
     @Override
     protected void onStart(){
         super.onStart();
+        Log.i("AppInfo", "<<<<ON_START DIAGNOSIS_ACTIVITY>>>>");
     }
 
     public double distance(double lat1, double lng1, double lat2, double lng2) {

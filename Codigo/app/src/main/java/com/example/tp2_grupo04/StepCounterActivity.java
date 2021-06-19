@@ -52,6 +52,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("AppInfo", "<<<<ON_CREATE STEP_COUNTER_ACTIVITY>>>>");
         setContentView(R.layout.activity_step_counter);
         sp = this.getSharedPreferences(Utils.SP_STEP_TIME, Context.MODE_PRIVATE);
         iSteps = sp.getString(StepCounterActivity.ACTUAL_STEPS, "-1");
@@ -87,16 +88,19 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
     @Override
     protected void onStop() {
         super.onStop();
+        Log.i("AppInfo", "<<<<ON_STOP STEP_COUNTER_ACTIVITY>>>>");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.i("AppInfo", "<<<<ON_DESTROY STEP_COUNTER_ACTIVITY>>>>");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        Log.i("AppInfo", "<<<<ON_PAUSE STEP_COUNTER_ACTIVITY>>>>");
         //running = false;
         //Para que el hardware deje de detectar pasos
         //sensorManager.unregisterListener(this);
@@ -116,11 +120,13 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
     @Override
     protected void onStart(){
         super.onStart();
+        Log.i("AppInfo", "<<<<ON_START STEP_COUNTER_ACTIVITY>>>>");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        Log.i("AppInfo", "<<<<ON_RESUME STEP_COUNTER_ACTIVITY>>>>");
         previousTime = java.lang.System.currentTimeMillis();
         running = true;
         Sensor stepSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);

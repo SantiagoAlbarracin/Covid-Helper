@@ -8,11 +8,11 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,12 +27,11 @@ public class AuthenticationActivity extends AppCompatActivity {
     private String number = "";
     private AlertDialog alertDialog;
 
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+        Log.i("AppInfo", "<<<<ON_CREATE AUTHENTICATION_ACTIVITY>>>>");
         setContentView(R.layout.activity_authentication);
         btnAccept = (Button) findViewById(R.id.btnAcceptAuth);
         btnCancel = (Button) findViewById(R.id.btnCancelAuth);
@@ -69,26 +68,31 @@ public class AuthenticationActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        Log.i("AppInfo", "<<<<ON_STOP AUTHENTICATION_ACTIVITY>>>>");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.i("AppInfo", "<<<<ON_DESTROY AUTHENTICATION_ACTIVITY>>>>");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        Log.i("AppInfo", "<<<<ON_PAUSE AUTHENTICATION_ACTIVITY>>>>");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        Log.i("AppInfo", "<<<<ON_RESUME AUTHENTICATION_ACTIVITY>>>>");
     }
 
     @Override
     protected void onStart(){
         super.onStart();
+        Log.i("AppInfo", "<<<<ON_START AUTHENTICATION_ACTIVITY>>>>");
     }
 
     public void onClickAccept(View view) {

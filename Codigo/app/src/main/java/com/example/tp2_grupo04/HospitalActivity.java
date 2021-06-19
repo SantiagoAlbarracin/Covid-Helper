@@ -2,6 +2,7 @@ package com.example.tp2_grupo04;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ public class HospitalActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("AppInfo", "<<<<ON_CREATE HOSPITAL_ACTIVITY>>>>");
         setContentView(R.layout.activity_hospital);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -55,26 +57,31 @@ public class HospitalActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        Log.i("AppInfo", "<<<<ON_STOP HOSPITAL_ACTIVITY>>>>");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.i("AppInfo", "<<<<ON_DESTROY HOSPITAL_ACTIVITY>>>>");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        Log.i("AppInfo", "<<<<ON_PAUSE HOSPITAL_ACTIVITY>>>>");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        Log.i("AppInfo", "<<<<ON_RESUME HOSPITAL_ACTIVITY>>>>");
     }
 
     @Override
     protected void onStart(){
         super.onStart();
+        Log.i("AppInfo", "<<<<ON_START HOSPITAL_ACTIVITY>>>>");
     }
 
     public void onClickAccept(View view) {
