@@ -103,8 +103,19 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    public void onBackPressed() {
+        Intent intent = new Intent(StepCounterActivity.this, MenuActivity.class);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(StepCounterActivity.ACTUAL_STEPS, actualSteps.toString());
+        editor.putString(StepCounterActivity.ACTIVE_TIME, activeTime.toString());
+        editor.commit();
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
     }
 
     @Override

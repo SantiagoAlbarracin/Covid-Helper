@@ -3,7 +3,6 @@ package com.example.tp2_grupo04;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,9 +25,6 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText groupOrigin;
     public ProgressBar progressBar;
     private AlertDialog alertDialog;
-    public IntentFilter filter;
-    private OperationReceptor receiver = new OperationReceptor();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +41,6 @@ public class RegisterActivity extends AppCompatActivity {
         groupOrigin = (EditText) findViewById(R.id.editTextGroup);
         progressBar = (ProgressBar) findViewById(R.id.progressBarReg);
         alertDialog = new AlertDialog.Builder(RegisterActivity.this).create();
-        configureBroadcastReceiver();
     }
 
     @Override
@@ -64,13 +59,20 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart(){
+        super.onStart();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     public void onClickAccept(View view) {
@@ -87,12 +89,6 @@ public class RegisterActivity extends AppCompatActivity {
         intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
-    }
-
-    private void configureBroadcastReceiver() {
-        filter = new IntentFilter("com.example.httoconnection_intentservice.intent.action.RESPUESTA_OPERACION");
-        filter.addCategory(Intent.CATEGORY_DEFAULT);
-        registerReceiver(receiver, filter);
     }
 
     public void lanzarActivity() {
@@ -133,4 +129,11 @@ public class RegisterActivity extends AppCompatActivity {
                 });
         alertDialog.show();
     }
+
+    public void onClickBack(View view) {
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 }

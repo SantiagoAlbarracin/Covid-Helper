@@ -82,15 +82,14 @@ public class AuthenticationActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
     }
 
+    @Override
+    protected void onStart(){
+        super.onStart();
+    }
 
     public void onClickAccept(View view) {
         Intent intent;
@@ -130,4 +129,10 @@ public class AuthenticationActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(AuthenticationActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }

@@ -67,15 +67,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onStart(){
+        super.onStart();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
     }
-
 
     public void onClickSendCode(View view) {
         Intent intent;
@@ -90,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
     }
-
 
     public void setAlertText(String title, String message) {
         alertDialog.setTitle(title);

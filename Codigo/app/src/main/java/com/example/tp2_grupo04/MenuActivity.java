@@ -89,6 +89,10 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
+    @Override
+    protected void onStart(){
+        super.onStart();
+    }
 
     public void onClickStepCounter(View view) {
         Intent intent = new Intent(MenuActivity.this, StepCounterActivity.class);

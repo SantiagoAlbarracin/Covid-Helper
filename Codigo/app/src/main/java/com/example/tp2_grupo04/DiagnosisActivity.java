@@ -112,6 +112,12 @@ public class DiagnosisActivity extends AppCompatActivity {
         return false;
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(DiagnosisActivity.this, MenuActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
     public void onClickCancel(View view) {
         Intent intent = new Intent(DiagnosisActivity.this, MenuActivity.class);
@@ -228,6 +234,30 @@ public class DiagnosisActivity extends AppCompatActivity {
         return json;
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+    }
 
     public double distance(double lat1, double lng1, double lat2, double lng2) {
         double earthRad = 6371;//en kilómetros

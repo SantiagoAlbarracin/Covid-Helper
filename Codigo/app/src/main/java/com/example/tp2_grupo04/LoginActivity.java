@@ -58,8 +58,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onStart(){
+        super.onStart();
     }
 
     @Override
