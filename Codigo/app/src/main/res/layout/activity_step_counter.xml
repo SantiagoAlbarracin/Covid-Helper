@@ -22,11 +22,13 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="45dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
+        android:layout_marginBottom="208dp"
         android:onClick="onClickRestart"
         android:text="@string/button_start_step_counter"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewDistance2" />
 
@@ -53,7 +55,7 @@
         app:flow_horizontalAlign="center"
         app:flow_verticalAlign="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.633"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewSteps" />
 
@@ -81,10 +83,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="52dp"
         android:text="@string/etiq_speed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSteps2" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewSpeed2"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textViewActiveTime"
@@ -92,10 +93,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="52dp"
         android:text="@string/etiq_active_time"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSpeed" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewActiveTime2"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textViewDistance2"
@@ -103,7 +103,7 @@
         android:layout_height="43dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="45dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:gravity="center_horizontal|center_vertical"
@@ -120,10 +120,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="60dp"
         android:text="@string/etiq_distance"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewActiveTime" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewDistance2"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textViewActiveTime2"
@@ -131,7 +130,7 @@
         android:layout_height="43dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="45dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:gravity="center_horizontal|center_vertical"
@@ -142,5 +141,18 @@
         app:layout_constraintHorizontal_bias="0.41"
         app:layout_constraintStart_toEndOf="@+id/textViewActiveTime"
         app:layout_constraintTop_toBottomOf="@+id/textViewSpeed2" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="112dp"
+        android:layout_height="113dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="52dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewSpeed"
+        app:layout_constraintEnd_toStartOf="@+id/textViewSteps2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_steps" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

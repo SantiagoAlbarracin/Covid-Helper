@@ -86,8 +86,6 @@ public class RegisterAsyncTask extends AsyncTask<String, Void, Boolean> {
             e.printStackTrace();
         }
         return false;
-
-
     }
 
     @Override
@@ -96,7 +94,6 @@ public class RegisterAsyncTask extends AsyncTask<String, Void, Boolean> {
         this.registerActivity.btnAccept.setEnabled(false);
         this.registerActivity.btnCancel.setEnabled(false);
     }
-
 
     @Override
     protected void onPostExecute(Boolean o) {
