@@ -15,9 +15,8 @@ public class Hospital {
         this.name = name;
         this.address = address;
         this.telephone = telephone;
-        coordinates = coordinates.replace("[","");
-        coordinates = coordinates.replace("]","");
-
+        coordinates = coordinates.replace("[", "");
+        coordinates = coordinates.replace("]", "");
         String[] parts = coordinates.split(",");
         this.latitude = Double.valueOf(parts[0]);
         this.longitude = Double.valueOf(parts[1]);

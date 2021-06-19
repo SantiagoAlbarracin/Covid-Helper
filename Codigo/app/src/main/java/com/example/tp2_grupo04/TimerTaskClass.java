@@ -4,24 +4,21 @@ import java.util.Timer;
 
 public class TimerTaskClass {
 
-    private static TimerTaskClass _instance;
+    private static TimerTaskClass instance;
     private static Timer timer;
 
-    public TimerTaskClass() {
-    }
-
+    public TimerTaskClass() {}
 
     public void initTimer(){
         this.timer = new Timer();
     }
 
-    public synchronized TimerTaskClass getInstance()
-    {
-        if (_instance == null)
+    public synchronized TimerTaskClass getInstance() {
+        if (instance == null)
         {
-            _instance = new TimerTaskClass ();
+            instance = new TimerTaskClass ();
         }
-        return _instance;
+        return instance;
     }
 
     public Timer getTimer(){
@@ -33,4 +30,3 @@ public class TimerTaskClass {
     }
 
 }
-

@@ -2,7 +2,6 @@ package com.example.tp2_grupo04;
 
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +11,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Timer;
 import java.util.TimerTask;
 
 
@@ -24,7 +22,6 @@ public class User {
     private String token_refresh;
     public static TimerTaskClass timerTaskClass;
 
-
     public User(String email, String password, String token, String token_refresh) {
         this.email = email;
         this.password = password;
@@ -32,14 +29,12 @@ public class User {
         this.token_refresh = token_refresh;
     }
 
-    public User (){
+    public User() {
         this.email = "";
         this.password = "";
         this.token = "";
         this.token_refresh = "";
     }
-
-
 
     public String getEmail() {
         return email;
@@ -73,7 +68,7 @@ public class User {
         this.token_refresh = token_refresh;
     }
 
-    public void refreshTokenTask(){
+    public void refreshTokenTask() {
         setRepeatingAsyncTask();
     }
 
@@ -88,7 +83,6 @@ public class User {
     }
 
     class TokenTask extends AsyncTask<String, Void, Boolean> {
-
         private URL url;
         private HttpURLConnection connection = null;
 
@@ -100,73 +94,44 @@ public class User {
                 return false;
             }
             try {
-
                 url = new URL(Utils.URI_TOKEN_REFRESH);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
                 connection.setRequestProperty("Authorization", "Bearer " + token_refresh);
-                Log.i("debug666", "STRINGS 0 TIENE " + strings[0]);
                 connection.setDoOutput(true);
                 connection.setDoInput(true);
                 connection.setConnectTimeout(5000);
                 connection.setRequestMethod("PUT");
-
                 DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
                 dataOutputStream.write(strings[0].getBytes("UTF-8"));
-
-                Log.i("debug666", "Se envia al servidor " + strings[0]);
-
                 dataOutputStream.flush();
-
                 connection.connect();
-
                 Integer responseCode = connection.getResponseCode();
-                Log.i("debug666", " RECIBI EL RESPONSECODE " + responseCode.toString());
-
-                if( responseCode == HttpURLConnection.HTTP_OK ){
-                    Log.i("debug666", " ENTRE AL IF PORQUE FUE OK");
-
+                if (responseCode == HttpURLConnection.HTTP_OK) {
                     InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream());
                     result = Utils.convertInputStreamToString(inputStreamReader).toString();
-                }
-                else if( responseCode == HttpURLConnection.HTTP_BAD_REQUEST ){
-                    Log.i("debug666", " ENTRE AL ELSE PORQUE FUE BAD REQUEST");
-
+                } else if (responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
                     InputStreamReader inputStreamReader = new InputStreamReader(connection.getErrorStream());
                     result = Utils.convertInputStreamToString(inputStreamReader).toString();
-                }
-                else{
+                } else {
                     result = "NOT_OK";
-                    Log.i("debug666", " RECIBI EL RESULT, FUE NO OK");
                 }
-
                 dataOutputStream.close();
-
                 connection.disconnect();
-
                 answer = new JSONObject(result);
                 result = answer.get("success").toString();
                 User.this.setToken(answer.get("token").toString());
                 User.this.setToken_refresh(answer.get("token_refresh").toString());
-
-                Log.i("debug666", "Se recibio " + answer.toString());
             } catch (JSONException | IOException e) {
                 e.printStackTrace();
             }
-
             return null;
         }
-    };
-
-
+    }
 
     private void setRepeatingAsyncTask() {
-
         final Handler handler = new Handler();
-
-        Timer timer = new Timer();
         TimerTaskClass ttc = new TimerTaskClass();
-
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
@@ -182,10 +147,7 @@ public class User {
                 });
             }
         };
-
-        //timerTaskClass.getInstance().getTimer().schedule(task, 0, 30*60*1000);
         ttc.initTimer();
-        ttc.getInstance().getTimer().schedule(task, 0, 100*1000);
+        ttc.getInstance().getTimer().schedule(task, 0, 30 * 60 * 1000);
     }
-
 }

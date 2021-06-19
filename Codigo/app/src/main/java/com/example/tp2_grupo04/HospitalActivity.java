@@ -1,18 +1,13 @@
 package com.example.tp2_grupo04;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.DecimalFormat;
-
-import javax.net.ssl.HostnameVerifier;
 
 public class HospitalActivity extends AppCompatActivity {
     private String HospitalName;
@@ -33,36 +28,28 @@ public class HospitalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_hospital);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        HospitalName= extras.getString(Hospital.TAG_NAME_HOSPITAL);
-        HospitalAddress= extras.getString(Hospital.TAG_ADDRESS_HOSPITAL);
-        HospitalTelephone= extras.getString(Hospital.TAG_TELEPHONE_HOSPITAL);
-        HospitalDistance= extras.getString(Hospital.TAG_DISTANCE_HOSPITAL);
-        riskFactor= extras.getBoolean("RiskFactor");
-
-
-        tvHospName=(TextView)findViewById(R.id.textViewHospName2);
-        tvHospAddress=(TextView)findViewById(R.id.textViewHospAddress2);
-        tvHospTel=(TextView)findViewById(R.id.textViewHospTel2);
-        tvHospDistance=(TextView)findViewById(R.id.textViewHospDistance2);
-        tvHospCovid=(TextView)findViewById(R.id.textViewHospCovid);
-
+        HospitalName = extras.getString(Hospital.TAG_NAME_HOSPITAL);
+        HospitalAddress = extras.getString(Hospital.TAG_ADDRESS_HOSPITAL);
+        HospitalTelephone = extras.getString(Hospital.TAG_TELEPHONE_HOSPITAL);
+        HospitalDistance = extras.getString(Hospital.TAG_DISTANCE_HOSPITAL);
+        riskFactor = extras.getBoolean("RiskFactor");
+        tvHospName = (TextView) findViewById(R.id.textViewHospName2);
+        tvHospAddress = (TextView) findViewById(R.id.textViewHospAddress2);
+        tvHospTel = (TextView) findViewById(R.id.textViewHospTel2);
+        tvHospDistance = (TextView) findViewById(R.id.textViewHospDistance2);
+        tvHospCovid = (TextView) findViewById(R.id.textViewHospCovid);
         tvHospName.setText(HospitalName);
         tvHospAddress.setText(HospitalAddress);
         tvHospTel.setText(HospitalTelephone);
-        distance=Float.parseFloat(HospitalDistance);
-        tvHospDistance.setText(String.valueOf(new DecimalFormat("#.##").format(distance))+"km");
-
+        distance = Float.parseFloat(HospitalDistance);
+        tvHospDistance.setText(String.valueOf(new DecimalFormat("#.##").format(distance)) + "km");
         String covidString = "Es probable que usted tenga COVID, evite el contacto estrecho con otras personas y use tapabocas.";
-
-        if(riskFactor){
-            covidString = covidString +" Debe tener especial cuidado ya que presenta factores de riesgo";
-        }else{
+        if (riskFactor) {
+            covidString = covidString + " Debe tener especial cuidado ya que presenta factores de riesgo";
+        } else {
             tvHospCovid.setText("Es probable que usted tenga COVID, evite el contacto estrecho con otras personas y use tapabocas.");
         }
-
         tvHospCovid.setText(covidString);
-
-
     }
 
     public void onClickBack(View view) {

@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -20,14 +19,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.TreeMap;
 
 
 public class DiagnosisActivity extends AppCompatActivity {
-
 
     private RadioButton btnTempHigh;
     private RadioButton btnTempLow;
@@ -45,22 +41,17 @@ public class DiagnosisActivity extends AppCompatActivity {
     private CheckBox cbRespiratoryDisease;
     private Button btnCancel;
     private Button btnSend;
-
     private AlertDialog alertDialog;
-
     private SharedPreferences sp;
     private HashMap<Integer, Hospital> hospitalsArray;
     private TreeMap<Double, Hospital> distancesArray;
     private Double lat = 1.0;
     private Double lon = 1.0;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diagnosis);
-
-
         btnTempHigh = (RadioButton) findViewById(R.id.radioButton4);
         btnTempLow = (RadioButton) findViewById(R.id.radioButton2);
         btnYesHeadMuscleAche = (RadioButton) findViewById(R.id.radioButton11);
@@ -77,21 +68,13 @@ public class DiagnosisActivity extends AppCompatActivity {
         cbRespiratoryDisease = (CheckBox) findViewById(R.id.checkBox);
         btnCancel = (Button) findViewById(R.id.btnDiagCancel);
         btnSend = (Button) findViewById(R.id.btnDiagSend);
-
         alertDialog = new AlertDialog.Builder(DiagnosisActivity.this).create();
-
-
         sp = this.getSharedPreferences("UserLocation", Context.MODE_PRIVATE);
         String latitudeSP = sp.getString("Latitude", null);
         String longitudeSP = sp.getString("Longitude", null);
-
         generateHospitals();
-
         calculateDistances(Double.valueOf(longitudeSP), Double.valueOf(latitudeSP));
         recorrerMap();
-
-        Log.i("debug999", "OAAA Lei de SP: " + latitudeSP + " " + longitudeSP);
-
     }
 
     private boolean allRadiosChecked() {
@@ -137,7 +120,6 @@ public class DiagnosisActivity extends AppCompatActivity {
     }
 
     //Aca informamos hospital mas cercano si tiene covid
-
     public void onClickSend(View view) {
         if (!allRadiosChecked()) {
             setAlertText("¡Error!", "Por favor complete todos los campos");
@@ -193,10 +175,7 @@ public class DiagnosisActivity extends AppCompatActivity {
         for (TreeMap.Entry<Double, Hospital> entry : distancesArray.entrySet()) {
             Double key = entry.getKey();
             Hospital value = entry.getValue();
-            // Log.i("debug38", "Posicion " + key.toString() + ": " + value.toString());
         }
-        Log.i("debug38", "Hospital mas cercano: " + distancesArray.firstEntry().toString());
-
     }
 
     private void calculateDistances(Double lat, Double lon) {
@@ -209,13 +188,10 @@ public class DiagnosisActivity extends AppCompatActivity {
         }
     }
 
-
     public void generateHospitals() {
-
         JSONObject obj = null;
         Hospital hospital;
         hospitalsArray = new HashMap<Integer, Hospital>();
-
         try {
             obj = new JSONObject(readFile());
             JSONArray m_jArry = obj.getJSONArray("properties");
@@ -236,7 +212,6 @@ public class DiagnosisActivity extends AppCompatActivity {
         }
     }
 
-
     public String readFile() {
         String json = null;
         try {
@@ -255,7 +230,6 @@ public class DiagnosisActivity extends AppCompatActivity {
 
 
     public double distance(double lat1, double lng1, double lat2, double lng2) {
-
         double earthRad = 6371;//en kilómetros
         double dLat = Math.toRadians(lat2 - lat1);
         double dLng = Math.toRadians(lng2 - lng1);
@@ -265,7 +239,6 @@ public class DiagnosisActivity extends AppCompatActivity {
                 * Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2));
         double va2 = 2 * Math.atan2(Math.sqrt(va1), Math.sqrt(1 - va1));
         double distance = earthRad * va2;
-
         return distance;
     }
 }

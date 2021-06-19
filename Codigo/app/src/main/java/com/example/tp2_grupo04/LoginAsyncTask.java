@@ -47,7 +47,6 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
             connection.setRequestMethod("POST");
             DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
             dataOutputStream.write(object.toString().getBytes("UTF-8"));
-            Log.i("debug104", "Se envia al servidor " + object.toString());
             dataOutputStream.flush();
             connection.connect();
             int responseCode = connection.getResponseCode();
@@ -69,7 +68,6 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
             answer = new JSONObject(result);
             result = answer.get("success").toString();
             serverResponse = answer.getString("msg");
-            Log.i("debug166", answer.toString());
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }

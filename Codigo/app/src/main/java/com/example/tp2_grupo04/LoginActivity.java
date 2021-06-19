@@ -25,67 +25,57 @@ public class LoginActivity extends AppCompatActivity {
     public EditText loginPassword;
     public ProgressBar progressBar;
     private SharedPreferences sp;
-
     private String userEmail;
     private String userToken;
-
     private AlertDialog alertDialog;
-
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        btnRegister=(Button)findViewById(R.id.btnRegister);
-        btnLogin=(Button)findViewById(R.id.btnLogin);
-        loginEmail=(EditText)findViewById(R.id.editTextLoginEmail);
-        loginPassword=(EditText)findViewById(R.id.editTextLoginPassword);
+        btnRegister = (Button) findViewById(R.id.btnRegister);
+        btnLogin = (Button) findViewById(R.id.btnLogin);
+        loginEmail = (EditText) findViewById(R.id.editTextLoginEmail);
+        loginPassword = (EditText) findViewById(R.id.editTextLoginPassword);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
         sp = this.getSharedPreferences(Utils.SP_STEP_TIME, Context.MODE_PRIVATE);
-
-
     }
 
     @Override
-    protected void onStop()
-    {
+    protected void onStop() {
         super.onStop();
     }
 
     @Override
-    protected void onDestroy()
-    {
+    protected void onDestroy() {
         super.onDestroy();
     }
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
         super.onPause();
     }
 
     @Override
-    protected void onRestart()
-    {
+    protected void onRestart() {
         super.onRestart();
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
     }
 
-    public void onClickRegister(View view){
+    public void onClickRegister(View view) {
         Intent intent;
-        intent=new Intent(LoginActivity.this,RegisterActivity.class);
+        intent = new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(intent);
         finish();
     }
 
-    public void onClickLogin(View view){
-        if(checkFields()) {
+    public void onClickLogin(View view) {
+        if (checkFields()) {
             new LoginAsyncTask(LoginActivity.this).execute(loginEmail.getText().toString(), loginPassword.getText().toString());
         }
     }
@@ -98,25 +88,23 @@ public class LoginActivity extends AppCompatActivity {
         Date date = new Date();
         String eventDescription = "User Login " + userEmail + " at " + formatter.format(date).toString();
         new EventAsyncTask(LoginActivity.this).execute(Utils.TYPE_EVENT, eventDescription, userToken);
-
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(StepCounterActivity.ACTUAL_STEPS, "");
-       // editor.putString(StepCounterActivity.INITIAL_TIME, "");
         editor.putString(StepCounterActivity.ACTIVE_TIME, "");
         editor.commit();
         startActivity(intent);
         finish();
     }
 
-    public boolean checkFields(){
-        if(loginEmail.getText().toString().matches("") || loginPassword.getText().toString().matches("") ) {
+    public boolean checkFields() {
+        if (loginEmail.getText().toString().matches("") || loginPassword.getText().toString().matches("")) {
             setAlertText("Error de Logueo!", "Debe completar todos los campos.");
             return false;
-        }else if (!Utils.validate(loginEmail.getText().toString())) {
+        } else if (!Utils.validate(loginEmail.getText().toString())) {
             setAlertText("Error de Logueo!", "Debe ingresar un mail valido.");
             return false;
 
-        } else if (loginPassword.getText().toString().length() < 8){
+        } else if (loginPassword.getText().toString().length() < 8) {
             setAlertText("Error de Logueo!", "Debe ingresar una contraseña valida.");
             return false;
         }
@@ -124,8 +112,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-
-    public void setAlertText(String title, String message){
+    public void setAlertText(String title, String message) {
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",

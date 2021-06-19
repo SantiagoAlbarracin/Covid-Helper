@@ -34,17 +34,14 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
-
         btnAccept = (Button) findViewById(R.id.btnAcceptAuth);
         btnCancel = (Button) findViewById(R.id.btnCancelAuth);
         btnSendCode = (Button) findViewById(R.id.btnSendCodeAuth);
         userCode = (EditText) findViewById(R.id.editTextCode);
         alertDialog = new AlertDialog.Builder(AuthenticationActivity.this).create();
-
         Intent intent2 = getIntent();
         Bundle extras = intent2.getExtras();
         number = (String) extras.get("numeroTelefono");
-
         //random = (int) (Math.random() * 1000);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
@@ -53,13 +50,10 @@ public class AuthenticationActivity extends AppCompatActivity {
                 requestPermissions(new String[]{Manifest.permission.SEND_SMS}, 1);
             }
         }
-
-
     }
 
     private void sendSMS(String number2) {
         String number = number2;
-        //Log.i("debug70", number);
         //random = (int) (Math.random() * 1000);
         String message = "Su codigo de verificacion es:" + random.toString();
         try {

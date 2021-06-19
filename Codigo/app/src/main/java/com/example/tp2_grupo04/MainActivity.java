@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,75 +26,64 @@ public class MainActivity extends AppCompatActivity {
     private float batteryPct;
     private boolean isCharging;
 
-    //BatteryManager myBatteryManager = (BatteryManager) MainActivity.this.getSystemService(Context.BATTERY_SERVICE);
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btnSend=(Button)findViewById(R.id.btnSendCode);
-        telephoneNumber=(EditText)findViewById(R.id.editTextTelephoneNumber);
+        btnSend = (Button) findViewById(R.id.btnSendCode);
+        telephoneNumber = (EditText) findViewById(R.id.editTextTelephoneNumber);
         alertDialog = new AlertDialog.Builder(MainActivity.this).create();
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = MainActivity.this.registerReceiver(null, ifilter);
-        //status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
         int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
         int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-
-        batteryPct = level * 100 / (float)scale;
-        tvBatteryLevel = (TextView)findViewById(R.id.textViewBatteryLevel);
+        batteryPct = level * 100 / (float) scale;
+        tvBatteryLevel = (TextView) findViewById(R.id.textViewBatteryLevel);
         tvBatteryLevel.setText(String.valueOf(batteryPct));
         boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
                 status == BatteryManager.BATTERY_STATUS_FULL;
-        imageViewBattery=(ImageView)findViewById(R.id.imageViewBattery);
-        if(isCharging){
+        imageViewBattery = (ImageView) findViewById(R.id.imageViewBattery);
+        if (isCharging) {
             imageViewBattery.setImageResource(R.drawable.ic_battery_charging_90_black_48dp);
         }
-
-        Log.i("Bateria", String.valueOf(batteryPct));
     }
 
     @Override
-    protected void onStop()
-    {
+    protected void onStop() {
         super.onStop();
     }
 
     @Override
-    protected void onDestroy()
-    {
+    protected void onDestroy() {
         super.onDestroy();
     }
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
         super.onPause();
     }
 
     @Override
-    protected void onRestart()
-    {
+    protected void onRestart() {
         super.onRestart();
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
     }
 
 
-    public void onClickSendCode(View view){
+    public void onClickSendCode(View view) {
         Intent intent;
-        Log.i("debug59", "entre a onclicksendcode");
-        if(telephoneNumber.getText().toString().length() != 10){
+        if (telephoneNumber.getText().toString().length() != 10) {
             setAlertText("Error!", "Ingrese un número de telefono con el formato 11xxxxxxxx.");
-        } else if(telephoneNumber.getText().toString().matches("")) {
+        } else if (telephoneNumber.getText().toString().matches("")) {
             setAlertText("Error!", "Debe ingresar un número de telefono.");
-        }else{
+        } else {
             intent = new Intent(MainActivity.this, AuthenticationActivity.class);
             intent.putExtra("numeroTelefono", telephoneNumber.getText().toString());
             startActivity(intent);

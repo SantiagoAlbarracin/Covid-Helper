@@ -24,9 +24,7 @@ public class DistanceSensorAsyncTask extends AsyncTask<Void, Void, Boolean>  {
     protected Boolean doInBackground(Void... voids) {
         this.initialTime=System.currentTimeMillis();
         long actualTime;
-        while((actualTime=(System.currentTimeMillis() - initialTime)) <= 1000 && menuActivity.isCloseDistance()){
-
-        }
+        while((actualTime=(System.currentTimeMillis() - initialTime)) <= 1000 && menuActivity.isCloseDistance()){ }
         if(actualTime > 1000){ //salio del while porque pasó 1 segundo
             Log.i("Debug34", String.valueOf(actualTime));
             //entonces el usuario no hizo el gesto

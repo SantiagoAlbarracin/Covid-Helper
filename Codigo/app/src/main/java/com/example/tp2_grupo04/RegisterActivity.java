@@ -25,66 +25,56 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText commissionOrigin;
     private EditText groupOrigin;
     public ProgressBar progressBar;
-
     private AlertDialog alertDialog;
-
     public IntentFilter filter;
     private OperationReceptor receiver = new OperationReceptor();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        btnAccept=(Button)findViewById(R.id.btnAccept);
-        btnCancel=(Button)findViewById(R.id.btnCancel);
-        nameOrigin=(EditText)findViewById(R.id.editTextName);
-        lastnameOrigin=(EditText)findViewById(R.id.editTextLastname);
-        dniOrigin=(EditText)findViewById(R.id.editTextDni);
-        emailOrigin=(EditText)findViewById(R.id.editTextEmail);
-        passwordOrigin=(EditText)findViewById(R.id.editTextPassword);
-        commissionOrigin=(EditText)findViewById(R.id.editTextCommission);
-        groupOrigin=(EditText)findViewById(R.id.editTextGroup);
+        btnAccept = (Button) findViewById(R.id.btnAccept);
+        btnCancel = (Button) findViewById(R.id.btnCancel);
+        nameOrigin = (EditText) findViewById(R.id.editTextName);
+        lastnameOrigin = (EditText) findViewById(R.id.editTextLastname);
+        dniOrigin = (EditText) findViewById(R.id.editTextDni);
+        emailOrigin = (EditText) findViewById(R.id.editTextEmail);
+        passwordOrigin = (EditText) findViewById(R.id.editTextPassword);
+        commissionOrigin = (EditText) findViewById(R.id.editTextCommission);
+        groupOrigin = (EditText) findViewById(R.id.editTextGroup);
         progressBar = (ProgressBar) findViewById(R.id.progressBarReg);
-
         alertDialog = new AlertDialog.Builder(RegisterActivity.this).create();
-
         configureBroadcastReceiver();
     }
 
     @Override
-    protected void onStop()
-    {
+    protected void onStop() {
         super.onStop();
     }
 
     @Override
-    protected void onDestroy()
-    {
+    protected void onDestroy() {
         super.onDestroy();
     }
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
         super.onPause();
     }
 
     @Override
-    protected void onRestart()
-    {
+    protected void onRestart() {
         super.onRestart();
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
     }
 
-    public void onClickAccept(View view){
-            if(verifyRegisterFields()){
+    public void onClickAccept(View view) {
+        if (verifyRegisterFields()) {
             new RegisterAsyncTask(RegisterActivity.this).execute(nameOrigin.getText().toString(), lastnameOrigin.getText().toString(),
                     dniOrigin.getText().toString(), emailOrigin.getText().toString(),
                     passwordOrigin.getText().toString(), commissionOrigin.getText().toString(),
@@ -92,14 +82,14 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    public void onClickCancel(View view){
+    public void onClickCancel(View view) {
         Intent intent;
         intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
 
-    private void configureBroadcastReceiver(){
+    private void configureBroadcastReceiver() {
         filter = new IntentFilter("com.example.httoconnection_intentservice.intent.action.RESPUESTA_OPERACION");
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         registerReceiver(receiver, filter);
@@ -111,7 +101,7 @@ public class RegisterActivity extends AppCompatActivity {
         finish();
     }
 
-    private boolean verifyRegisterFields(){
+    private boolean verifyRegisterFields() {
         if (nameOrigin.getText().toString().matches("") || lastnameOrigin.getText().toString().matches("")
                 || dniOrigin.getText().toString().matches("") || emailOrigin.getText().toString().matches("")
                 || passwordOrigin.getText().toString().matches("") || commissionOrigin.getText().toString().matches("")
@@ -122,18 +112,17 @@ public class RegisterActivity extends AppCompatActivity {
         } else if (!Utils.validate(emailOrigin.getText().toString())) {
             setAlertText("Error de Registro!", "Debe ingresar un mail valido.");
             return false;
-        } else if (passwordOrigin.getText().toString().length() < 8){
+        } else if (passwordOrigin.getText().toString().length() < 8) {
             setAlertText("Error de Registro!", "Debe ingresar una contraseña de 8 caracteres o más.");
             return false;
-        } else if(dniOrigin.getText().toString().length() < 7){
+        } else if (dniOrigin.getText().toString().length() < 7) {
             setAlertText("Error de Registro!", "Debe ingresar un DNI valido.");
             return false;
         }
         return true;
     }
 
-
-    public void setAlertText(String title, String message){
+    public void setAlertText(String title, String message) {
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
