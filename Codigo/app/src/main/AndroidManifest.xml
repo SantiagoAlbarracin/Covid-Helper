@@ -34,7 +34,6 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".ServiceHTTP_POST" />
     </application>
 
 </manifest>
