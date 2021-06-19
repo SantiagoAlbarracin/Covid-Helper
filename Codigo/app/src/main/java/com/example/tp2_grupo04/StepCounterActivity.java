@@ -166,7 +166,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
                         previousTime=actualTime;
                         previousSteps=actualSteps;
                         if (speed>=2) {
-                            setAlertText("Atención!", "Debe hacer reposo, no corra!");
+                            setAlertText("¡Atención!", "¡Debe hacer reposo, no corra!");
                         }
                     }
                 }

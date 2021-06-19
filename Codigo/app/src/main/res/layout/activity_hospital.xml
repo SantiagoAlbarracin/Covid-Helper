@@ -10,22 +10,26 @@
         android:id="@+id/textVieHospTitle"
         android:layout_width="264dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="44dp"
         android:text="@string/etiq_hosp_data"
         android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.108"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewHospCovid" />
 
     <TextView
         android:id="@+id/textViewHospName"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="40dp"
         android:text="@string/etiq_hosp_nom"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textVieHospTitle" />
 
@@ -37,17 +41,18 @@
         android:layout_marginRight="16dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textViewHospName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.611"
+        app:layout_constraintHorizontal_bias="0.62"
         app:layout_constraintStart_toEndOf="@+id/textViewHospName" />
 
     <TextView
         android:id="@+id/textViewHospAddress"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="40dp"
         android:text="@string/etiq_hosp_add"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewHospName" />
 
@@ -62,12 +67,13 @@
 
     <TextView
         android:id="@+id/textViewHospTel"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="40dp"
         android:text="@string/etiq_hosp_tel"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewHospAddress" />
 
@@ -79,6 +85,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/etiq_hosp_cor"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/buttonHospBack"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewHospTel" />
@@ -108,6 +115,8 @@
         android:layout_width="306dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -116,7 +125,7 @@
         android:id="@+id/buttonHospBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         android:onClick="onClickBack"
         android:text="@string/button_accept"
         app:layout_constraintEnd_toEndOf="parent"

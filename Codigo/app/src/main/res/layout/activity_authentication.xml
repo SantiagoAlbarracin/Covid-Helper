@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="@string/edit_auth_code"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/editTextCode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
