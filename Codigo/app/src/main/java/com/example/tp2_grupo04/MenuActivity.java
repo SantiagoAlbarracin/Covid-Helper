@@ -57,7 +57,9 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
         String longitudeSP = sp.getString("Longitude", null);
         if (latitudeSP != null && longitudeSP != null) {
             etiqLocation.setText("Ultima ubicación: " + latitudeSP + ", " + longitudeSP);
-            etiqLocation.setVisibility(View.VISIBLE);
+            if (etiqLocation.getVisibility() == View.GONE) {
+                etiqLocation.setVisibility(View.VISIBLE);
+            }
         } else {
             etiqLocation.setVisibility(View.GONE);
         }
@@ -96,7 +98,7 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         Log.i("AppInfo", "<<<<ON_START MENU_ACTIVITY>>>>");
     }
@@ -160,6 +162,12 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
                             SharedPreferences.Editor editor = sp.edit();
                             editor.putString("Latitude", MenuActivity.this.lat.toString());
                             editor.putString("Longitude", MenuActivity.this.lon.toString());
+                            String latitudeSP = MenuActivity.this.lat.toString();
+                            String longitudeSP = MenuActivity.this.lon.toString();
+                            etiqLocation.setText("Ultima ubicación: " + latitudeSP + ", " + longitudeSP);
+                            if (etiqLocation.getVisibility() == View.GONE) {
+                                etiqLocation.setVisibility(View.VISIBLE);
+                            }
                             editor.commit();
                         }
                     }
