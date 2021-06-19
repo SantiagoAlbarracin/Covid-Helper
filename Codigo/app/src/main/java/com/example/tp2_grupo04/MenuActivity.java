@@ -75,11 +75,7 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onPause() {
         super.onPause();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
+        sensorManager.unregisterListener(MenuActivity.this);
     }
 
     @Override
