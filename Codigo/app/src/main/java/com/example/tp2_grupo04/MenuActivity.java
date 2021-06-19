@@ -28,14 +28,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 public class MenuActivity extends AppCompatActivity implements SensorEventListener {
 
     public SensorManager sensorManager;
-    private TextView etiqLocation;
+    private TextView etiqProximity;
     private AlertDialog alertDialog;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private SharedPreferences sp;
+    private SharedPreferences spProximity;
     public Double lat = 1.0;
     public Double lon = 1.0;
-    private String iSteps;
-    private String iTime;
 
     public boolean isCloseDistance() {
         return closeDistance;
@@ -49,19 +48,21 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
         Log.i("AppInfo", "<<<<ON_CREATE MENU_ACTIVITY>>>>");
         setContentView(R.layout.activity_menu);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        etiqLocation = (TextView) findViewById(R.id.etiqLocationMenu);
+        etiqProximity = (TextView) findViewById(R.id.etiqLocationMenu);
         alertDialog = new AlertDialog.Builder(MenuActivity.this).create();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        sp = this.getSharedPreferences("UserLocation", Context.MODE_PRIVATE);
+        sp = this.getSharedPreferences(Utils.USER_LOCATION, Context.MODE_PRIVATE);
+        spProximity = this.getSharedPreferences(Utils.PROXIMITY_SENSOR, Context.MODE_PRIVATE);
         String latitudeSP = sp.getString("Latitude", null);
         String longitudeSP = sp.getString("Longitude", null);
-        if (latitudeSP != null && longitudeSP != null) {
-            etiqLocation.setText("Ultima ubicación: " + latitudeSP + ", " + longitudeSP);
-            if (etiqLocation.getVisibility() == View.GONE) {
-                etiqLocation.setVisibility(View.VISIBLE);
+        String proximitySP = spProximity.getString("Proximity", null);
+        if (proximitySP != null ) {
+            etiqProximity.setText("Sensor Proximidad: " + proximitySP );
+            if (etiqProximity.getVisibility() == View.GONE) {
+                etiqProximity.setVisibility(View.VISIBLE);
             }
         } else {
-            etiqLocation.setVisibility(View.GONE);
+            etiqProximity.setVisibility(View.GONE);
         }
         getLocation();
     }
@@ -127,6 +128,15 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
     public void onSensorChanged(SensorEvent event) {
         switch (event.sensor.getType()) {
             case Sensor.TYPE_PROXIMITY:
+                String proximitySP = String.valueOf(event.values[0]);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("Proximity", proximitySP);
+                editor.commit();
+                etiqProximity.setText("Sensor Proximidad: " + proximitySP);
+                if (etiqProximity.getVisibility() == View.GONE) {
+                    etiqProximity.setVisibility(View.VISIBLE);
+                }
+
                 if (event.values[0] < event.sensor.getMaximumRange()) {
                     this.closeDistance = true;
                     new DistanceSensorAsyncTask(MenuActivity.this).execute();
@@ -162,12 +172,6 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
                             SharedPreferences.Editor editor = sp.edit();
                             editor.putString("Latitude", MenuActivity.this.lat.toString());
                             editor.putString("Longitude", MenuActivity.this.lon.toString());
-                            String latitudeSP = MenuActivity.this.lat.toString();
-                            String longitudeSP = MenuActivity.this.lon.toString();
-                            etiqLocation.setText("Ultima ubicación: " + latitudeSP + ", " + longitudeSP);
-                            if (etiqLocation.getVisibility() == View.GONE) {
-                                etiqLocation.setVisibility(View.VISIBLE);
-                            }
                             editor.commit();
                         }
                     }
