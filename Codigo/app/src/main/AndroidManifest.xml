@@ -18,15 +18,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TP2_GRUPO04"
+
         android:usesCleartextTraffic="true">
-        <activity android:name=".HospitalActivity"></activity>
-        <activity android:name=".DiagnosisActivity"></activity>
-        <activity android:name=".MenuActivity" />
-        <activity android:name=".StepCounterActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".AuthenticationActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".HospitalActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".DiagnosisActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".MenuActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".StepCounterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AuthenticationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
