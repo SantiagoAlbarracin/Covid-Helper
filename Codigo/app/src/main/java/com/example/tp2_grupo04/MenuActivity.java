@@ -12,14 +12,17 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,6 +40,8 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
     public Double lon = 1.0;
     private String iSteps;
     private String iTime;
+    final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+
 
     public boolean isCloseDistance() {
         return closeDistance;
@@ -50,6 +55,9 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         Log.i("AppInfo", "<<<<ON_CREATE MENU_ACTIVITY>>>>");
         setContentView(R.layout.activity_menu);
+        if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            buildAlertMessageNoGps();
+        }
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         etiqLocation = (TextView) findViewById(R.id.etiqLocationMenu);
         etiqProximity = (TextView) findViewById(R.id.etiqProximity);
@@ -219,4 +227,16 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
         alertDialog.show();
     }
 
+    private void buildAlertMessageNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Su GPS parece estar deshabilitado. Habilite el GPS.")
+                .setCancelable(false)
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
 }
