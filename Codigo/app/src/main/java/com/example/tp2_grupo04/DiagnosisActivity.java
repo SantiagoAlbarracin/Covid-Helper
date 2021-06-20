@@ -48,6 +48,8 @@ public class DiagnosisActivity extends AppCompatActivity {
     private TreeMap<Double, Hospital> distancesArray;
     private Double lat = 1.0;
     private Double lon = 1.0;
+    private String latitudeSP;
+    private String longitudeSP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +74,12 @@ public class DiagnosisActivity extends AppCompatActivity {
         btnSend = (Button) findViewById(R.id.btnDiagSend);
         alertDialog = new AlertDialog.Builder(DiagnosisActivity.this).create();
         sp = this.getSharedPreferences("UserLocation", Context.MODE_PRIVATE);
-        String latitudeSP = sp.getString("Latitude", null);
-        String longitudeSP = sp.getString("Longitude", null);
+        if(sp.contains("Latitude") && sp.contains("Longitude")){
+            latitudeSP = sp.getString("Latitude", null);
+            longitudeSP = sp.getString("Longitude", null);
+        }
         generateHospitals();
         calculateDistances(Double.valueOf(longitudeSP), Double.valueOf(latitudeSP));
-        recorrerMap();
     }
 
     private boolean allRadiosChecked() {
@@ -145,8 +148,8 @@ public class DiagnosisActivity extends AppCompatActivity {
         intent.putExtra(Hospital.TAG_DISTANCE_HOSPITAL, distancesArray.firstEntry().getKey().toString());
         intent.putExtra(Hospital.TAG_TELEPHONE_HOSPITAL, hospital.getTelephone().toString());
         intent.putExtra(Hospital.TAG_ADDRESS_HOSPITAL, hospital.getAddress());
-        boolean riskFactor=hasRiskFactor();
-        intent.putExtra("RiskFactor",riskFactor);
+        boolean riskFactor = hasRiskFactor();
+        intent.putExtra("RiskFactor", riskFactor);
         startActivity(intent);
         finish();
     }
@@ -163,7 +166,8 @@ public class DiagnosisActivity extends AppCompatActivity {
         alertDialog.show();
 
     }
-    public void setAlertTextMenuButton(String title, String message){
+
+    public void setAlertTextMenuButton(String title, String message) {
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -176,14 +180,6 @@ public class DiagnosisActivity extends AppCompatActivity {
                     }
                 });
         alertDialog.show();
-    }
-
-    //Esta se va. Es para probar
-    public void recorrerMap() {
-        for (TreeMap.Entry<Double, Hospital> entry : distancesArray.entrySet()) {
-            Double key = entry.getKey();
-            Hospital value = entry.getValue();
-        }
     }
 
     private void calculateDistances(Double lat, Double lon) {
@@ -260,7 +256,7 @@ public class DiagnosisActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         Log.i("AppInfo", "<<<<ON_START DIAGNOSIS_ACTIVITY>>>>");
     }

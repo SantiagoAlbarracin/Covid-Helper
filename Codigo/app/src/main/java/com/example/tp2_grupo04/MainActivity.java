@@ -25,8 +25,12 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageViewBattery;
     private AlertDialog alertDialog;
     private float batteryPct;
-    private boolean isCharging;
 
+
+    /*
+        Creación de la activity Main.
+        Se obtienen datos de la bateria del dispositivo para mostrar por pantalla.
+     */
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -83,6 +87,9 @@ public class MainActivity extends AppCompatActivity {
         Log.i("AppInfo", "<<<<ON_RESUME MAIN_ACTIVITY>>>>");
     }
 
+    /*
+
+     */
     public void onClickSendCode(View view) {
         Intent intent;
         if (telephoneNumber.getText().toString().length() != 10) {

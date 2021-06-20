@@ -65,14 +65,18 @@ public class EventAsyncTask extends AsyncTask<String, Void, Boolean> {
             dataOutputStream.close();
             connection.disconnect();
             answer = new JSONObject(result);
-            result = answer.get("success").toString();
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
-        if (result.matches("true")) {
-            return true;
+        if (!result.matches("true")) {
+            try {
+                result = answer.get("success").toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return false;
         }
-        return false;
+        return true;
     }
 
     @Override

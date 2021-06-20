@@ -73,11 +73,12 @@ public class RegisterAsyncTask extends AsyncTask<String, Void, Boolean> {
             connection.disconnect();
             JSONObject answer = new JSONObject(result);
             result = answer.get("success").toString();
-            serverResponse = answer.getString("msg");
-            if (result.matches("true")) {
-                return true;
+
+            if (!result.matches("true")) {
+                serverResponse = answer.getString("msg");
+                return false ;
             }
-            return false;
+            return true;
         } catch (JSONException | MalformedURLException | ProtocolException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {

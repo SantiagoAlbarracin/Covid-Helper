@@ -18,10 +18,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -146,6 +144,7 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
                 SharedPreferences.Editor editor = sp.edit();
                 editor.remove("Proximity");
                 editor.putString("Proximity", proximitySP);
+                Log.i("AppInfo", "<<<<PROXIMITY SENSOR: " + proximitySP + ">>>>");
                 editor.commit();
                 etiqProximity.setText("Sensor Proximidad: " + proximitySP);
                 if (etiqProximity.getVisibility() == View.GONE) {
@@ -188,18 +187,11 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
                         SharedPreferences.Editor editor = MenuActivity.this.sp.edit();
                         String latitudeSP =  MenuActivity.this.sp.getString("Latitude", null);
                         String longitudeSP =  MenuActivity.this.sp.getString("Longitude", null);
-                        Log.i("Debug191", "Originalmente tengo: " + latitudeSP + " , " + longitudeSP);
+                        Log.i("AppInfo", "<<<<LOCATION SENSOR: " + latitudeSP +" , " + longitudeSP + ">>>>");
                         editor.remove("Latitude");
                         editor.remove("Longitude");
-                        latitudeSP =  MenuActivity.this.sp.getString("Latitude", null);
-                        longitudeSP =  MenuActivity.this.sp.getString("Longitude", null);
-                        Log.i("Debug196", "Dps de borrar tengo: " + latitudeSP + " , " + longitudeSP);
-
                         editor.putString("Latitude", MenuActivity.this.lat.toString());
                         editor.putString("Longitude", MenuActivity.this.lon.toString());
-                        latitudeSP = MenuActivity.this.lat.toString();
-                        longitudeSP = MenuActivity.this.lon.toString();
-                        Log.i("Debug202", "Al final tengo: " + latitudeSP + " , " + longitudeSP);
                         etiqLocation.setText("Ultima ubicación: " + latitudeSP + ", " + longitudeSP);
                         if (etiqLocation.getVisibility() == View.GONE) {
                             etiqLocation.setVisibility(View.VISIBLE);

@@ -9,24 +9,13 @@ import java.util.regex.Pattern;
 
 public class Utils {
 
-    private Integer band = 0;
     public static final String URI_REGISTER_USER = "http://so-unlam.net.ar/api/api/register";
     public static final String URI_LOGIN_USER = "http://so-unlam.net.ar/api/api/login";
     public static final String URI_TOKEN_REFRESH = "http://so-unlam.net.ar/api/api/refresh";
     public static final String URI_REGISTER_EVENT = "http://so-unlam.net.ar/api/api/event";
     public static final String TYPE_EVENT = "User Login";
     public static final String PROXIMITY_SENSOR = "ProximitySensor";
-    public static final String PROXIMITY = "Proximity";
-    public static final String LOCATION_SENSOR = "LocationSensor";
-    public static final String LATITUDE = "Latitude";
-    public static final String LONGITUDE = "Longitude";
-
     public static final String SP_STEP_TIME = "SPSTEPTIME";
-
-    public Integer getBand() {
-        return this.band;
-    }
-
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     public static boolean validate(String emailStr) {

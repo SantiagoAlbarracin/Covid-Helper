@@ -1,7 +1,6 @@
 package com.example.tp2_grupo04;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 
 import org.json.JSONException;
@@ -67,19 +66,23 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
             connection.disconnect();
             answer = new JSONObject(result);
             result = answer.get("success").toString();
-            serverResponse = answer.getString("msg");
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
-        if (result.matches("true")) {
+        if (!result.matches("true")) {
             try {
-                user = new User(strings[0], strings[1], answer.get("token").toString(), answer.get("token_refresh").toString());
+                serverResponse = answer.getString("msg");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return true;
+            return false;
         }
-        return false;
+        try {
+            user = new User(strings[0], strings[1], answer.get("token").toString(), answer.get("token_refresh").toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     @Override

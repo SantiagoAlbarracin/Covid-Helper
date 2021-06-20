@@ -112,7 +112,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         Intent intent = new Intent(StepCounterActivity.this, MenuActivity.class);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(StepCounterActivity.ACTUAL_STEPS, actualSteps.toString());
-        if(activeTime != null) {
+        if (activeTime != null) {
             editor.putString(StepCounterActivity.ACTIVE_TIME, activeTime.toString());
         }
         editor.commit();
@@ -121,12 +121,12 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         Log.i("AppInfo", "<<<<ON_START STEP_COUNTER_ACTIVITY>>>>");
     }
 
-    protected void onRestart(){
+    protected void onRestart() {
         super.onRestart();
     }
 
@@ -160,13 +160,11 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
                     tvActiveTime.setText(String.valueOf(activeTime) + "s");
                     if (seconds >= 5) {
                         speed = (double) (actualSteps - previousSteps) / seconds;
-                        Log.i("debug147 speed", String.valueOf(speed));
                         tvSpeed.setText(String.valueOf(new DecimalFormat("#.##").format(speed) + "p/s"));
                         previousTime = actualTime;
                         previousSteps = actualSteps;
                     }
-                    if (speed >= 2 && !alertDialog.isShowing() && !(StepCounterActivity.this).isFinishing())
-                    {
+                    if (speed >= 2 && !alertDialog.isShowing() && !(StepCounterActivity.this).isFinishing()) {
                         setAlertText("¡Atención!", "¡Debe hacer reposo, no corra!");
                     }
                 }
@@ -179,9 +177,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
     }
-
 
 
     public void onClickRestart(View view) {
