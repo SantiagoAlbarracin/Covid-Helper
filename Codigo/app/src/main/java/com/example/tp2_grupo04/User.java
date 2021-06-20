@@ -148,6 +148,6 @@ public class User {
             }
         };
         ttc.initTimer();
-        ttc.getInstance().getTimer().schedule(task, 0, 30 * 60 * 1000);
+        ttc.getInstance().getTimer().schedule(task, 0, 25 * 60 * 1000);
     }
 }

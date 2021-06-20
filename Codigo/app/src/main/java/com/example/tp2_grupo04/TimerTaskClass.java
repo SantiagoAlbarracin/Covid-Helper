@@ -10,7 +10,9 @@ public class TimerTaskClass {
     public TimerTaskClass() {}
 
     public void initTimer(){
-        this.timer = new Timer();
+        if(this.timer == null) {
+            this.timer = new Timer();
+        }
     }
 
     public synchronized TimerTaskClass getInstance() {
