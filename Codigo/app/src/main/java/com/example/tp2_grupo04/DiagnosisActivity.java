@@ -74,6 +74,8 @@ public class DiagnosisActivity extends AppCompatActivity {
         btnSend = (Button) findViewById(R.id.btnDiagSend);
         alertDialog = new AlertDialog.Builder(DiagnosisActivity.this).create();
         sp = this.getSharedPreferences("UserLocation", Context.MODE_PRIVATE);
+        latitudeSP="-34.6705306";
+        longitudeSP="-58.5650036";
         if(sp.contains("Latitude") && sp.contains("Longitude")){
             latitudeSP = sp.getString("Latitude", null);
             longitudeSP = sp.getString("Longitude", null);
