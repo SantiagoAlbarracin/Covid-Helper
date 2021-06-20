@@ -55,7 +55,13 @@ public class DiagnosisActivity extends AppCompatActivity {
     private AlertDialog alert;
 
 
-
+    /*
+        Se crea la activity Diagnosis, se setean botones y etiquetas.
+        Se obtiene la ubicacion del SP del usuario. En caso de que no se pueda obtener, se tiene por defecto la de la UNLaM.
+        Se genera una lista con los hospitales que se encuentran en formato JSON en el archivo HospitalsBA.
+        Estos hospitales son de CABA. La informacion propuesta por Nación es sin datos de latitud y longitud.
+        Se calcula la distancia aproximada de la posicion actual del usuario al hospital mas cercano.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +95,9 @@ public class DiagnosisActivity extends AppCompatActivity {
         calculateDistances(Double.valueOf(longitudeSP), Double.valueOf(latitudeSP));
     }
 
+    /*
+        Se verifica que todos los radio buttons esten chequeados.
+     */
     private boolean allRadiosChecked() {
         if (!btnTempHigh.isChecked() && !btnTempLow.isChecked()) {
             return false;
@@ -108,6 +117,9 @@ public class DiagnosisActivity extends AppCompatActivity {
         return true;
     }
 
+    /*
+        Si presenta alguna condicion preexistente se considera de riesgo al usuario
+     */
     private boolean hasRiskFactor() {
         if (cbDiabetes.isChecked() || cbLowDefence.isChecked() || cbHeartDisease.isChecked() ||
                 cbRespiratoryDisease.isChecked()) {
@@ -116,6 +128,9 @@ public class DiagnosisActivity extends AppCompatActivity {
         return false;
     }
 
+    /*
+        Si tiene al menos 2 sintomas, se considera potencial caso de covid.
+     */
     private boolean hasCovid() {
         if (btnTempHigh.isChecked() || btnYesHeadMuscleAche.isChecked() || btnYesCoughSoreThroat.isChecked() ||
                 btnYesRespiratoryDistress.isChecked() || btnYesSmellTaste.isChecked()) {
@@ -124,6 +139,9 @@ public class DiagnosisActivity extends AppCompatActivity {
         return false;
     }
 
+    /*
+        Cuando el usuario presiona el boton back de la Android UI, se lo dirige a la activity Login.
+     */
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(DiagnosisActivity.this, MenuActivity.class);
@@ -131,13 +149,21 @@ public class DiagnosisActivity extends AppCompatActivity {
         finish();
     }
 
+    /*
+        Al presionar el boton cancelar, se dirige al usuario a la activity Menu.
+     */
     public void onClickCancel(View view) {
         Intent intent = new Intent(DiagnosisActivity.this, MenuActivity.class);
         startActivity(intent);
         finish();
     }
 
-    //Aca informamos hospital mas cercano si tiene covid
+    /*
+        En caso de que esten todos los radio buttons seleccionados, se evalua si el usuario es potencial caso de covid.
+        En caso de serlo, se lo enviará a la activity Hospital, donde se le mostrará informacion del hospital mas cercano.
+        Si no estan todos los campos seleccionados se le alertara al usuario de que debe completar todos los campos.
+        Si no es potencial caso de covid, se le informará al usuario.
+     */
     public void onClickSend(View view) {
         if (!allRadiosChecked()) {
             setAlertText("¡Error!", "Por favor complete todos los campos");
@@ -148,6 +174,10 @@ public class DiagnosisActivity extends AppCompatActivity {
         }
     }
 
+    /*
+        Se lanza la activity Hospital, la cual contiene informacion del hospital mas cercano al usuario.
+        Ademas se le indicará si es de riesgo o no.
+     */
     public void lanzarActivity(String... strings) {
         Intent intent = new Intent(DiagnosisActivity.this, HospitalActivity.class);
         Hospital hospital = distancesArray.firstEntry().getValue();
@@ -161,6 +191,9 @@ public class DiagnosisActivity extends AppCompatActivity {
         finish();
     }
 
+    /*
+        Se realiza el seteo de titulo y mensaje para las alertas al usuario.
+     */
     public void setAlertText(String title, String message) {
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
@@ -174,6 +207,10 @@ public class DiagnosisActivity extends AppCompatActivity {
 
     }
 
+    /*
+            Se realiza el seteo de titulo y mensaje para las alertas al usuario.
+            Posteriormente se lo envia a la activity Menu.
+    */
     public void setAlertTextMenuButton(String title, String message) {
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
@@ -189,6 +226,10 @@ public class DiagnosisActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    /*
+        Se calculan las distancias de cada hospital a la ubicacion del usuario. Estos se almacenaran de manera ascendente
+        en un TreeMap, donde la distancia es la clave. La primer posicion sera el hospital mas cercano al usuario.
+     */
     private void calculateDistances(Double lat, Double lon) {
         distancesArray = new TreeMap<Double, Hospital>();
         for (HashMap.Entry<Integer, Hospital> entry : hospitalsArray.entrySet()) {
@@ -199,6 +240,9 @@ public class DiagnosisActivity extends AppCompatActivity {
         }
     }
 
+    /*
+        Se cargan los hospitales en un HashMap desde un archivo JSON con informacion de todos los hospitales de CABA.
+     */
     public void generateHospitals() {
         JSONObject obj = null;
         Hospital hospital;
@@ -223,6 +267,9 @@ public class DiagnosisActivity extends AppCompatActivity {
         }
     }
 
+    /*
+        Se realiza la lectura del archivo HospitalsBA.
+     */
     public String readFile() {
         String json = null;
         try {
@@ -262,6 +309,10 @@ public class DiagnosisActivity extends AppCompatActivity {
         Log.i("AppInfo", "<<<<ON_RESUME DIAGNOSIS_ACTIVITY>>>>");
     }
 
+    /*
+        Al iniciar la activity, se verificará si el usuario tiene la ubicacion habilitada.
+        Si no la tiene, se le solicitará que la habilite mediante una alerta.
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -272,6 +323,11 @@ public class DiagnosisActivity extends AppCompatActivity {
         Log.i("AppInfo", "<<<<ON_START DIAGNOSIS_ACTIVITY>>>>");
     }
 
+    /*
+        Se calcula la distancia mediante la latitud y longitud del usuario y del hospital.
+        Para este calculo se debera utilizar el radio de la tierra.
+        El resultado de este metodo es la distancia medida en Kilometros.
+     */
     public double distance(double lat1, double lng1, double lat2, double lng2) {
         double earthRad = 6371;//en kilómetros
         double dLat = Math.toRadians(lat2 - lat1);
@@ -285,9 +341,12 @@ public class DiagnosisActivity extends AppCompatActivity {
         return distance;
     }
 
+    /*
+        Se setea la alerta de que no se tiene la ubicacion habilitada.
+     */
     private void buildAlertMessageNoGps() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Su GPS parece estar deshabilitado. Habilite el GPS.")
+        builder.setMessage("Su Ubicacion parece estar deshabilitada. Habilite la Ubicación.")
                 .setCancelable(false)
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {

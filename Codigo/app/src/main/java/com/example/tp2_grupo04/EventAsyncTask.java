@@ -22,6 +22,10 @@ public class EventAsyncTask extends AsyncTask<String, Void, Boolean> {
         this.loginActivity = loginActivity;
     }
 
+    /*
+        Se realiza la comunicacion con el servidor para registrar el evento de logueo.
+        Se envia el mail del usuario y la hora de logueo.
+     */
     @Override
     protected Boolean doInBackground(String... strings) {
         JSONObject answer = null;
@@ -33,7 +37,7 @@ public class EventAsyncTask extends AsyncTask<String, Void, Boolean> {
         }
         try {
             internetConnection = true;
-            object.put("env", "TEST");
+            object.put("env", "PROD");
             object.put("type_events", strings[0]);
             object.put("description", strings[1]);
             String token = strings[2];
@@ -83,6 +87,10 @@ public class EventAsyncTask extends AsyncTask<String, Void, Boolean> {
     protected void onPreExecute() {
     }
 
+    /*
+        En caso de que no haya conexion a internet se le comunicará al usuario para que intente nuevamente.
+        Si hay un error en la comunicacion con el servidor se le avisará al usuario.
+     */
     @Override
     protected void onPostExecute(Boolean o) {
         if (o) {

@@ -42,14 +42,21 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
     private String iTime;
     private LocationManager manager;
     private AlertDialog alert;
+    private boolean closeDistance;
 
-
+    /*
+        Se retorna la variable booleana closeDistance que indica true si se detecta proximidad o false en caso contrario.
+     */
     public boolean isCloseDistance() {
         return closeDistance;
     }
 
-    private boolean closeDistance;
-
+    /*
+        Se crea la activity Menu, sesetean los botones, imagenes, text views y alertas.
+        Se obtienen datos de SP de Ultima ubicacion y proximidad del usuario. En caso de existir se los muestra por pantalla.
+        Se obtiene la ubicacion actual del usuario mediante le metodo getLocation.
+        Se inicializan los sensores de proximidad y ubicacion.
+     */
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +81,8 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
         } else {
             etiqLocation.setVisibility(View.GONE);
         }
-        if (proximitySP != null ) {
-            etiqProximity.setText("Sensor Proximidad: " + proximitySP );
+        if (proximitySP != null) {
+            etiqProximity.setText("Sensor Proximidad: " + proximitySP);
             if (etiqProximity.getVisibility() == View.GONE) {
                 etiqProximity.setVisibility(View.VISIBLE);
             }
@@ -104,6 +111,10 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
         sensorManager.unregisterListener(MenuActivity.this);
     }
 
+    /*
+        Al volver a la aplicacion, se registra nuevamente el sensor de proximidad.
+        En caso de no haber sensor, se le informará al usuario.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -116,28 +127,42 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
+    /*
+        Se le indica al usuario mediante una alerta que habilite la ubicacion en caso de que no la tenga habilitada.
+     */
     @Override
     protected void onStart() {
         super.onStart();
-        manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
-        if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+        manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
         }
         Log.i("AppInfo", "<<<<ON_START MENU_ACTIVITY>>>>");
     }
 
+    /*
+        Al hacer click en el boton Contador de pasos, se dirige al usuario a la activity StepCounter.
+     */
     public void onClickStepCounter(View view) {
         Intent intent = new Intent(MenuActivity.this, StepCounterActivity.class);
         startActivity(intent);
         finish();
     }
 
+    /*
+        Al hacer click en el boton Diagnostico, se dirige al usuario a la activity Diagnosis.
+    */
     public void onClickDiagnosis(View view) {
         Intent intent = new Intent(MenuActivity.this, DiagnosisActivity.class);
         startActivity(intent);
         finish();
     }
 
+    /*
+        Al hacer click en el boton Cerrar Sesion, se dirige al usuario a la activity Login.
+        Adicionalmente se anula el Timer que ejecuta la comunicacion con el servidor para el
+        refresco del token de autenticacion cada 25 minutos.
+    */
     public void onClickLogOut(View view) {
         Intent intent = new Intent(MenuActivity.this, LoginActivity.class);
         TimerTaskClass ttc = new TimerTaskClass();
@@ -146,6 +171,11 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
         finish();
     }
 
+    /*
+        Al detectar un cambio en el sensor de proximidad,se verifica si esa proximidad es menor a 1 segundo, se considera como un gesto
+        del usuario para iniciar la activity Diagnosis. En caso de que sea mayor el tiempo, no se considera como gesto.
+        Para hacer esta verificacion, se utiliza un asynctask.
+     */
     @Override
     public void onSensorChanged(SensorEvent event) {
         switch (event.sensor.getType()) {
@@ -177,6 +207,9 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 
+    /*
+        Se lanza la activity Diagnosis y se desregistra el sensor de proximidad.
+     */
     public void lanzarActivityDiagnosis(String... strings) {
         Intent intent = new Intent(MenuActivity.this, DiagnosisActivity.class);
         sensorManager.unregisterListener(MenuActivity.this);
@@ -184,6 +217,10 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
         finish();
     }
 
+    /*
+        Se toma la ubicacion del usuario (latitud y longitud) y se almacena en un sharedpreference para su posterior utilizacion.
+        En caso de que no se tenga permisos para utiizar este sensor, se solicita el permiso.
+     */
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void getLocation() {
 
@@ -195,9 +232,9 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
                         MenuActivity.this.lat = location.getLatitude();
                         MenuActivity.this.lon = location.getLongitude();
                         SharedPreferences.Editor editor = MenuActivity.this.sp.edit();
-                        String latitudeSP =  MenuActivity.this.sp.getString("Latitude", null);
-                        String longitudeSP =  MenuActivity.this.sp.getString("Longitude", null);
-                        Log.i("AppInfo", "<<<<LOCATION SENSOR: " + latitudeSP +" , " + longitudeSP + ">>>>");
+                        String latitudeSP = MenuActivity.this.sp.getString("Latitude", null);
+                        String longitudeSP = MenuActivity.this.sp.getString("Longitude", null);
+                        Log.i("AppInfo", "<<<<LOCATION SENSOR: " + latitudeSP + " , " + longitudeSP + ">>>>");
                         editor.remove("Latitude");
                         editor.remove("Longitude");
                         editor.putString("Latitude", MenuActivity.this.lat.toString());
@@ -216,7 +253,9 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-
+    /*
+        Se realiza el seteo de titulo y mensaje para las alertas al usuario.
+    */
     public void setAlertText(String title, String message) {
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
@@ -229,6 +268,9 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
         alertDialog.show();
     }
 
+    /*
+        Seteo de la alerta al usuario de que no tiene habilitada la ubicacion. Se le pide que la habilite.
+     */
     private void buildAlertMessageNoGps() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Su GPS parece estar deshabilitado. Habilite el GPS.")

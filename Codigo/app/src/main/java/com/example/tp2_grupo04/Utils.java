@@ -18,6 +18,9 @@ public class Utils {
     public static final String SP_STEP_TIME = "SPSTEPTIME";
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
+    /*
+        Se valida que el mail cumpla con el formato.
+     */
     public static boolean validate(String emailStr) {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
         return matcher.find();
@@ -34,6 +37,9 @@ public class Utils {
         return stringBuilder;
     }
 
+    /*
+        Se controla que haya internet.
+     */
     public static boolean isInternetAvailable() {
         try {
             InetAddress ipAddr = InetAddress.getByName("google.com");

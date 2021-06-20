@@ -24,6 +24,10 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
         this.loginActivity = loginActivity;
     }
 
+    /*
+        Se realiza la comunicacion con el servidor. Se envia mail y contraseña.
+        Se recibirá un mensaje por parte del servidor informando si el logueo fue exitoso o no.
+     */
     @Override
     protected Boolean doInBackground(String... strings) {
         JSONObject answer = null;
@@ -85,6 +89,9 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
         return true;
     }
 
+    /*
+        Se inhabilitan los botones y se muestra el progress bar hasta que se reciba respuesta del servidor.
+     */
     @Override
     protected void onPreExecute() {
         this.loginActivity.progressBar.setVisibility(View.VISIBLE);
@@ -92,6 +99,12 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Boolean> {
         this.loginActivity.btnRegister.setEnabled(false);
     }
 
+    /*
+        En caso de que el logueo haya sido exitoso, se envia al usuario a la activity Menu y se ejecuta el metodo que
+        realiza el refresco del token cada 25 minutos mediante la comunicacion con el servidor.
+        Si el usuario no tiene conexion a internet, se le informara que debe conectarse a internet e intentar nuevamente.
+        En caso de que la respuesta del servidor no haya sido de exito, se le informara el problema al usuario.
+     */
     @Override
     protected void onPostExecute(Boolean o) {
         if (o) {

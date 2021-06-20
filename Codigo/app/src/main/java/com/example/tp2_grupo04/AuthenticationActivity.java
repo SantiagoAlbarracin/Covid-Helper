@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,10 +24,15 @@ public class AuthenticationActivity extends AppCompatActivity {
     private Button btnCancel;
     private Button btnSendCode;
     private EditText userCode;
-    private Integer random = 1;
+    private Integer random = -1;
     private String number = "";
     private AlertDialog alertDialog;
 
+    /*
+        Creacion de la activity Authentication. Se genera el codigo de manera random para autentificar.
+        Este codigo es enviado al numero telefonico que el usuario ingresó en la activity Main.
+        Si no se tiene permiso para enviar mensajes, este es solicitado.
+     */
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,19 +47,22 @@ public class AuthenticationActivity extends AppCompatActivity {
         Intent intent2 = getIntent();
         Bundle extras = intent2.getExtras();
         number = (String) extras.get("numeroTelefono");
-        //random = (int) (Math.random() * 1000);
+        random = (int) (Math.random() * 10000);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
-                //   sendSMS(number);
+                sendSMS(number);
             } else {
                 requestPermissions(new String[]{Manifest.permission.SEND_SMS}, 1);
             }
         }
     }
 
+    /*
+        Metodo que envia el sms al usuario con el codigo de verificación.
+     */
     private void sendSMS(String number2) {
         String number = number2;
-        //random = (int) (Math.random() * 1000);
+        random = (int) (Math.random() * 10000);
         String message = "Su codigo de verificacion es:" + random.toString();
         try {
             SmsManager smsManager = SmsManager.getDefault();
@@ -90,11 +99,15 @@ public class AuthenticationActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         Log.i("AppInfo", "<<<<ON_START AUTHENTICATION_ACTIVITY>>>>");
     }
 
+    /*
+        Cuando el usuario presiona el boton Aceptar, se verifica que el codigo ingresado coincida con el enviado.
+        En caso de que sea correcto, se lo dirige a la activity Login.
+     */
     public void onClickAccept(View view) {
         Intent intent;
         if (userCode.getText().toString().matches("")) {
@@ -110,6 +123,9 @@ public class AuthenticationActivity extends AppCompatActivity {
         }
     }
 
+    /*
+       Cuando el usuario presiona el boton Cancelar, se lo dirige a la activity Authentication.
+    */
     public void onClickCancel(View view) {
         Intent intent;
         intent = new Intent(AuthenticationActivity.this, MainActivity.class);
@@ -117,10 +133,16 @@ public class AuthenticationActivity extends AppCompatActivity {
         finish();
     }
 
+    /*
+       Cuando el usuario presiona el boton Volver a Enviar, se le envia un nuevo mensaje con un codigo de autentificacion nuevo.
+     */
     public void onClickSendCode(View view) {
         sendSMS(number);
     }
 
+    /*
+        Se realiza el seteo de titulo y mensaje para las alertas al usuario.
+     */
     public void setAlertText(String title, String message) {
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
@@ -133,6 +155,9 @@ public class AuthenticationActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    /*
+       Cuando el usuario presiona el boton Cancelar, se lo dirige a la activity Authentication.
+    */
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(AuthenticationActivity.this, MainActivity.class);

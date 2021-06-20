@@ -10,7 +10,7 @@ public class Hospital {
     public static final String TAG_ADDRESS_HOSPITAL = "HospitalAddress";
     public static final String TAG_TELEPHONE_HOSPITAL = "HospitalTelephone";
     public static final String TAG_DISTANCE_HOSPITAL = "HospitalDistance";
-
+    
     public Hospital(String name, String address, String telephone, String coordinates) {
         this.name = name;
         this.address = address;

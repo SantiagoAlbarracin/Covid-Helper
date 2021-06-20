@@ -29,7 +29,11 @@ public class LoginActivity extends AppCompatActivity {
     private String userEmail;
     private String userToken;
     private AlertDialog alertDialog;
-    
+
+    /*
+        Se crea la activity Login, se genera un SP para el manejo de informacion de contador de pasos,
+        que al lanzar la activity Menu se inicializará.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         Log.i("AppInfo", "<<<<ON_START LOGIN_ACTIVITY>>>>");
     }
@@ -74,6 +78,9 @@ public class LoginActivity extends AppCompatActivity {
         Log.i("AppInfo", "<<<<ON_RESUME LOGIN_ACTIVITY>>>>");
     }
 
+    /*
+        Se dirige al usuario a la activity Register cuando este presiona el boton Registrarse.
+     */
     public void onClickRegister(View view) {
         Intent intent;
         intent = new Intent(LoginActivity.this, RegisterActivity.class);
@@ -81,12 +88,24 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
+    /*
+        Cuando el usuario presiona el boton Iniciar Sesion, se verifica que los campos de mail
+        y contraseña no esten vacios y cumplan formato. Posteriormente se inicia un Asynctask que se comunica con el servidor.
+        Se le bloquearán los botones al usuario y mostrará un progress bar hasta que se reciba respuesta por parte del servidor.
+        En caso afirmativo se dirige al usuario a la activity Menu, en caso negativo se le informará cual fue el error para
+        que pueda loguearse nuevamente.
+     */
     public void onClickLogin(View view) {
         if (checkFields()) {
             new LoginAsyncTask(LoginActivity.this).execute(loginEmail.getText().toString(), loginPassword.getText().toString());
         }
     }
 
+    /*
+       Se lanza la activity Menu, se inicia un Asynctask que cada 25 minutos refrescara el token autenticacion asignado al usuario
+       comunicandose con el servidor.
+       Adicionalmente se almacena en el SharedPreferences generado en el onCreate los valores que seran utilizados por el contador de pasos.
+    */
     public void lanzarActivity(String... strings) {
         Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
         userEmail = strings[0];
@@ -103,6 +122,13 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
+    /*
+        Se chequea que los campos de mail y contraseña cumplan con los formatos:
+        - Formato de mail xxx@xxx.xxx
+        - Contraseña mayor a 8 caracteres
+
+        Si cumplen con los formatos se retornará TRUE, en caso contrario, FALSE.
+     */
     public boolean checkFields() {
         if (loginEmail.getText().toString().matches("") || loginPassword.getText().toString().matches("")) {
             setAlertText("Error de Logueo!", "Debe completar todos los campos.");
@@ -119,6 +145,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /*
+        Se realiza el seteo de titulo y mensaje para las alertas al usuario.
+     */
     public void setAlertText(String title, String message) {
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);

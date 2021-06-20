@@ -23,18 +23,15 @@ import java.text.DecimalFormat;
 public class StepCounterActivity extends AppCompatActivity implements SensorEventListener {
 
     SensorManager sensorManager;
-
     private TextView tvSteps;
     private TextView tvSpeed;
     private TextView tvActiveTime;
     private TextView tvDistance;
     private AlertDialog alertDialog;
-
     private SharedPreferences sp;
     public static final String ACTUAL_STEPS = "ActualSteps";
     public static final String INITIAL_TIME = "InitialTime";
     public static final String ACTIVE_TIME = "ActiveTime";
-
     private Long initialTime;
     private Long previousTime;
     private Long actualTime;
@@ -48,7 +45,11 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
     private String iActive;
     boolean running = false;
 
-
+    /*
+        Se crea la activity StepCounter, se inicializan variables para evaluacion de velocidad, cantidad de pasos y tiempo.
+        Ademas se obtienen datos de SP para mantener los datos durante la sesion del usuario. Estos se perderán
+        cuando el usuario cierre la aplicacion o la sesion.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,11 +104,12 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
     protected void onPause() {
         super.onPause();
         Log.i("AppInfo", "<<<<ON_PAUSE STEP_COUNTER_ACTIVITY>>>>");
-        //running = false;
-        //Para que el hardware deje de detectar pasos
-        //sensorManager.unregisterListener(this);
     }
 
+    /*
+        Cuando el usuario presiona el boton back de la Android UI, se lo dirige a la activity Menu.
+        Se almacenan en Sharedpreferences los datos de la sesion.
+     */
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(StepCounterActivity.this, MenuActivity.class);
@@ -131,6 +133,9 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         super.onRestart();
     }
 
+    /*
+        Se incializa el sensor que detecta pasos y se toma el tiempo inicial.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -145,6 +150,12 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         }
     }
 
+    /*
+        Al detectar un paso en el sensor contador de pasos, se incrementa la cantidad de pasos totales, se calcula el tiempo total activo
+        y cada 5 segundos se calcula la velocidad del usuario. En caso de que la velocidad sea mayor o igual a 2 pasos por segundo,
+        se alertará al usuario mediante un mensaje y una alarma de que es riesgoso hacer actividad fisica siendo posible
+        positivo de covid.
+     */
     @Override
     public void onSensorChanged(SensorEvent event) {
         switch (event.sensor.getType()) {
@@ -181,6 +192,9 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
     }
 
 
+    /*
+        Al presionar el boton Reiniciar, se volveran a setear todos los contadores en 0. Se vuelve a iniciar la "sesion".
+     */
     public void onClickRestart(View view) {
         tvSteps.setText("0");
         tvActiveTime.setText("0s");
@@ -199,8 +213,10 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         editor.commit();
     }
 
-
-    //Falta que envie la info a Menu para que no se pierda ? Discutirlo
+    /*
+        Al presionar el boton Volver, se almacena la informacion de la cantidad de pasos actuales y el tiempo activo
+        en sharedpreferences, y se dirige al usuario a la activity Menu.
+     */
     public void onClickBack(View view) {
         Intent intent = new Intent(StepCounterActivity.this, MenuActivity.class);
         SharedPreferences.Editor editor = sp.edit();
@@ -211,6 +227,9 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         finish();
     }
 
+    /*
+        Se realiza el seteo de titulo y mensaje para las alertas al usuario.
+     */
     public void setAlertText(String title, String message) {
 
         alertDialog.setTitle(title);

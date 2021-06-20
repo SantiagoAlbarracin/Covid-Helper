@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         Creación de la activity Main.
         Se obtienen datos de la bateria del dispositivo para mostrar por pantalla.
      */
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         Log.i("AppInfo", "<<<<ON_START MAIN_ACTIVITY>>>>");
     }
@@ -88,7 +87,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
-
+        Se chequea el formato del numero de telefono ingresado por el usuario.
+        En caso de que no cumpla con el formato solicitado, se le informará.
+        Si el nro telefonico cumple con el formato, es enviado a la activity Authentication.
      */
     public void onClickSendCode(View view) {
         Intent intent;
@@ -104,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /*
+        Se realiza el seteo de titulo y mensaje para las alertas al usuario.
+     */
     public void setAlertText(String title, String message) {
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);

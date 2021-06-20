@@ -2,6 +2,7 @@ package com.example.tp2_grupo04;
 
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,7 +21,6 @@ public class User {
     private String password;
     private String token;
     private String token_refresh;
-    public static TimerTaskClass timerTaskClass;
 
     public User(String email, String password, String token, String token_refresh) {
         this.email = email;
@@ -82,9 +82,15 @@ public class User {
                 '}';
     }
 
+    /*
+        Asynctask donde se realiza la comunicacion con el servidor para el refresco del token.
+        Se envia token y token de refresh del usuario.
+     */
     class TokenTask extends AsyncTask<String, Void, Boolean> {
+
         private URL url;
         private HttpURLConnection connection = null;
+
 
         @Override
         protected Boolean doInBackground(String... strings) {
@@ -122,13 +128,28 @@ public class User {
                 result = answer.get("success").toString();
                 User.this.setToken(answer.get("token").toString());
                 User.this.setToken_refresh(answer.get("token_refresh").toString());
+                if (!result.matches("true")) {
+                    return false;
+                }
+                return true;
             } catch (JSONException | IOException e) {
                 e.printStackTrace();
             }
-            return null;
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean o) {
+            if (!o) {
+                Log.e("Error Token", "No se pudo refrescar el token");
+            }
+            Log.i("Token Server Response", "Me respondió: " + o.toString());
         }
     }
 
+    /*
+        Se setea el timer cada 25 minutos para realice la comunicacion con el servidor para refrescar el token del usuario.
+     */
     private void setRepeatingAsyncTask() {
         final Handler handler = new Handler();
         TimerTaskClass ttc = new TimerTaskClass();
@@ -148,6 +169,6 @@ public class User {
             }
         };
         ttc.initTimer();
-        ttc.getInstance().getTimer().schedule(task, 0, 25 * 60 * 1000);
+        ttc.getInstance().getTimer().schedule(task, 0, 20 * 1000);
     }
 }

@@ -23,6 +23,10 @@ public class HospitalActivity extends AppCompatActivity {
     private TextView tvHospCovid;
     private Float distance;
 
+    /*
+        Se crea la activity Hospital, se setean etiquetas con informacion del hospital mas cercano y botones.
+        Se le dan recomendaciones al usuario y en caso de que sea de riesgo, se le informará.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,12 +88,18 @@ public class HospitalActivity extends AppCompatActivity {
         Log.i("AppInfo", "<<<<ON_START HOSPITAL_ACTIVITY>>>>");
     }
 
+    /*
+        Al presionar el boton Aceptar, se dirige al usuario a la activity Menu.
+     */
     public void onClickAccept(View view) {
         Intent intent = new Intent(HospitalActivity.this, MenuActivity.class);
         startActivity(intent);
         finish();
     }
 
+    /*
+        Cuando el usuario presiona el boton back de la Android UI, se lo dirige a la activity Login.
+     */
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(HospitalActivity.this, MenuActivity.class);

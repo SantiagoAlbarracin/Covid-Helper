@@ -27,6 +27,9 @@ public class RegisterActivity extends AppCompatActivity {
     public ProgressBar progressBar;
     private AlertDialog alertDialog;
 
+    /*
+        Se crea la activity Register y se inicializan todos los botones, campos de texto, progress bar y alertas.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,11 +73,14 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         Log.i("AppInfo", "<<<<ON_START REGISTERA_ACTIVITY>>>>");
     }
 
+    /*
+        Cuando el usuario presiona el boton back de la Android UI, se lo dirige a la activity Login.
+     */
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
@@ -82,6 +88,15 @@ public class RegisterActivity extends AppCompatActivity {
         finish();
     }
 
+    /*
+        Cuando el usuario presiona el boton Registrarse, se verifica que se hayan completado todos los campos y que cumplan con los formatos solicitados.
+        En caso de que cumplan, se inicia un Asynctask que se comunica con el servidor para realizar el registro del usuario.
+        En caso contrario se le informara al usuario del error.
+        Si la respuesta del servidor es exito, se enviará al usuario a la activity Login.
+        Si la respuesta del servidor NO es de exito, se le informará al usuario del problema y se lo dejará en la activity Register
+        para que intente nuevamente.
+        Al inciar el asynctask se bloquean los botones y se muestra un progress bar hasta que se reciba respuesta por parte del servidor.
+     */
     public void onClickAccept(View view) {
         if (verifyRegisterFields()) {
             new RegisterAsyncTask(RegisterActivity.this).execute(nameOrigin.getText().toString(), lastnameOrigin.getText().toString(),
@@ -91,6 +106,9 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    /*
+        Si el usuario presiona el boton Cancelar, se lo dirige a la activity Login.
+     */
     public void onClickCancel(View view) {
         Intent intent;
         intent = new Intent(RegisterActivity.this, LoginActivity.class);
@@ -98,12 +116,24 @@ public class RegisterActivity extends AppCompatActivity {
         finish();
     }
 
+    /*
+        Metodo utilizado para lanzar la activity Login desde el Asynctask en caso de que la respuesta del servidor sea de exito.
+     */
     public void lanzarActivity() {
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
 
+    /*
+        Se verifican los campos de texto:
+        -   Que no esten vacios
+        -   Que la contraseña de 8 caracteres o mas
+        -   Que el mail cumpla con el formato
+        -   Que el DNI sea valido. 7 u 8 nros.
+
+        En caso de que cumplan se retorna TRUE, sino FALSE.
+     */
     private boolean verifyRegisterFields() {
         if (nameOrigin.getText().toString().matches("") || lastnameOrigin.getText().toString().matches("")
                 || dniOrigin.getText().toString().matches("") || emailOrigin.getText().toString().matches("")
@@ -118,13 +148,16 @@ public class RegisterActivity extends AppCompatActivity {
         } else if (passwordOrigin.getText().toString().length() < 8) {
             setAlertText("Error de Registro!", "Debe ingresar una contraseña de 8 caracteres o más.");
             return false;
-        } else if (dniOrigin.getText().toString().length() < 7) {
+        } else if (dniOrigin.getText().toString().length() < 7 || dniOrigin.getText().toString().length() > 8) {
             setAlertText("Error de Registro!", "Debe ingresar un DNI valido.");
             return false;
         }
         return true;
     }
 
+    /*
+        Se realiza el seteo de titulo y mensaje para las alertas al usuario.
+     */
     public void setAlertText(String title, String message) {
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
@@ -136,11 +169,4 @@ public class RegisterActivity extends AppCompatActivity {
                 });
         alertDialog.show();
     }
-
-    public void onClickBack(View view) {
-        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
 }

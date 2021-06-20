@@ -27,6 +27,16 @@ public class RegisterAsyncTask extends AsyncTask<String, Void, Boolean> {
         this.registerActivity = registerActivity;
     }
 
+    /*
+        Se realiza la comunicacion con el servidor para el registro del usuario. Se envia:
+        -   nombre
+        -   apellido
+        -   dni
+        -   email
+        -   contraseña
+        -   comision
+        -   grupo
+     */
     @Override
     protected Boolean doInBackground(String... strings) {
         JSONObject object = new JSONObject();
@@ -76,7 +86,7 @@ public class RegisterAsyncTask extends AsyncTask<String, Void, Boolean> {
 
             if (!result.matches("true")) {
                 serverResponse = answer.getString("msg");
-                return false ;
+                return false;
             }
             return true;
         } catch (JSONException | MalformedURLException | ProtocolException e) {
@@ -89,6 +99,9 @@ public class RegisterAsyncTask extends AsyncTask<String, Void, Boolean> {
         return false;
     }
 
+    /*
+        Se inhabilitan los botones y se muestra un progress bar hasta que responda el servidor.
+     */
     @Override
     protected void onPreExecute() {
         this.registerActivity.progressBar.setVisibility(View.VISIBLE);
@@ -96,6 +109,12 @@ public class RegisterAsyncTask extends AsyncTask<String, Void, Boolean> {
         this.registerActivity.btnCancel.setEnabled(false);
     }
 
+    /*
+        En caso de exito se lanza la activity .
+        En caso contrario se le informara al usuario el error si tiene internet y la respuesta del servidor no es de exito.
+        Si el usuario no tiene internet se le informara que debe conectarse a internet e intentar nuevamente.
+        Se habilitan los botones y se oculta el progress bar.
+     */
     @Override
     protected void onPostExecute(Boolean o) {
         if (o) {
