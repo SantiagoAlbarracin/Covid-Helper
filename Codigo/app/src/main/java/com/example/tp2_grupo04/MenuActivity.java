@@ -178,41 +178,41 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void getLocation() {
 
-            if (getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            MenuActivity.this.lat = location.getLatitude();
-                            MenuActivity.this.lon = location.getLongitude();
-                            SharedPreferences.Editor editor = MenuActivity.this.sp.edit();
-                            String latitudeSP =  MenuActivity.this.sp.getString("Latitude", null);
-                            String longitudeSP =  MenuActivity.this.sp.getString("Latitude", null);
-                            Log.i("Debug666", "Originalmente tengo: " + latitudeSP + " , " + longitudeSP);
-                            editor.remove("Latitude");
-                            editor.remove("Longitude");
-                             latitudeSP =  MenuActivity.this.sp.getString("Latitude", null);
-                             longitudeSP =  MenuActivity.this.sp.getString("Latitude", null);
-                            Log.i("Debug666", "Dps de borrar tengo: " + latitudeSP + " , " + longitudeSP);
+        if (getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    if (location != null) {
+                        MenuActivity.this.lat = location.getLatitude();
+                        MenuActivity.this.lon = location.getLongitude();
+                        SharedPreferences.Editor editor = MenuActivity.this.sp.edit();
+                        String latitudeSP =  MenuActivity.this.sp.getString("Latitude", null);
+                        String longitudeSP =  MenuActivity.this.sp.getString("Longitude", null);
+                        Log.i("Debug191", "Originalmente tengo: " + latitudeSP + " , " + longitudeSP);
+                        editor.remove("Latitude");
+                        editor.remove("Longitude");
+                        latitudeSP =  MenuActivity.this.sp.getString("Latitude", null);
+                        longitudeSP =  MenuActivity.this.sp.getString("Longitude", null);
+                        Log.i("Debug196", "Dps de borrar tengo: " + latitudeSP + " , " + longitudeSP);
 
-                            editor.putString("Latitude", MenuActivity.this.lat.toString());
-                            editor.putString("Longitude", MenuActivity.this.lon.toString());
-                            latitudeSP = MenuActivity.this.lat.toString();
-                            longitudeSP = MenuActivity.this.lon.toString();
-                            Log.i("Debug666", "Al final tengo: " + latitudeSP + " , " + longitudeSP);
-                            etiqLocation.setText("Ultima ubicación: " + latitudeSP + ", " + longitudeSP);
-                            if (etiqLocation.getVisibility() == View.GONE) {
-                                etiqLocation.setVisibility(View.VISIBLE);
-                            }
-                            editor.commit();
+                        editor.putString("Latitude", MenuActivity.this.lat.toString());
+                        editor.putString("Longitude", MenuActivity.this.lon.toString());
+                        latitudeSP = MenuActivity.this.lat.toString();
+                        longitudeSP = MenuActivity.this.lon.toString();
+                        Log.i("Debug202", "Al final tengo: " + latitudeSP + " , " + longitudeSP);
+                        etiqLocation.setText("Ultima ubicación: " + latitudeSP + ", " + longitudeSP);
+                        if (etiqLocation.getVisibility() == View.GONE) {
+                            etiqLocation.setVisibility(View.VISIBLE);
                         }
+                        editor.commit();
                     }
-                });
-            } else {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                getLocation();
-            }
+                }
+            });
+        } else {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            getLocation();
         }
+    }
 
 
     public void setAlertText(String title, String message) {
