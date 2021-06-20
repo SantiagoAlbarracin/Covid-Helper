@@ -59,6 +59,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         iActive = sp.getString(StepCounterActivity.ACTIVE_TIME, "-1");
         previousTime = java.lang.System.currentTimeMillis();
         previousSteps = 0;
+        speed = 0D;
         tvSteps = (TextView) findViewById(R.id.textViewSteps2);
         tvSpeed = (TextView) findViewById(R.id.textViewSpeed2);
         tvActiveTime = (TextView) findViewById(R.id.textViewActiveTime2);
@@ -125,6 +126,10 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
         Log.i("AppInfo", "<<<<ON_START STEP_COUNTER_ACTIVITY>>>>");
     }
 
+    protected void onRestart(){
+        super.onRestart();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -159,9 +164,10 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
                         tvSpeed.setText(String.valueOf(new DecimalFormat("#.##").format(speed) + "p/s"));
                         previousTime = actualTime;
                         previousSteps = actualSteps;
-                        if (speed >= 2) {
-                            setAlertText("¡Atención!", "¡Debe hacer reposo, no corra!");
-                        }
+                    }
+                    if (speed >= 2 && !alertDialog.isShowing() && !(StepCounterActivity.this).isFinishing())
+                    {
+                        setAlertText("¡Atención!", "¡Debe hacer reposo, no corra!");
                     }
                 }
                 break;
@@ -175,6 +181,8 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
+
+
 
     public void onClickRestart(View view) {
         tvSteps.setText("0");
@@ -207,6 +215,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
     }
 
     public void setAlertText(String title, String message) {
+
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",

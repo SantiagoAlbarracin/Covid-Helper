@@ -71,11 +71,10 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="235dp"
-        android:layout_height="191dp"
+        android:layout_width="206dp"
+        android:layout_height="160dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
@@ -83,8 +82,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etiqLocationMenu"
-        app:layout_constraintVertical_bias="0.388"
+        app:layout_constraintTop_toBottomOf="@+id/etiqProximity"
         app:srcCompat="@drawable/ic_app" />
 
     <ImageView
@@ -104,12 +102,14 @@
         android:id="@+id/etiqProximity"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="95dp"
-        android:layout_marginLeft="95dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:text="TextView"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@+id/etiqLocationMenu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
