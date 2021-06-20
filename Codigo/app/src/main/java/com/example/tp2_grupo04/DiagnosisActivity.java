@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -50,6 +51,10 @@ public class DiagnosisActivity extends AppCompatActivity {
     private Double lon = 1.0;
     private String latitudeSP;
     private String longitudeSP;
+    private LocationManager manager;
+    private AlertDialog alert;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -260,6 +265,10 @@ public class DiagnosisActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+        if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            buildAlertMessageNoGps();
+        }
         Log.i("AppInfo", "<<<<ON_START DIAGNOSIS_ACTIVITY>>>>");
     }
 
@@ -274,5 +283,18 @@ public class DiagnosisActivity extends AppCompatActivity {
         double va2 = 2 * Math.atan2(Math.sqrt(va1), Math.sqrt(1 - va1));
         double distance = earthRad * va2;
         return distance;
+    }
+
+    private void buildAlertMessageNoGps() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Su GPS parece estar deshabilitado. Habilite el GPS.")
+                .setCancelable(false)
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                });
+        alert = builder.create();
+        alert.show();
     }
 }

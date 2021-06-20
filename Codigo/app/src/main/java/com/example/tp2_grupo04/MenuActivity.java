@@ -40,7 +40,8 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
     public Double lon = 1.0;
     private String iSteps;
     private String iTime;
-    final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+    private LocationManager manager;
+    private AlertDialog alert;
 
 
     public boolean isCloseDistance() {
@@ -55,9 +56,6 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         Log.i("AppInfo", "<<<<ON_CREATE MENU_ACTIVITY>>>>");
         setContentView(R.layout.activity_menu);
-        if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
-            buildAlertMessageNoGps();
-        }
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         etiqLocation = (TextView) findViewById(R.id.etiqLocationMenu);
         etiqProximity = (TextView) findViewById(R.id.etiqProximity);
@@ -121,6 +119,10 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onStart() {
         super.onStart();
+        manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+        if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            buildAlertMessageNoGps();
+        }
         Log.i("AppInfo", "<<<<ON_START MENU_ACTIVITY>>>>");
     }
 
@@ -228,7 +230,7 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
     }
 
     private void buildAlertMessageNoGps() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Su GPS parece estar deshabilitado. Habilite el GPS.")
                 .setCancelable(false)
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
@@ -236,7 +238,7 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
                         startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                     }
                 });
-        final AlertDialog alert = builder.create();
+        alert = builder.create();
         alert.show();
     }
 }

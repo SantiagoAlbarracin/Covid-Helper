@@ -96,6 +96,7 @@ public class StepCounterActivity extends AppCompatActivity implements SensorEven
     protected void onDestroy() {
         super.onDestroy();
         Log.i("AppInfo", "<<<<ON_DESTROY STEP_COUNTER_ACTIVITY>>>>");
+        alertDialog.dismiss();
     }
 
     @Override
