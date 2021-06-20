@@ -15,6 +15,12 @@ public class Utils {
     public static final String URI_TOKEN_REFRESH = "http://so-unlam.net.ar/api/api/refresh";
     public static final String URI_REGISTER_EVENT = "http://so-unlam.net.ar/api/api/event";
     public static final String TYPE_EVENT = "User Login";
+    public static final String PROXIMITY_SENSOR = "ProximitySensor";
+    public static final String PROXIMITY = "Proximity";
+    public static final String LOCATION_SENSOR = "LocationSensor";
+    public static final String LATITUDE = "Latitude";
+    public static final String LONGITUDE = "Longitude";
+
     public static final String SP_STEP_TIME = "SPSTEPTIME";
 
     public Integer getBand() {

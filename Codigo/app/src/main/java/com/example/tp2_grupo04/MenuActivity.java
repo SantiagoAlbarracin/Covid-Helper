@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -29,9 +30,11 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
 
     public SensorManager sensorManager;
     private TextView etiqLocation;
+    private TextView etiqProximity;
     private AlertDialog alertDialog;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private SharedPreferences sp;
+    private SharedPreferences spProximity;
     public Double lat = 1.0;
     public Double lon = 1.0;
     private String iSteps;
@@ -43,6 +46,7 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
 
     private boolean closeDistance;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +54,12 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
         setContentView(R.layout.activity_menu);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         etiqLocation = (TextView) findViewById(R.id.etiqLocationMenu);
+        etiqProximity = (TextView) findViewById(R.id.etiqProximity);
         alertDialog = new AlertDialog.Builder(MenuActivity.this).create();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         sp = this.getSharedPreferences("UserLocation", Context.MODE_PRIVATE);
+        spProximity = this.getSharedPreferences(Utils.PROXIMITY_SENSOR, Context.MODE_PRIVATE);
+        String proximitySP = spProximity.getString("Proximity", null);
         String latitudeSP = sp.getString("Latitude", null);
         String longitudeSP = sp.getString("Longitude", null);
         if (latitudeSP != null && longitudeSP != null) {
@@ -62,6 +69,14 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
             }
         } else {
             etiqLocation.setVisibility(View.GONE);
+        }
+        if (proximitySP != null ) {
+            etiqProximity.setText("Sensor Proximidad: " + proximitySP );
+            if (etiqProximity.getVisibility() == View.GONE) {
+                etiqProximity.setVisibility(View.VISIBLE);
+            }
+        } else {
+            etiqProximity.setVisibility(View.GONE);
         }
         getLocation();
     }
@@ -127,6 +142,16 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
     public void onSensorChanged(SensorEvent event) {
         switch (event.sensor.getType()) {
             case Sensor.TYPE_PROXIMITY:
+                String proximitySP = String.valueOf(event.values[0]);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.remove("Proximity");
+                editor.putString("Proximity", proximitySP);
+                editor.commit();
+                etiqProximity.setText("Sensor Proximidad: " + proximitySP);
+                if (etiqProximity.getVisibility() == View.GONE) {
+                    etiqProximity.setVisibility(View.VISIBLE);
+                }
+
                 if (event.values[0] < event.sensor.getMaximumRange()) {
                     this.closeDistance = true;
                     new DistanceSensorAsyncTask(MenuActivity.this).execute();
@@ -150,8 +175,9 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
         finish();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void getLocation() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
             if (getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                     @Override
@@ -159,11 +185,21 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
                         if (location != null) {
                             MenuActivity.this.lat = location.getLatitude();
                             MenuActivity.this.lon = location.getLongitude();
-                            SharedPreferences.Editor editor = sp.edit();
+                            SharedPreferences.Editor editor = MenuActivity.this.sp.edit();
+                            String latitudeSP =  MenuActivity.this.sp.getString("Latitude", null);
+                            String longitudeSP =  MenuActivity.this.sp.getString("Latitude", null);
+                            Log.i("Debug666", "Originalmente tengo: " + latitudeSP + " , " + longitudeSP);
+                            editor.remove("Latitude");
+                            editor.remove("Longitude");
+                             latitudeSP =  MenuActivity.this.sp.getString("Latitude", null);
+                             longitudeSP =  MenuActivity.this.sp.getString("Latitude", null);
+                            Log.i("Debug666", "Dps de borrar tengo: " + latitudeSP + " , " + longitudeSP);
+
                             editor.putString("Latitude", MenuActivity.this.lat.toString());
                             editor.putString("Longitude", MenuActivity.this.lon.toString());
-                            String latitudeSP = MenuActivity.this.lat.toString();
-                            String longitudeSP = MenuActivity.this.lon.toString();
+                            latitudeSP = MenuActivity.this.lat.toString();
+                            longitudeSP = MenuActivity.this.lon.toString();
+                            Log.i("Debug666", "Al final tengo: " + latitudeSP + " , " + longitudeSP);
                             etiqLocation.setText("Ultima ubicación: " + latitudeSP + ", " + longitudeSP);
                             if (etiqLocation.getVisibility() == View.GONE) {
                                 etiqLocation.setVisibility(View.VISIBLE);
@@ -177,7 +213,7 @@ public class MenuActivity extends AppCompatActivity implements SensorEventListen
                 getLocation();
             }
         }
-    }
+
 
     public void setAlertText(String title, String message) {
         alertDialog.setTitle(title);
