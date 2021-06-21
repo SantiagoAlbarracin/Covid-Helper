@@ -40,7 +40,7 @@ public class TimerTaskClass {
     /*
         Se cancela el timer que ejecuta el metodo del refresco del token cada 25 minutos.
      */
-    public void stopTimer() {
+    public synchronized void stopTimer() {
         this.timer.cancel();
     }
 
